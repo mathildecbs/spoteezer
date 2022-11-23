@@ -14,6 +14,7 @@ public class Artist {
 	@Id @GeneratedValue
 	private Long id;
 	
+	
 	@Column @NotNull
 	private String name;
 	
