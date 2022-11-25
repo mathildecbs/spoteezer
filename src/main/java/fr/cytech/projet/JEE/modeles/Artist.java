@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.persistence.UniqueConstraint;
 
 @Entity(name="Artist")
 public class Artist {
@@ -30,13 +31,14 @@ public class Artist {
 	@JoinTable( name = "Artist_Album",
     joinColumns = @JoinColumn( name = "artist_id" ),
     inverseJoinColumns = @JoinColumn( name = "album_id" ) )
-	private List<Album> album = new ArrayList<>();
+	private List<Album> album = new ArrayList<Album>();
 	
 	@ManyToMany
 	@JoinTable( name = "Artist_Song",
     joinColumns = @JoinColumn( name = "artist_id" ),
-    inverseJoinColumns = @JoinColumn( name = "song_id" ) )
-	private List<Song> Song = new ArrayList<>();
+    inverseJoinColumns = @JoinColumn( name = "song_id" ),
+    uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" })})
+	private List<Song> Song = new ArrayList<Song>();
 
 	public Long getId() {
 		return id;
@@ -61,8 +63,4 @@ public class Artist {
 	public void setDebutDate(Date debutDate) {
 		this.debutDate = debutDate;
 	}
-	
-	
-
-
 }
