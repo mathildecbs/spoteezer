@@ -1,9 +1,12 @@
 package fr.cytech.projet.JEE.modeles;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "Users")
 public class User {
@@ -25,8 +28,8 @@ public class User {
 	@Column
 	private String country;
 	
-	/* @Column
-	private List<Playlist> playlists; */
+	@OneToMany(mappedBy="user")
+	private List<Playlist> playlists;
 
 	public long getId() {
 		return id;
