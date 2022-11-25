@@ -7,9 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
 
 @Entity(name="Song")
 public class Song {
@@ -19,10 +24,14 @@ public class Song {
 	@Column @NotNull
 	private String name;
 
-	@Column @NotNull
+	@ManyToMany
+	@JoinTable( name = "Artist_Song",
+    joinColumns = @JoinColumn( name = "song_id" ),
+    inverseJoinColumns = @JoinColumn( name = "artist_id" ) )
 	private List<Artist> artist;
 	
-	@Column @NotNull
+	@ManyToOne
+	@JoinColumn(name = "album_id")
 	private Album album;
 	
 	@Temporal(TemporalType.DATE)

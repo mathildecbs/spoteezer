@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.modeles;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -19,14 +24,17 @@ public class Album {
 	@Column @NotNull
 	private String name;
 	
-	@Column @NotNull
+	@ManyToMany
+	@JoinTable( name = "Artist_Album",
+    joinColumns = @JoinColumn( name = "album_id" ),
+    inverseJoinColumns = @JoinColumn( name = "artist_id" ) )
 	private List<Artist> artist;
 	
 	@Temporal(TemporalType.DATE)
 	private Date releaseDate;
 	
-	@Column @NotNull
-	private List<Song> songs;
+	@OneToMany(mappedBy="album")
+	private List<Song> songs = new ArrayList<>();
 	
 	@Column
 	private String description;
