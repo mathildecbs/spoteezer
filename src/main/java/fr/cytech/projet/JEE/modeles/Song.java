@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 
@@ -27,7 +28,8 @@ public class Song {
 	@ManyToMany
 	@JoinTable( name = "Artist_Song",
     joinColumns = @JoinColumn( name = "song_id" ),
-    inverseJoinColumns = @JoinColumn( name = "artist_id" ) )
+    inverseJoinColumns = @JoinColumn( name = "artist_id" ),
+    uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" })})
 	private List<Artist> artist;
 	
 	@ManyToOne
