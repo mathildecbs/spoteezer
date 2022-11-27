@@ -17,8 +17,12 @@ public class ArtistService {
 	@Autowired
 	ArtistRepository artistRepository;
 	
-	public Artist findArtistById(int id) {
+	public Artist findArtistById(Long id) {
 		return artistRepository.getById(id);
+	}
+	
+	public List<Artist> findAll(){
+		return artistRepository.findAll();
 	}
 	
 	public Artist createArtist(Map<String,String>  artistDTO) {
@@ -29,11 +33,11 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 
-	public Group createGroup(Artist group, List<Integer> members) {
+	public Group createGroup(Artist group, List<Long> members) {
 		Group groupEntity = new Group();
 		groupEntity.setDebutDate(group.getDebutDate());
 		groupEntity.setName(group.getName());
-		for (Integer id : members) {
+		for (Long id : members) {
 			groupEntity.getMembers().add(findArtistById(id));
 			
 		}

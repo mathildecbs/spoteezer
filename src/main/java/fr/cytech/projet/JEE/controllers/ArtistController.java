@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,16 @@ public class ArtistController {
 		return "artistForm";
 	}
 	
+	@GetMapping("/artist")
+	public String showAllArtist(Model model) {
+		List<Artist> artists = artistService.findAll();
+		model.addAttribute("artists",artists);
+		return "artists";
+	}
+	
 	@GetMapping("/artist/{id}")
 	public String showArtistPage(@PathVariable("id") String id,Model model) {
-		Artist artist = artistService.findArtistById(Integer.parseInt(id));
+		Artist artist = artistService.findArtistById(Long.valueOf(id));
 		model.addAttribute("artist",artist);
 		return "artist";
 	}

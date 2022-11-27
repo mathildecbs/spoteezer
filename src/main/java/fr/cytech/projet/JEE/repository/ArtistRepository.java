@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import fr.cytech.projet.JEE.modeles.Artist;
 
 @Repository("artistRepository")
-public interface ArtistRepository extends JpaRepository<Artist, Integer>  {
+public interface ArtistRepository extends JpaRepository<Artist, Long>  {
 
 }
