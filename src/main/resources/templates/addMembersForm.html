@@ -7,9 +7,13 @@
 <body>
 	<form th:action="@{/addMembers/{id}(id=${groupId})}" method="post">
 		<th:block th:each="artist : ${artists}">
-			<label><span th:text="${artist.name}" /></label>
-			<input type="checkbox" th:name="${artist.id}" th:value="${artist.name}">
-			<br>
+			<th:block th:if="${artist.id}!=${groupId}">
+
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.id}"
+					th:value="${artist.name}">
+				<br>
+			</th:block>
 		</th:block>
 		<input type="submit" value="create">
 

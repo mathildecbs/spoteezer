@@ -16,7 +16,10 @@ import fr.cytech.projet.JEE.repository.ArtistRepository;
 public class ArtistService {
 	
 	@Autowired
-	ArtistRepository artistRepository;
+	ArtistRepository<Artist> artistRepository;
+	
+	@Autowired
+	ArtistRepository<Group> groupRepository;
 	
 	public Artist findArtistById(Long id) {
 		return artistRepository.getById(id);
@@ -27,7 +30,6 @@ public class ArtistService {
 	}
 	
 	public Artist createArtist(Map<String,String>  artistDTO) {
-		System.out.println(artistDTO);
 		Artist artist = new Artist();
 		artist.setName(artistDTO.get("name"));
 		artist.setDebutDate(Date.valueOf( artistDTO.get("debutDate")));
@@ -35,7 +37,6 @@ public class ArtistService {
 	}
 
 	public Group createGroup(Map<String,String>  groupDTO) {
-		System.out.println(groupDTO);
 		Group groupEntity = new Group();
 		groupEntity.setDebutDate(Date.valueOf(groupDTO.get("debutDate")));
 		groupEntity.setName( groupDTO.get("name"));
@@ -43,10 +44,7 @@ public class ArtistService {
 	}
 	
 	public Group addGroupMembers(Map<String,String> groupMembers, Long id) {
-		Artist artist = findArtistById(id);
-		Group group = new Group();
-		group.setDebutDate(artist.getDebutDate());
-		group.setName(artist.getName());
+		Group group = groupRepository.findById(id).orElse(null);
 		List<Artist> members = new ArrayList<Artist>();
 		for (String artistId : groupMembers.keySet()) {
 			System.out.println(findArtistById(Long.valueOf(artistId)));
@@ -55,5 +53,9 @@ public class ArtistService {
 		group.setMembers(members);
 		
 		return artistRepository.save(group);
+	}
+	
+	public List<Artist> findGroupMembers(Long id){
+		return artistRepository.findMembersByGroupId(id);
 	}
 }

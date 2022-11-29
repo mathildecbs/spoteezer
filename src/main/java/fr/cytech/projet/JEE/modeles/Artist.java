@@ -5,9 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -17,28 +22,34 @@ import javax.validation.constraints.NotNull;
 import javax.persistence.UniqueConstraint;
 
 @Entity(name="Artist")
+@Inheritance( strategy = InheritanceType.SINGLE_TABLE )
+@DiscriminatorColumn( name="type", discriminatorType = DiscriminatorType.INTEGER )
+@DiscriminatorValue("0")
 public class Artist {
 	@Id @GeneratedValue
-	private Long id;
+	protected Long id;
 	
 	@Column @NotNull
-	private String name;
+	protected String name;
 	
 	@Temporal(TemporalType.DATE)
-	private Date debutDate;
-
+	protected Date debutDate;
+	
+	@Column(name="type", insertable = false, updatable = false)
+	protected int type;	
+	
 	@ManyToMany
 	@JoinTable( name = "Artist_Album",
     joinColumns = @JoinColumn( name = "artist_id" ),
     inverseJoinColumns = @JoinColumn( name = "album_id" ) )
-	private List<Album> album = new ArrayList<Album>();
+	protected List<Album> album = new ArrayList<Album>();
 	
 	@ManyToMany
 	@JoinTable( name = "Artist_Song",
     joinColumns = @JoinColumn( name = "artist_id" ),
     inverseJoinColumns = @JoinColumn( name = "song_id" ),
     uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" })})
-	private List<Song> Song = new ArrayList<Song>();
+	protected List<Song> Song = new ArrayList<Song>();
 
 	public Long getId() {
 		return id;
@@ -62,5 +73,9 @@ public class Artist {
 
 	public void setDebutDate(Date debutDate) {
 		this.debutDate = debutDate;
+	}
+	
+	public int getType() {
+		return type;
 	}
 }

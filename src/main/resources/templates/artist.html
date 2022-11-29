@@ -8,9 +8,9 @@
 	<span th:text="${artist.name}"/> 
 	<span th:text="${artist.debutDate}"/></h1>
 	
-	<ul th:if="${artist.members}">
-		<th:block th:each="artist : ${artist.members}">
-			<li><a th:href="@{artist/{id}(id= ${artist.id})}"> 	<span th:text="${artist.name}"/> 
+	<ul th:if="${artist.type}==1">
+		<th:block th:each="member : ${members}">
+			<li><a th:href="@{artist/{id}(id= ${member.id})}"> 	<span th:text="${member.name}"/> 
 			</li>
 		</th:block>
 	</ul>
