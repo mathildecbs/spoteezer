@@ -7,5 +7,12 @@
 <body>
 	<span th:text="${artist.name}"/> 
 	<span th:text="${artist.debutDate}"/></h1>
+	
+	<ul th:if="${artist.members}">
+		<th:block th:each="artist : ${artist.members}">
+			<li><a th:href="@{artist/{id}(id= ${artist.id})}"> 	<span th:text="${artist.name}"/> 
+			</li>
+		</th:block>
+	</ul>
 </body>
 </html>
