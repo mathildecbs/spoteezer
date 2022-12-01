@@ -22,6 +22,11 @@ public class ArtistController {
 	ArtistService artistService;
 
 	@GetMapping("/")
+	public String redirectIndex() {
+		return "redirect:artist";
+	}
+	
+	@GetMapping("/createArtist")
 	public String artistForm() {
 		return "artistForm";
 	}
@@ -37,7 +42,7 @@ public class ArtistController {
 	@GetMapping("/artist/{id}")
 	public String showArtistPage(@PathVariable("id") String id, Model model) {
 		Artist artist = artistService.findArtistById(Long.valueOf(id));
-		if (artist.getType() == 1) {
+		if (artist.getType().equals("Group")) {
 			List<Artist> members = artistService.findGroupMembers(artist.getId());
 			model.addAttribute("members", members);
 		}

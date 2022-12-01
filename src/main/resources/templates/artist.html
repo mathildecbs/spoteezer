@@ -5,14 +5,38 @@
 <title>Artist Page</title>
 </head>
 <body>
-	<span th:text="${artist.name}"/> 
-	<span th:text="${artist.debutDate}"/></h1>
+	<h1 th:text="${artist.name}"></h1> 
+	<br>
+	<span th:text="${artist.debutDate}"/>
 	
-	<ul th:if="${artist.type}==1">
-		<th:block th:each="member : ${members}">
-			<li><a th:href="@{artist/{id}(id= ${member.id})}"> 	<span th:text="${member.name}"/> 
+	<h2> Titres récents</h2>
+	<table>
+			<tr th:each="song : ${artist.songs}">
+				<td th:text="${song.name}"></td>
+				<td th:text="${song.releaseDate}"></td>
+				<td th:text="${song.album.name}"></td>
+			</tr>
+	</table>
+	
+	
+	<h2>Albums récents</h2>
+	<ul>
+		<th:block th:each="album : ${artist.albums}">
+			<li><span th:text="${album.name}"/> 
 			</li>
 		</th:block>
 	</ul>
+	
+	<h2 th:if="${members}">Membres</h2>
+	<ul th:if="${members}">
+		<th:block th:each="member : ${members}">
+			<li th:if="${member.songs.size}!=0" ><a th:href="@{/artist/{id}(id= ${member.id})}"> <span th:text="${member.name}"/></a> 
+			</li>
+			<li th:if="${member.songs.size}==0" > <span th:text="${member.name}"/> 
+			</li>
+			
+		</th:block>
+	</ul>
+	
 </body>
 </html>

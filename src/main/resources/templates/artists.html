@@ -5,13 +5,25 @@
 <title>All Artist</title>
 </head>
 <body>
+	<h1>Tous les artistes</h1>
+	<a href="/createArtist">Creer artiste</a>
 
-	<ul>
-		<th:block th:each="artist : ${artists}">
-			<li><a th:href="@{artist/{id}(id= ${artist.id})}"> 	<span th:text="${artist.name}"/> 
-			</li>
-		</th:block>
-	</ul>
-
+	<table>
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>Nom</th>
+				<th>Date de debut</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="artist : ${artists}">
+				<td th:text="${artist.type}"></td>
+				<td th:text="${artist.name}"></td>
+				<td th:text="${artist.debutDate}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
 </body>
 </html>
