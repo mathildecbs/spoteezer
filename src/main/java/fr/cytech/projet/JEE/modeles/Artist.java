@@ -30,15 +30,16 @@ public class Artist {
 	@ManyToMany
 	@JoinTable( name = "Artist_Album",
     joinColumns = @JoinColumn( name = "artist_id" ),
-    inverseJoinColumns = @JoinColumn( name = "album_id" ) )
-	private List<Album> album = new ArrayList<Album>();
+    inverseJoinColumns = @JoinColumn( name = "album_id" ) ,
+    	    uniqueConstraints = {@UniqueConstraint(columnNames = { "album_id", "artist_id" })})
+	private List<Album> albums = new ArrayList<Album>();
 	
 	@ManyToMany
 	@JoinTable( name = "Artist_Song",
     joinColumns = @JoinColumn( name = "artist_id" ),
     inverseJoinColumns = @JoinColumn( name = "song_id" ),
     uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" })})
-	private List<Song> Song = new ArrayList<Song>();
+	private List<Song> songs = new ArrayList<Song>();
 
 	public Long getId() {
 		return id;
