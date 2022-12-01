@@ -19,7 +19,11 @@
 		<tbody>
 			<tr th:each="artist : ${artists}">
 				<td th:text="${artist.type}"></td>
-				<td th:text="${artist.name}"></td>
+				<td>
+					<a th:href="@{/artist/{id}(id= ${artist.id})}">
+						<th:block th:text="${artist.name}"></th:block>
+					</a>
+				</td>
 				<td th:text="${artist.debutDate}"></td>
 			</tr>
 		</tbody>
