@@ -50,22 +50,27 @@ public class UserController {
 			HttpSession session) {
 		User user = userService.findByName(name,password);
 		if(user==null) {
-			model.addAttribute("error", "incorrect name/password");
+			model.addAttribute("error", "Le mot de passe/le pseudo est incorrect");
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:dashboard";
+		return "redirect:test";
+	}
+	
+	@GetMapping("/registration")
+	public String showRegistrationForm() {
+		return "registrationForm";
 	}
 	
 	@PostMapping(path = "/registration", 
 			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String registerUser(
 			@RequestParam Map<String,String> body, 
-			Model model) {
-		System.out.println(body);
+			Model model,
+			HttpSession session) {
 		User user = userService.createUser(body);
-		System.out.println(user);
-		return "ok";
+		session.setAttribute("user", user);
+		return "redirect:test";
 		
 	}
 	

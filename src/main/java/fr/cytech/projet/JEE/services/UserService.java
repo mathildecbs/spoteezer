@@ -28,6 +28,7 @@ public class UserService {
 		user.setPassword(userDTO.get("password"));
 		user.setMail(userDTO.get("mail"));
 		user.setPostalCode(Integer.valueOf(userDTO.get("postalCode")));
+		user.setCountry(userDTO.get("country"));
 		return userRepository.save(user);
 		
 	}
