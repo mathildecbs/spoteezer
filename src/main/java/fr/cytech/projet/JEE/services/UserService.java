@@ -1,10 +1,14 @@
 package fr.cytech.projet.JEE.services;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.repository.UserRepository;
 
+@Service("userService")
 public class UserService {
 	@Autowired
  	UserRepository userRepository;
@@ -16,6 +20,16 @@ public class UserService {
 		}else {
 			return null;
 		}
+	}
+	
+	public User createUser(Map<String,String> userDTO) {
+		User user = new User();
+		user.setName(userDTO.get("name"));
+		user.setPassword(userDTO.get("password"));
+		user.setMail(userDTO.get("mail"));
+		user.setPostalCode(Integer.valueOf(userDTO.get("postalCode")));
+		return userRepository.save(user);
+		
 	}
 	
 }

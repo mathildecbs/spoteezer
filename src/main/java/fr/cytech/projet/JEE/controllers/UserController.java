@@ -1,8 +1,11 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.services.UserService;
 
-@Controller
+@Controller("userController")
 public class UserController {
 	
 	@Autowired
@@ -53,5 +56,18 @@ public class UserController {
 		session.setAttribute("user", user);
 		return "redirect:dashboard";
 	}
+	
+	@PostMapping(path = "/registration", 
+			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String registerUser(
+			@RequestParam Map<String,String> body, 
+			Model model) {
+		System.out.println(body);
+		User user = userService.createUser(body);
+		System.out.println(user);
+		return "ok";
+		
+	}
+	
 	
 }
