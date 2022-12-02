@@ -43,11 +43,10 @@ public class ArtistService {
 		return artistRepository.save(groupEntity);
 	}
 	
-	public Group addGroupMembers(Map<String,String> groupMembers, Long id) {
+	public Group changeGroupMembers(Map<String,String> groupMembers, Long id) {
 		Group group = groupRepository.findById(id).orElse(null);
 		List<Artist> members = new ArrayList<Artist>();
 		for (String artistId : groupMembers.keySet()) {
-			System.out.println(findArtistById(Long.valueOf(artistId)));
 			members.add(findArtistById(Long.valueOf(artistId)));
 		}
 		group.setMembers(members);
@@ -57,5 +56,22 @@ public class ArtistService {
 	
 	public List<Artist> findGroupMembers(Long id){
 		return artistRepository.findMembersByGroupId(id);
+	}
+	
+	public Artist updateArtist(Long id,Map<String,String>  updateDTO) {
+		Artist artist = findArtistById(id);
+		
+		if(updateDTO.containsKey("name"))
+			artist.setName(updateDTO.get("name"));
+		
+		if(updateDTO.containsKey("debutDate"))
+			artist.setDebutDate(Date.valueOf(updateDTO.get("debutDate")));
+		
+		return artistRepository.save(artist);
+	}
+	
+	public void deleteArtist(Long id) {
+		Artist artist = findArtistById(id);
+		artistRepository.delete(artist);
 	}
 }

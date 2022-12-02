@@ -95,5 +95,9 @@ public class Artist {
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Artist : "+name+" debut le "+debutDate;
+	}
 }

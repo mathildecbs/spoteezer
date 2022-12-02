@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.cytech.projet.JEE.modeles.Artist;
@@ -25,12 +27,11 @@ public class ArtistController {
 	public String redirectIndex() {
 		return "redirect:artist";
 	}
-	
+
 	@GetMapping("/createArtist")
 	public String artistForm() {
 		return "artistForm";
 	}
-
 
 	@GetMapping("/artist")
 	public String showAllArtist(Model model) {
@@ -57,7 +58,7 @@ public class ArtistController {
 		if (body.containsKey("group")) {
 			Group group = artistService.createGroup(body);
 			model.addAttribute("artist", group);
-			return "redirect:/addMembers/" + group.getId();
+			return "redirect:/changeMembers/" + group.getId();
 
 		} else {
 			Artist artist = artistService.createArtist(body);
@@ -67,18 +68,38 @@ public class ArtistController {
 		}
 	}
 
-	@GetMapping("/addMembers/{id}")
-	public String addMembersForm(@PathVariable("id") String id, Model model) {
+	@GetMapping("/changeMembers/{id}")
+	public String changeMembersForm(@PathVariable("id") String id, Model model) {
 		model.addAttribute("artists", artistService.findAll());
 		model.addAttribute("groupId", id);
-		return "addMembersForm";
+		return "changeMembersForm";
 	}
 
-	@PostMapping(path = "/addMembers/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String addMembers(@PathVariable("id") String id, @RequestParam Map<String, String> body, Model model) {
+	@PostMapping(path = "/changeMembers/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String changeMembers(@PathVariable("id") String id, @RequestParam Map<String, String> body, Model model) {
 		System.out.println(body);
-		Group group = artistService.addGroupMembers(body, Long.valueOf(id));
+		Group group = artistService.changeGroupMembers(body, Long.valueOf(id));
 		model.addAttribute("artist", group);
 		return "redirect:/artist/" + group.getId();
+	}
+
+	@DeleteMapping(path = "/deleteArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String deleteArtist(@PathVariable("id") String id, Model model) {
+		artistService.deleteArtist(Long.valueOf(id));
+		return "redirect:/artist";
+
+	}
+
+	@GetMapping("/updateArtist/{id}")
+	public String updateArtistForm(@PathVariable("id") String id, Model model) {
+		Artist artist = artistService.findArtistById(Long.valueOf(id));
+		model.addAttribute(artist);
+		return "updateArtistForm";
+	}
+
+	@PutMapping(path = "/updateArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String updateArtist(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
+		artistService.updateArtist(Long.valueOf(id), body);
+		return "redirect:/artist/" + id;
 	}
 }
