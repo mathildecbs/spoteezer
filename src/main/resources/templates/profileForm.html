@@ -21,6 +21,7 @@
 	</form>
 	<form action="/deleteUser">
 		<input type="submit" value="supprimer profil">
+		<span th:if="${suppr!=null}" th:text="${suppr}"></span>
 	</form>
 </body>
 </html>

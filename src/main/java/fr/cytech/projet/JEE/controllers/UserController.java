@@ -105,9 +105,16 @@ public class UserController {
 	}
 	
 	@GetMapping("/deleteUser")
-	public String deleteUser(HttpSession session) {
+	public String deleteUser(
+			Model model, 
+			HttpSession session) {
 		User user = (User)session.getAttribute("user");
 		userService.deleteUser(user);
+		if(user==null) {
+			model.addAttribute("suppr", "erreur lors de la suppression du profil");
+			return "redirect:modifyProfile";
+		}
+		session.removeAttribute("user");
 		return "redirect:logout";
 	}
 }
