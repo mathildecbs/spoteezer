@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Group;
@@ -21,8 +23,17 @@ public class ArtistService {
 	@Autowired
 	ArtistRepository<Group> groupRepository;
 	
-	public Artist findArtistById(Long id) {
-		return artistRepository.getById(id);
+	public Artist findArtistById(String id) {
+		try {
+			Double.valueOf(id);
+			if(id.split(".").length!=1)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist ID not a integer");
+			
+		} catch(NumberFormatException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist ID not a number");
+
+		}
+		return artistRepository.getById(Long.valueOf(id));
 	}
 	
 	public List<Artist> findAll(){
@@ -43,22 +54,27 @@ public class ArtistService {
 		return artistRepository.save(groupEntity);
 	}
 	
-	public Group changeGroupMembers(Map<String,String> groupMembers, Long id) {
-		Group group = groupRepository.findById(id).orElse(null);
+	public Group changeGroupMembers(Map<String,String> groupMembers, String id) {
+		if(Double.isNaN(Double.parseDouble(id)))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		Group group = groupRepository.findById(Long.valueOf(id)).orElse(null);
 		List<Artist> members = new ArrayList<Artist>();
 		for (String artistId : groupMembers.keySet()) {
-			members.add(findArtistById(Long.valueOf(artistId)));
+			members.add(findArtistById(artistId));
 		}
 		group.setMembers(members);
 		
 		return artistRepository.save(group);
 	}
 	
-	public List<Artist> findGroupMembers(Long id){
-		return artistRepository.findMembersByGroupId(id);
+	public List<Artist> findGroupMembers(String id){
+		if(Double.isNaN(Double.parseDouble(id)))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		
+		return artistRepository.findMembersByGroupId(Long.valueOf(id));
 	}
 	
-	public Artist updateArtist(Long id,Map<String,String>  updateDTO) {
+	public Artist updateArtist(String id,Map<String,String>  updateDTO) {
 		Artist artist = findArtistById(id);
 		
 		if(updateDTO.containsKey("name"))
@@ -70,7 +86,7 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 	
-	public void deleteArtist(Long id) {
+	public void deleteArtist(String id) {
 		Artist artist = findArtistById(id);
 		artistRepository.delete(artist);
 	}

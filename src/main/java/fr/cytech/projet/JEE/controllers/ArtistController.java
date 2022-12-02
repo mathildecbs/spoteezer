@@ -42,9 +42,9 @@ public class ArtistController {
 
 	@GetMapping("/artist/{id}")
 	public String showArtistPage(@PathVariable("id") String id, Model model) {
-		Artist artist = artistService.findArtistById(Long.valueOf(id));
+		Artist artist = artistService.findArtistById(id);
 		if (artist.getType().equals("Group")) {
-			List<Artist> members = artistService.findGroupMembers(artist.getId());
+			List<Artist> members = artistService.findGroupMembers(artist.getId().toString());
 			model.addAttribute("members", members);
 		}
 		model.addAttribute("artist", artist);
@@ -71,35 +71,35 @@ public class ArtistController {
 	@GetMapping("/changeMembers/{id}")
 	public String changeMembersForm(@PathVariable("id") String id, Model model) {
 		model.addAttribute("artists", artistService.findAll());
-		model.addAttribute("group", artistService.findArtistById(Long.valueOf(id)));
+		model.addAttribute("group", artistService.findArtistById(id));
 		return "changeMembersForm";
 	}
 
 	@PostMapping(path = "/changeMembers/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String changeMembers(@PathVariable("id") String id, @RequestParam Map<String, String> body, Model model) {
 		System.out.println(body);
-		Group group = artistService.changeGroupMembers(body, Long.valueOf(id));
+		Group group = artistService.changeGroupMembers(body, id);
 		model.addAttribute("artist", group);
 		return "redirect:/artist/" + group.getId();
 	}
 
 	@DeleteMapping(path = "/deleteArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String deleteArtist(@PathVariable("id") String id, Model model) {
-		artistService.deleteArtist(Long.valueOf(id));
+		artistService.deleteArtist(id);
 		return "redirect:/artist";
 
 	}
 
 	@GetMapping("/updateArtist/{id}")
 	public String updateArtistForm(@PathVariable("id") String id, Model model) {
-		Artist artist = artistService.findArtistById(Long.valueOf(id));
+		Artist artist = artistService.findArtistById(id);
 		model.addAttribute(artist);
 		return "updateArtistForm";
 	}
 
 	@PutMapping(path = "/updateArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String updateArtist(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
-		artistService.updateArtist(Long.valueOf(id), body);
+		artistService.updateArtist(id, body);
 		return "redirect:/artist/" + id;
 	}
 }
