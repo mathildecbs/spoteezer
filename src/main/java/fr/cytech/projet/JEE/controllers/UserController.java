@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -8,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.services.UserService;
 
@@ -84,6 +85,9 @@ public class UserController {
 			HttpSession session,
 			Model model) {
 		User user = (User)session.getAttribute("user");
+		if(user == null) {
+			return "redirect:login";
+		}
 		model.addAttribute("name", user.getName());
 		model.addAttribute("password", user.getPassword());
 		model.addAttribute("mail", user.getMail());
@@ -99,6 +103,9 @@ public class UserController {
 			Model model,
 			HttpSession session) {
 		User user = (User)session.getAttribute("user");
+		if(user == null) {
+			return "redirect:login";
+		}
 		User modifiedUser = userService.modifyUser(user, body);
 		session.setAttribute("user", modifiedUser);
 		return "redirect:modifyProfile";
@@ -116,5 +123,15 @@ public class UserController {
 		}
 		session.removeAttribute("user");
 		return "redirect:logout";
+	}
+	
+	@GetMapping("/profile")
+	public String showProfile(
+			Model model, 
+			HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		List<Playlist> playlists = user.getPlaylists();
+		Playlist favorite = user.getFavorite();
+		return "profile";
 	}
 }
