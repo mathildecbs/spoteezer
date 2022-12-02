@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Modifier profil</title>
 </head>
 <body>
 	<form action="/updateProfile" method="post">
@@ -18,6 +18,9 @@
 		<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
 		
 		<input type="submit" value="valider">
+	</form>
+	<form action="/deleteUser">
+		<input type="submit" value="supprimer profil">
 	</form>
 </body>
 </html>

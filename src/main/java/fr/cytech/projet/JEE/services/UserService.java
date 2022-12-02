@@ -46,4 +46,8 @@ public class UserService {
 			user.setCountry(userDTO.get("country"));
 		}
 	}
+	
+	public void deleteUser(User user) {
+		userRepository.deleteById(user.getId());
+	}
 }

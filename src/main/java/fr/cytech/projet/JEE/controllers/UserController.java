@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,7 +53,6 @@ public class UserController {
 			Model model,
 			HttpSession session) {
 		User user = userService.findByName(name);
-		System.out.println(user);
 		if(user==null || !user.getPassword().equals(password)) {
 			model.addAttribute("error", "Le mot de passe/le pseudo est incorrect");
 			return "login";
@@ -104,4 +104,10 @@ public class UserController {
 		return "redirect:modifyProfile";
 	}
 	
+	@GetMapping("/deleteUser")
+	public String deleteUser(HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		userService.deleteUser(user);
+		return "redirect:logout";
+	}
 }
