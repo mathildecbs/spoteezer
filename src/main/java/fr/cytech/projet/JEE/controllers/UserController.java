@@ -21,13 +21,6 @@ public class UserController {
 	@Autowired
  	UserService userService;
 	
-	@GetMapping("/logout")
-	@PostMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("user");
-		return "redirect:login";
-	}
-	
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model,HttpSession session) {
 		User user = (User)session.getAttribute("user");
@@ -37,6 +30,16 @@ public class UserController {
 		return "redirect:login";
 	}
 	
+	/* Logout */
+	@GetMapping("/logout")
+	@PostMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		return "redirect:login";
+	}
+	
+		
+	/* Connection */
 	@GetMapping("/login")
 	public String showLoginPage() {
 		return "login";
@@ -48,31 +51,57 @@ public class UserController {
 			@RequestParam("password") String password,
 			Model model,
 			HttpSession session) {
-		User user = userService.findByName(name,password);
-		if(user==null) {
+		User user = userService.findByName(name);
+		System.out.println(user);
+		if(user==null || !user.getPassword().equals(password)) {
 			model.addAttribute("error", "Le mot de passe/le pseudo est incorrect");
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:test";
+		return "redirect:modifyProfile";
 	}
 	
+	/* Registration */
 	@GetMapping("/registration")
 	public String showRegistrationForm() {
 		return "registrationForm";
 	}
 	
 	@PostMapping(path = "/registration", 
-			consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String registerUser(
 			@RequestParam Map<String,String> body, 
 			Model model,
 			HttpSession session) {
 		User user = userService.createUser(body);
 		session.setAttribute("user", user);
-		return "redirect:test";
-		
+		return "redirect:modifyProfile";
 	}
 	
+	/* Profile */
+	@GetMapping("/modifyProfile")
+	public String showProfileForm(
+			HttpSession session,
+			Model model) {
+		User user = (User)session.getAttribute("user");
+		model.addAttribute("name", user.getName());
+		model.addAttribute("password", user.getPassword());
+		model.addAttribute("mail", user.getMail());
+		model.addAttribute("postalCode", user.getPostalCode());
+		model.addAttribute("country", user.getCountry());
+		return "profileForm";
+	}
+	
+	@PostMapping(path = "/updateProfile",
+				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String updateProfile(
+			@RequestParam Map<String,String> body, 
+			Model model,
+			HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		User modifiedUser = userService.modifyUser(user, body);
+		session.setAttribute("user", modifiedUser);
+		return "redirect:modifyProfile";
+	}
 	
 }
