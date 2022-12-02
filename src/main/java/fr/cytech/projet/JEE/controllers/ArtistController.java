@@ -71,7 +71,7 @@ public class ArtistController {
 	@GetMapping("/changeMembers/{id}")
 	public String changeMembersForm(@PathVariable("id") String id, Model model) {
 		model.addAttribute("artists", artistService.findAll());
-		model.addAttribute("groupId", id);
+		model.addAttribute("group", artistService.findArtistById(Long.valueOf(id)));
 		return "changeMembersForm";
 	}
 

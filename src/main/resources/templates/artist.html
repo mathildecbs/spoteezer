@@ -7,12 +7,14 @@
 <body>
 	<a href="/artist">Retour</a>
 	<h1 th:text="${artist.name}"></h1>
-	<div> <a th:href="@{/updateArtist/{id}(id=${artist.id})}">Modifier</a>
-	<form th:action="@{/deleteArtist/{id}(id=${artist.id})}"
-		th:method="delete">
-		<button type="submit">Supprimer</button>
-	</form>
-	</div>	<br>
+	<div>
+		<a th:href="@{/updateArtist/{id}(id=${artist.id})}">Modifier</a>
+		<form th:action="@{/deleteArtist/{id}(id=${artist.id})}"
+			th:method="delete">
+			<button type="submit">Supprimer</button>
+		</form>
+	</div>
+	<br>
 	<span th:text="${artist.debutDate}" />
 
 	<h2>Titres récents</h2>
@@ -32,19 +34,22 @@
 		</th:block>
 	</ul>
 
-	<h2 th:if="${members}">Membres</h2>
-	<a th:href="@{/changeMembers/{id}(id= ${artist.id})}"> <span>Modifier
-			les membres</span>/>
-	</a>
-	<ul th:if="${members}">
-		<th:block th:each="member : ${members}">
-			<li th:if="${member.songs.size}!=0"><a
-				th:href="@{/artist/{id}(id= ${member.id})}"> <span
-					th:text="${member.name}" /></a></li>
-			<li th:if="${member.songs.size}==0"><span
-				th:text="${member.name}" /></li>
+	<div th:if="${members}">
+		<h2>Membres</h2>
+		<a th:href="@{/changeMembers/{id}(id= ${artist.id})}"> <span>Modifier
+				les membres</span>
+		</a>
+		<ul>
+			<th:block th:each="member : ${members}">
+				<li th:if="${member.songs.size}!=0"><a
+					th:href="@{/artist/{id}(id= ${member.id})}"> <span
+						th:text="${member.name}" /></a></li>
+				<li th:if="${member.songs.size}==0"><span
+					th:text="${member.name}" /></li>
 
-		</th:block>
-	</ul>
+			</th:block>
+		</ul>
+	</div>
+
 </body>
 </html>
