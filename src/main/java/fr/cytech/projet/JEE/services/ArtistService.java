@@ -26,14 +26,37 @@ public class ArtistService {
 	public Artist findArtistById(String id) {
 		try {
 			Double.valueOf(id);
-			if(id.split(".").length!=1)
+			if(id.split(".").length!=0)
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist ID not a integer");
 			
 		} catch(NumberFormatException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist ID not a number");
+			
+		}
+		Artist artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
+		
+		if(artist!=null)
+			return artist;
+		else 
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Artist does not exist.");
+	}
+	
+	public Group findGroupById(String id) {
+		try {
+			Double.valueOf(id);
+			if(id.split(".").length!=0)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Group ID not a integer");
+			
+		} catch(NumberFormatException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Group ID not a number");
 
 		}
-		return artistRepository.getById(Long.valueOf(id));
+		Group group = groupRepository.findById(Long.valueOf(id)).orElse(null);
+		
+		if(group!=null)
+			return group;
+		else 
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Group does not exist.");
 	}
 	
 	public List<Artist> findAll(){
@@ -57,7 +80,7 @@ public class ArtistService {
 	public Group changeGroupMembers(Map<String,String> groupMembers, String id) {
 		if(Double.isNaN(Double.parseDouble(id)))
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		Group group = groupRepository.findById(Long.valueOf(id)).orElse(null);
+		Group group = findGroupById(id);
 		List<Artist> members = new ArrayList<Artist>();
 		for (String artistId : groupMembers.keySet()) {
 			members.add(findArtistById(artistId));
@@ -86,8 +109,13 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 	
-	public void deleteArtist(String id) {
+	public boolean deleteArtist(String id) {
 		Artist artist = findArtistById(id);
 		artistRepository.delete(artist);
+		artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
+		if(artist!=null)
+			return false;
+		else 
+			return true;
 	}
 }

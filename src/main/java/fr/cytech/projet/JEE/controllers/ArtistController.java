@@ -85,7 +85,8 @@ public class ArtistController {
 
 	@DeleteMapping(path = "/deleteArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String deleteArtist(@PathVariable("id") String id, Model model) {
-		artistService.deleteArtist(id);
+		boolean test = artistService.deleteArtist(id);
+		System.out.println(test);
 		return "redirect:/artist";
 
 	}
