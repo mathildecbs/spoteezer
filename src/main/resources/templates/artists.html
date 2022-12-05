@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" th:href="@{/style.css}">
 <meta charset="UTF-8">
 <title>All Artist</title>
 </head>
 <body>
-	<h1>Tous les artistes</h1>
-	<a href="/createArtist">Creer artiste</a>
+	<header>
+		<div class="user">
+			<span>Connexion ou acces page user</span>
+			<button onclick="location.href='/logout'">Deconnexion</button>
+		</div>
+		<h1>SPOTEEZER</h1>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/album">Albums</a></li>
+				<li><a href="/song">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
 
-	<table>
-		<thead>
-			<tr>
-				<th>Type</th>
-				<th>Nom</th>
-				<th>Date de debut</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="artist : ${artists}">
-				<td th:text="${artist.type}"></td>
-				<td>
-					<a th:href="@{/artist/{id}(id= ${artist.id})}">
-						<th:block th:text="${artist.name}"></th:block>
-					</a>
-				</td>
-				<td th:text="${artist.debutDate}"></td>
-			</tr>
-		</tbody>
-	</table>
-	
+
+	<div class="center">
+		<h1>Tous les artistes</h1>
+		<a href="/createArtist">Creer artiste</a>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Nom</th>
+					<th>Date de debut</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="artist : ${artists}">
+					<td th:text="${artist.type}"></td>
+					<td><a th:href="@{/artist/{id}(id= ${artist.id})}"> <th:block
+								th:text="${artist.name}"></th:block>
+					</a></td>
+					<td th:text="${artist.debutDate}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<footer></footer>
 </body>
 </html>
