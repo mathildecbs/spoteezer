@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ajout membres</title>
+</head>
+<body>
+	<form th:action="@{/changeMembers/{id}(id=${group.id})}" method="post">
+		<th:block th:each="artist : ${artists}">
+			<th:block th:if="${artist.id}!=${group.id}">
+
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.id}"
+					th:value="${artist.name}"
+					 th:checked="${#lists.contains(group.members, artist)}">
+				<br>
+			</th:block>
+		</th:block>
+		<input type="submit" value="create">
+	<button th:onclick="@{location.href='/artist/{id}'(id=${group.id})}" type="button">Skip</button>
+
+	</form>
+</body>
