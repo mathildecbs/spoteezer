@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Modifier profil</title>
+</head>
+<body>
+	<form action="/updateProfile" method="post">
+		<label>Pseudo :</label>
+		<input type="text" th:if="${name!=null}" th:value="${name}" name="name">
+		<label>Mot de passe :</label>
+		<input type="password" th:if="${password!=null}" th:value="${password}" name="password">
+		<label>Mail :</label>
+		<input type="email" th:if="${mail!=null}" th:value="${mail}" name="mail">
+		<label>Code Postal :</label>
+		<input type="number" th:if="${postalCode!=null}" th:value="${postalCode}" name="postalCode">
+		<label>Pays :</label>
+		<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
+		
+		<input type="submit" value="valider">
+	</form>
+	<form action="/deleteUser">
+		<input type="submit" value="supprimer profil">
+		<span th:if="${suppr!=null}" th:text="${suppr}"></span>
+	</form>
+</body>
+</html>

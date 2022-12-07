@@ -85,5 +85,22 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	
+	public List<Playlist> getPlaylists() {
+		return playlists;
+	}
+
+	public void setPlaylists(List<Playlist> playlists) {
+		this.playlists = playlists;
+	}
+
+	public Playlist getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(Playlist favorite) {
+		this.favorite = favorite;
+	}
+
 		
 }
