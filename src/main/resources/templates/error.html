@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Erreur</title>
+</head>
+<body>
+	<h1 style="text-align: center; font-weight: bold; font-size: 4em;">
+		Error
+		<th:block th:text="${statusCode}"></th:block>
+	</h1>
+	<br>
+	<br>
+	<div style="text-align: center; font-size: 2em;">
+		<th:block th:text="${exception}"></th:block>
+		
+		<button onclick="location.href='/'">Retour à la page d'accueil</button>
+	</div>
+</body>

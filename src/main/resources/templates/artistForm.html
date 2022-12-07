@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+	Creer artiste:
+	<form action="/artist" method="post">
+		<label>Nom de l'artiste:</label>
+		<input type="text" name="name">
+		<label>Date de début : </label>
+		<input type="date" name="debutDate">
+		<label>Groupe ?</label>
+		<input type="checkbox" name="group">
+		<br>
+	<button type="submit">Créer</button>
+	<button onclick="location.href='/artist'" type="button">Annuler</button>
+	</form>
+</body>
+</html>

@@ -26,6 +26,6 @@ public class Group extends Artist {
 	public  void setMembers(List<Artist> members) {
 		this.members = members;
 	}
-
+	
 	
 }
