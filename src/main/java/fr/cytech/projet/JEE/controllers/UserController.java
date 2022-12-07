@@ -29,7 +29,7 @@ public class UserController {
 		if(user!=null) {
 			return "dashboard";
 		}
-		return "redirect:login";
+		return "redirect:/login";
 	}
 	
 	/* Logout */
@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("user");
-		return "redirect:login";
+		return "redirect:/login";
 	}
 	
 		
@@ -59,7 +59,7 @@ public class UserController {
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:modifyProfile";
+		return "redirect:/modifyProfile";
 	}
 	
 	/* Registration */
@@ -76,7 +76,7 @@ public class UserController {
 			HttpSession session) {
 		User user = userService.createUser(body);
 		session.setAttribute("user", user);
-		return "redirect:modifyProfile";
+		return "redirect:/modifyProfile";
 	}
 	
 	/* Profile */
@@ -86,7 +86,7 @@ public class UserController {
 			Model model) {
 		User user = (User)session.getAttribute("user");
 		if(user == null) {
-			return "redirect:login";
+			return "redirect:/login";
 		}
 		model.addAttribute("name", user.getName());
 		model.addAttribute("password", user.getPassword());
@@ -104,11 +104,11 @@ public class UserController {
 			HttpSession session) {
 		User user = (User)session.getAttribute("user");
 		if(user == null) {
-			return "redirect:login";
+			return "redirect:/login";
 		}
 		User modifiedUser = userService.modifyUser(user, body);
 		session.setAttribute("user", modifiedUser);
-		return "redirect:modifyProfile";
+		return "redirect:/modifyProfile";
 	}
 	
 	@GetMapping("/deleteUser")
@@ -119,10 +119,10 @@ public class UserController {
 		userService.deleteUser(user);
 		if(user==null) {
 			model.addAttribute("suppr", "erreur lors de la suppression du profil");
-			return "redirect:modifyProfile";
+			return "redirect:/modifyProfile";
 		}
 		session.removeAttribute("user");
-		return "redirect:logout";
+		return "redirect:/logout";
 	}
 	
 	@GetMapping("/profile")
