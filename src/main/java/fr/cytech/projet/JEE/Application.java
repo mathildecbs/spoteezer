@@ -12,7 +12,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		applicationContext = SpringApplication.run(Application.class, args);
-		checkBeansPresence("artistController", "artistService", "artistRepository","errorController");
+		checkBeansPresence("artistController", "artistService", "artistRepository","userController","userService","userRepository","errorController");
 	}
 	
 	private static void checkBeansPresence(String... beans) {

@@ -23,7 +23,7 @@ public class PlaylistController {
 			return "redirect:login";
 		}
 		//List<Song> songs = ;
-		model.addAttribute("songs", songs)
+		//model.addAttribute("songs", songs)
 		return "";
 	}
 	
