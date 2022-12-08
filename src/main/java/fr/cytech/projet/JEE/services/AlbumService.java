@@ -21,8 +21,9 @@ public class AlbumService {
 	@Autowired
 	ArtistService artistService;
 	
-	public Album findAlbumById(Long id) {
-		return albumRepository.getById(id);
+	public Album findAlbumById(String id) {
+		Album album = albumRepository.findById(Long.valueOf(id)).orElse(null);
+		return album;
 	}
 	
 	public List<Album> findAll() {
