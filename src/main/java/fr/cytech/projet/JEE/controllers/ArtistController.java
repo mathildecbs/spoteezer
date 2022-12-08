@@ -83,7 +83,7 @@ public class ArtistController {
 		return "redirect:/artist/" + group.getId();
 	}
 
-	@DeleteMapping(path = "/deleteArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@DeleteMapping(path = "/artist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String deleteArtist(@PathVariable("id") String id, Model model) {
 		boolean test = artistService.deleteArtist(id);
 		System.out.println(test);
@@ -93,12 +93,14 @@ public class ArtistController {
 
 	@GetMapping("/updateArtist/{id}")
 	public String updateArtistForm(@PathVariable("id") String id, Model model) {
+		System.out.println("update");
 		Artist artist = artistService.findArtistById(id);
-		model.addAttribute(artist);
+		System.out.println(artist);
+		model.addAttribute("artist",artist);
 		return "updateArtistForm";
 	}
 
-	@PutMapping(path = "/updateArtist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PutMapping(path = "/artist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String updateArtist(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
 		artistService.updateArtist(id, body);
 		return "redirect:/artist/" + id;

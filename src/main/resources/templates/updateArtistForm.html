@@ -6,7 +6,7 @@
 </head>
 <body>
 	Modifier artiste :  <th:block th:text="${artist.name}"></th:block>
-	<form th:action="@{/updateArtist/{id} (id = ${artist.id})}" th:method="put">
+	<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
 		<label>Nom de l'artiste:</label>
 		<input type="text" name="name" th:value=${artist.name}>
 		<label>Date de début : </label>

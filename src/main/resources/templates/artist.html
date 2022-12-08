@@ -9,7 +9,7 @@
 	<h1 th:text="${artist.name}"></h1>
 	<div>
 		<a th:href="@{/updateArtist/{id}(id=${artist.id})}">Modifier</a>
-		<form th:action="@{/deleteArtist/{id}(id=${artist.id})}"
+		<form th:action="@{/artist/{id}(id=${artist.id})}"
 			th:method="delete">
 			<button type="submit">Supprimer</button>
 		</form>
