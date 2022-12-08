@@ -6,12 +6,11 @@
 </head>
 <body>
 	<a href="/modifyProfile">Modifier mes données</a>
-	<p>Favoris :</p>
 		
 	<p>Playlists :</p>
-	<table th:each="playlist : ${playlists}">
-		<tr th:each="song : ${songs}">
-			<td th:text="${song.name}"></td>
+	<table>
+		<tr th:each="playlist : ${playlists}">
+			<td th:text="${playlist.name}"></td>
 		</tr>
 	</table>
 	

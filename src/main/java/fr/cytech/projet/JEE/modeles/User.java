@@ -36,7 +36,7 @@ public class User {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="favorite")
-	private Playlist favorite;
+	private Playlist favorite = new Playlist(this);
 
 	public long getId() {
 		return id;

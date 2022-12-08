@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
+import fr.cytech.projet.JEE.services.PlaylistService;
 import fr.cytech.projet.JEE.services.UserService;
 
 @Controller("userController")
@@ -22,6 +23,9 @@ public class UserController {
 	
 	@Autowired
  	UserService userService;
+	
+	@Autowired
+ 	PlaylistService playlistService;
 	
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model,HttpSession session) {
@@ -59,7 +63,7 @@ public class UserController {
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:/modifyProfile";
+		return "redirect:/profile";
 	}
 	
 	/* Registration */
@@ -76,7 +80,7 @@ public class UserController {
 			HttpSession session) {
 		User user = userService.createUser(body);
 		session.setAttribute("user", user);
-		return "redirect:/modifyProfile";
+		return "redirect:/profile";
 	}
 	
 	/* Profile */
@@ -110,7 +114,26 @@ public class UserController {
 		session.setAttribute("user", modifiedUser);
 		return "redirect:/modifyProfile";
 	}
+		
+	@GetMapping("/profile")
+	public String showProfile(
+			Model model, 
+			HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if(user !=null) {
+			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
+			if(playlists != null) {
+				model.addAttribute("playlists", playlists);
+			} 
+			Playlist favorite = user.getFavorite();
+			model.addAttribute("favorite", favorite);
+			return "profile";
+		}
+		return "redirect:/login";
+		
+	}
 	
+	/* Delete */
 	@GetMapping("/deleteUser")
 	public String deleteUser(
 			Model model, 
@@ -123,15 +146,5 @@ public class UserController {
 		}
 		session.removeAttribute("user");
 		return "redirect:/logout";
-	}
-	
-	@GetMapping("/profile")
-	public String showProfile(
-			Model model, 
-			HttpSession session) {
-		User user = (User)session.getAttribute("user");
-		List<Playlist> playlists = user.getPlaylists();
-		Playlist favorite = user.getFavorite();
-		return "profile";
 	}
 }
