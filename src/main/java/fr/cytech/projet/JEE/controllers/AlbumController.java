@@ -39,13 +39,11 @@ public class AlbumController {
 		return "albumForm";
 	}
 
+
 	@PostMapping("/album/{id}")
-	public String showAlbum(@PathVariable("id") Long id,Model model) {
+	public String showAlbumPage(@PathVariable("id") Long id,Model model) {
+		
 		Album album = albumService.findAlbumById(id);
-		if(album==null) {
-			model.addAttribute("error", "album doesn't exist");
-			return "album";
-		}
 		model.addAttribute("album", album);
 		return "album";
 	}
