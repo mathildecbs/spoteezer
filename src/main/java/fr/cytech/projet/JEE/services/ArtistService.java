@@ -111,11 +111,28 @@ public class ArtistService {
 	
 	public boolean deleteArtist(String id) {
 		Artist artist = findArtistById(id);
+		if(isGroupMember(artist)) {
+			for (Long groupId : artistGroups(artist.getId())) {
+				Group group = groupRepository.findById(groupId).orElse(null);
+				group.getMembers().remove(artist);
+				groupRepository.save(group);
+			}
+		}
 		artistRepository.delete(artist);
 		artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
 		if(artist!=null)
 			return false;
 		else 
 			return true;
+	}
+	
+	public boolean isGroupMember(Artist artist) {
+		List<Long> groupMembers = artistRepository.findArtistInGroup();
+		return groupMembers.contains(artist.getId());
+	}
+	
+	public List<Long> artistGroups(Long id){
+		
+		return artistRepository.findArtistGroups(id);
 	}
 }
