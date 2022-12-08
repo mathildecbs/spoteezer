@@ -5,22 +5,26 @@
 <title>Artist Page</title>
 </head>
 <body>
-	<a href="/album">Retour</a>
+	<a href="/albums">Retour</a>
 	<h1 th:text="${album.name}"></h1>
 	
 	<br>
 	<span th:text="${album.releaseDate}" />
 
-	<h2>Titres récents</h2>
+	<h2>Artiste de l'album</h2>
+	<table>
+		<tr th:each="art : ${album.artist}">
+			<td th:text="${art.name}"></td>
+		</tr>
+	</table>
+	
+	<h2>Titres de l'album</h2>
 	<table>
 		<tr th:each="song : ${album.songs}">
 			<td th:text="${song.name}"></td>
 			<td th:text="${song.releaseDate}"></td>
-			<td th:text="${song.album.name}"></td>
 		</tr>
 	</table>
-
-
 
 </body>
 </html>

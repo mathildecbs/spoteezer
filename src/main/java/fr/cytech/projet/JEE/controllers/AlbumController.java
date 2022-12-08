@@ -39,14 +39,13 @@ public class AlbumController {
 		return "albumForm";
 	}
 
-
-	@PostMapping("/album/{id}")
-	public String showAlbumPage(@PathVariable("id") Long id,Model model) {
-		
+	@GetMapping("/album/{id}")
+	public String showAlbumPage(@PathVariable("id") String id, Model model) {
 		Album album = albumService.findAlbumById(id);
 		model.addAttribute("album", album);
 		return "album";
 	}
+
 	
 	@PostMapping(path = "/album", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String createAlbum(@RequestParam Map<String, String> body, Model model) {
