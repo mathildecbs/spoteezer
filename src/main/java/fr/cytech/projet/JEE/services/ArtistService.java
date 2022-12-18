@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.services;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Artist;
@@ -134,5 +137,14 @@ public class ArtistService {
 	public List<Long> artistGroups(Long id){
 		
 		return artistRepository.findArtistGroups(id);
+	}
+	
+	public Artist testUpload(String id, MultipartFile mpF) throws IOException {
+		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
+		Artist a = findArtistById(id);
+		a.setPicture(fileName);
+		Artist a2 = artistRepository.save(a);
+		ImageUploadTest.saveFile("src/main/resources/static/"+a2.getId(), fileName, mpF);
+		return a2;
 	}
 }

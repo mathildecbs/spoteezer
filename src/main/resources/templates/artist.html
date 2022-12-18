@@ -7,10 +7,12 @@
 <body>
 	<a href="/artist">Retour</a>
 	<h1 th:text="${artist.name}"></h1>
+	<th:block th:if="${artist.picture}">
+		<img th:src="@{${artist.photosImagePath}}" />
+	</th:block>
 	<div>
 		<a th:href="@{/updateArtist/{id}(id=${artist.id})}">Modifier</a>
-		<form th:action="@{/artist/{id}(id=${artist.id})}"
-			th:method="delete">
+		<form th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
 			<button type="submit">Supprimer</button>
 		</form>
 	</div>

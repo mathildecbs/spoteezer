@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>UPLOAD</title>
+</head>
+<body>
+	<form action="/testUpload" method="post" enctype="multipart/form-data">
+		<select name="id">
+
+			<th:block th:each="artist : ${artists}">
+				<option th:value="${artist.id}"><span
+						th:text="${artist.name}"></span></option>
+			</th:block>
+		</select> <label>Photos: </label>    
+		 <input type="file" name="image" accept="image/png, image/jpeg" /> 
+			
+			
+			<input type="submit" value="ajouter">
+	</form>
+</body>

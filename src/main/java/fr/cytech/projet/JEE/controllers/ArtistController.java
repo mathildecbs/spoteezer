@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Group;
@@ -104,5 +107,17 @@ public class ArtistController {
 	public String updateArtist(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
 		artistService.updateArtist(id, body);
 		return "redirect:/artist/" + id;
+	}
+	
+	@GetMapping("/upload")
+	public String uploadForm(Model model) {
+		model.addAttribute("artists", artistService.findAll());
+		return "uploadForm";
+	}
+	
+	@PostMapping(path="/testUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public String testUpload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image) throws IOException {
+		artistService.testUpload(id, image);
+		return "redirect:/artist";
 	}
 }
