@@ -25,6 +25,8 @@
 			<td th:text="${song.releaseDate}"></td>
 		</tr>
 	</table>
+	
+	<a th:href="@{/updateAlbum/{id}(id=${album.id})}">Modifier</a>
 
 </body>
 </html>

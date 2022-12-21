@@ -42,9 +42,19 @@ public class AlbumService {
 				artists.add(artistService.findArtistById(albumDTO.get(string)));
 			}
 		}
-		
 		album.setArtist(artists);
-
+		return albumRepository.save(album);
+	}
+	
+	public Album updateAlbum(String id,Map<String,String>  updateDTO) {
+		Album album = findAlbumById(id);
+		
+		if(updateDTO.containsKey("name"))
+			album.setName(updateDTO.get("name"));
+		
+		if(updateDTO.containsKey("releaseDate"))
+			album.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
+		
 		return albumRepository.save(album);
 	}
 }

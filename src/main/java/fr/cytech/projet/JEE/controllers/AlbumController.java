@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.cytech.projet.JEE.modeles.Album;
+import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.services.AlbumService;
 import fr.cytech.projet.JEE.services.ArtistService;
@@ -52,5 +54,20 @@ public class AlbumController {
 		Album album = albumService.createAlbum(body);
 		model.addAttribute("album", album);
 		return "redirect:album/" + album.getId();
+	}
+	
+	@GetMapping("/updateAlbum/{id}")
+	public String updateAlbumForm(@PathVariable("id") String id, Model model) {
+		System.out.println("update");
+		Album album = albumService.findAlbumById(id);
+		System.out.println(album);
+		model.addAttribute("album",album);
+		return "updateAlbumForm";
+	}
+
+	@PutMapping(path = "/album/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String updateAlbum(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
+		albumService.updateAlbum(id, body);
+		return "redirect:/album/" + id;
 	}
 }

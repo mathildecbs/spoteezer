@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	Modifier l'album :  <th:block th:text="${album.name}"></th:block>
+	
+	hjklkgfghjklhgf
+	<form th:action="@{/album/{id} (id = ${album.id})}" th:method="put">
+		<label>Nom de l'abum:</label>
+		<input type="text" name="name" th:value="${album.name}">
+		<label>Date de début : </label>
+		<input type="date" name="releaseDate" th:value="${album.releaseDate}">
+		<div name="artistAlbum">
+		<th:block th:each="artist : ${artists}">
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.name}"
+					th:value="${artist.id}"
+					 th:checked="${#lists.contains(album.artist, artist)}">
+				<br>
+		</th:block>
+		</div>
+		<br>
+	<button type="submit">Modifier</button>
+	<button th:onclick="@{location.href='/album/{id}'}" type="button">Annuler</button>
+	</form>
+</body>
+</html>
