@@ -70,6 +70,7 @@ public class ArtistService {
 		Artist artist = new Artist();
 		artist.setName(artistDTO.get("name"));
 		artist.setDebutDate(Date.valueOf( artistDTO.get("debutDate")));
+		artist.setPicture("singer.png");
 		return artistRepository.save(artist);
 	}
 
@@ -77,6 +78,7 @@ public class ArtistService {
 		Group groupEntity = new Group();
 		groupEntity.setDebutDate(Date.valueOf(groupDTO.get("debutDate")));
 		groupEntity.setName( groupDTO.get("name"));
+		groupEntity.setPicture("band.png");
 		return artistRepository.save(groupEntity);
 	}
 	
