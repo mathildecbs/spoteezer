@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("user");
-		return "redirect:/login";
+		return "redirect:/";
 	}
 	
 		
@@ -59,7 +59,7 @@ public class UserController {
 			return "login";
 		}
 		session.setAttribute("user", user);
-		return "redirect:/modifyProfile";
+		return "redirect:/";
 	}
 	
 	/* Registration */
@@ -76,7 +76,7 @@ public class UserController {
 			HttpSession session) {
 		User user = userService.createUser(body);
 		session.setAttribute("user", user);
-		return "redirect:/modifyProfile";
+		return "redirect:/";
 	}
 	
 	/* Profile */
