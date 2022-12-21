@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
+import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.services.PlaylistService;
+import fr.cytech.projet.JEE.services.SongService;
 
 @Controller("playlistController")
 public class PlaylistController {
@@ -52,6 +55,13 @@ public class PlaylistController {
 	public String findSong(
 			@RequestParam("name") String name, 
 			Model model) {
-		
+		List<Song> songs = songService.findSongsByName(name);
+		if(songs.isEmpty()) {
+			String erreur = "La musique n'a pas pu être trouvée ou n'existe pas";
+			model.addAttribute("erreur", erreur);
+		}else {
+			model.addAttribute("songs", songs);
+		}
+		return "playlist";
 	}
 }

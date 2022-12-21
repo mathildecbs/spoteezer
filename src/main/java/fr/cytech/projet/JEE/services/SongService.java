@@ -34,6 +34,10 @@ public class SongService {
 		return songRepository.findByAlbumId(id);
 	}
 	
+	public List<Song> findSongsByName(String name) {
+		return songRepository.findAllByName(name);
+	}
+	
 	public Song createSong(Map<String, String> songDTO) {
 		Song song = new Song();
 		song.setName(songDTO.get("name"));

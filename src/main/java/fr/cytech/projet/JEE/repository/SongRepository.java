@@ -11,5 +11,6 @@ import fr.cytech.projet.JEE.modeles.Song;
 @Repository("songRepository")
 public interface SongRepository extends JpaRepository<Song, Long>  {
 	public Song findByName(String name);
+	public List<Song> findAllByName(String name);
 	public List<Song> findByAlbumId(Long AlbumId);
 }

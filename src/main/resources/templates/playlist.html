@@ -6,12 +6,20 @@
 </head>
 <body>
 	<p> Ajouter des musiques :</p>
-	<form action="" >
+	<form action="/findSong" method="post">
 		<input type="text" name="name">
 		<input type="submit" value="rechercher">
 	</form>
-	<table>
-		<tr th:each="song : ${playlist.songs}">
+	<span th:if="${error!=null}" th:text="${error}"></span>
+	<div th:if="${songs!=null}">
+		<tr th:each="songFinded : ${songs}">
+			<td th:text="${songFinded.name}"></td>
+			<td th:text="${songFinded.releaseDate}"></td>
+			<td th:text="${songFinded.album.name}"></td>
+		</tr>
+	</div>
+	<table th:if="${playlist!=null}">
+		<tr  th:each="song : ${playlist.songs}">
 			<td th:text="${song.name}"></td>
 			<td th:text="${song.releaseDate}"></td>
 			<td th:text="${song.album.name}"></td>
