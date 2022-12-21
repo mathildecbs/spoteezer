@@ -48,8 +48,8 @@ public class SongService {
 		Set<String> keys = songDTO.keySet();
 		for (String string : keys) {
 			if(string.contains("art")) {
-				if (!artists.contains(artistService.findArtistById(Long.valueOf(songDTO.get(string)))))
-					{artists.add(artistService.findArtistById(Long.valueOf(songDTO.get(string))));}
+				if (!artists.contains(artistService.findArtistById(songDTO.get(string))))
+					{artists.add(artistService.findArtistById(songDTO.get(string)));}
 			}
 		}
 		

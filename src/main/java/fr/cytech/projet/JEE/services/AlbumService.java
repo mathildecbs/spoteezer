@@ -39,7 +39,7 @@ public class AlbumService {
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {
 			if(string.contains("art")) {
-				artists.add(artistService.findArtistById(Long.valueOf(albumDTO.get(string))));
+				artists.add(artistService.findArtistById(albumDTO.get(string)));
 			}
 		}
 		
