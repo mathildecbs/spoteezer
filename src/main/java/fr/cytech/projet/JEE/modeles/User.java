@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.modeles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class User {
 	private String country;
 	
 	@OneToMany(mappedBy="user")
-	private List<Playlist> playlists;
+	private List<Playlist> playlists = new ArrayList<Playlist>();
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="favorite")
@@ -92,6 +93,10 @@ public class User {
 
 	public void setPlaylists(List<Playlist> playlists) {
 		this.playlists = playlists;
+	}
+	
+	public void addPlaylist(Playlist playlist) {
+		this.playlists.add(playlist);
 	}
 
 	public Playlist getFavorite() {

@@ -73,7 +73,7 @@ public class UserController {
 	}
 	
 	@PostMapping(path = "/registration", 
-				consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				 consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String registerUser(
 			@RequestParam Map<String,String> body, 
 			Model model,

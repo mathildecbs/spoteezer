@@ -10,4 +10,5 @@ import fr.cytech.projet.JEE.modeles.Playlist;
 @Repository("playlistRepository")
 public interface PlaylistRepository extends JpaRepository<Playlist,Long>{
 	public List<Playlist> findAllPlaylistByUserId(long userId);
+	public Playlist findPlaylistById(long id);
 }
