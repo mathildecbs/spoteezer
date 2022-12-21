@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.services.AlbumService;
+import fr.cytech.projet.JEE.services.ArtistService;
 import fr.cytech.projet.JEE.services.SongService;
 
 @Controller("songController")
@@ -23,6 +24,9 @@ public class SongController {
 	
 	@Autowired
 	AlbumService albumService;
+	
+	@Autowired
+	ArtistService artistService;
 
 	/*@GetMapping("/")
 	public String redirectIndex() {
@@ -32,6 +36,7 @@ public class SongController {
 	@GetMapping("/createSong")
 	public String songForm(Model model) {
 		model.addAttribute("albums", albumService.findAll());
+		model.addAttribute("artists", artistService.findAll());
 		return "songForm";
 	}
 

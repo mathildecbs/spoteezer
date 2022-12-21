@@ -19,6 +19,12 @@
 					<br>
 			</th:block>
 		<br>
+		<th:block th:each="artist : ${artists}">
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.name}"
+					th:value="${artist.id}">
+				<br>
+		</th:block>
 	<button type="submit">Créer</button>
 	<button onclick="location.href='/'" type="button">Annuler</button>
 	</form>
