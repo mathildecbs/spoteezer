@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	Ajouter une chanson :
+	<form action="/song" method="post">
+		<label>Nom de la chanson :</label>
+		<input type="text" name="name">
+		<label>Date de début : </label>
+		<input type="date" name="releaseDate">
+		<label>De quel album est issue la chanson ?</label>		
+			<th:block th:each="album : ${albums}">
+					<label><span th:text="${album.name}" /></label>
+					<input type="radio" th:name="album"
+						th:value="${album.id}">
+					<br>
+			</th:block>
+		<br>
+	<button type="submit">Créer</button>
+	<button onclick="location.href='/'" type="button">Annuler</button>
+	</form>
+
+</body>
+</html>
