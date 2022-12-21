@@ -7,7 +7,6 @@
 <body>
 	Modifier l'album :  <th:block th:text="${album.name}"></th:block>
 	
-	hjklkgfghjklhgf
 	<form th:action="@{/album/{id} (id = ${album.id})}" th:method="put">
 		<label>Nom de l'abum:</label>
 		<input type="text" name="name" th:value="${album.name}">

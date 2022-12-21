@@ -11,5 +11,8 @@
 	<tr th:each="art : ${song.artist}">
 		<td th:text="${art.name}"></td>
 	</tr>
+	
+	
+	<a th:href="@{/updateSong/{id}(id=${song.id})}">Modifier</a>
 </body>
 </html>
