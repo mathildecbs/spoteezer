@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.modeles;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Song {
     joinColumns = @JoinColumn( name = "song_id" ),
     inverseJoinColumns = @JoinColumn( name = "artist_id" ),
     uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" })})
-	private List<Artist> artist;
+	private List<Artist> artist = new ArrayList<Artist>();
 	
 	@ManyToOne
 	@JoinColumn(name = "album_id")
@@ -62,12 +63,8 @@ public class Song {
 		return artist;
 	}
 	
-	public void addArtist(Artist art) {
-		this.artist.add(art);
-	}
-	
-	public void removeArtist(Artist art) {
-	  	this.artist.remove(art);
+	public void setArtist(List<Artist> artists) {
+		this.artist = artists;
 	}
 	
 	public Date getReleaseDate() {

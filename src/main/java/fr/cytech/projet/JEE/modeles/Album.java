@@ -67,6 +67,10 @@ public class Album {
 		this.artist.remove(art);
 	}
 	
+	public void setArtist(List<Artist> artist) {
+		this.artist = artist;
+	}
+	
 	public Date getReleaseDate() {
 		return releaseDate;
 	}

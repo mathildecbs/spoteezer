@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${song.name}</title>
+</head>
+<body>
+	<h1 th:text="${song.name}"></h1>
+	<span th:text="${song.releaseDate}"/>
+	
+	<tr th:each="art : ${song.artist}">
+		<td th:text="${art.name}"></td>
+	</tr>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>All Album</title>
+</head>
+<body>
+	<h1>Tous les albums</h1>
+	<a href="/createAlbum">Creer album</a>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Nom</th>
+				<th>Date de sortie</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="album : ${albums}">
+				<td>
+					<a th:href="@{/album/{id}(id= ${album.id})}">
+						<th:block th:text="${album.name}"></th:block>
+					</a>
+				</td>
+				<td th:text="${album.releaseDate}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+</html>
