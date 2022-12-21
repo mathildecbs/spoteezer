@@ -58,9 +58,8 @@ public class AlbumController {
 	
 	@GetMapping("/updateAlbum/{id}")
 	public String updateAlbumForm(@PathVariable("id") String id, Model model) {
-		System.out.println("update");
+		model.addAttribute("artists", artistService.findAll());
 		Album album = albumService.findAlbumById(id);
-		System.out.println(album);
 		model.addAttribute("album",album);
 		return "updateAlbumForm";
 	}

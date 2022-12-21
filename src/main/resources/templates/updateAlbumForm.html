@@ -14,6 +14,7 @@
 		<label>Date de début : </label>
 		<input type="date" name="releaseDate" th:value="${album.releaseDate}">
 		<div name="artistAlbum">
+		
 		<th:block th:each="artist : ${artists}">
 				<label><span th:text="${artist.name}" /></label>
 				<input type="checkbox" th:name="${artist.name}"

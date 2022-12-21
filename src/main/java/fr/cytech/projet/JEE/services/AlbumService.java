@@ -34,7 +34,6 @@ public class AlbumService {
 		Album album = new Album();
 		album.setName(albumDTO.get("name"));
 		album.setReleaseDate(Date.valueOf(albumDTO.get("releaseDate")));
-		System.out.println();
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {
@@ -54,6 +53,15 @@ public class AlbumService {
 		
 		if(updateDTO.containsKey("releaseDate"))
 			album.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
+		
+		List<Artist> artists = new ArrayList<Artist>();
+		Set<String> keys = updateDTO.keySet();
+		for (String string : keys) {
+			if(string.contains("art")) {
+				artists.add(artistService.findArtistById(updateDTO.get(string)));
+			}
+		}
+		album.setArtist(artists);
 		
 		return albumRepository.save(album);
 	}
