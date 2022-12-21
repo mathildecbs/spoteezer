@@ -6,7 +6,9 @@ body {
 	background-color: #E2FFD5;
 	padding: 0px;
 	margin: 0px;
-	height: 100%;
+  	display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
@@ -18,7 +20,10 @@ header {
 	clear: both;
 	margin: 0px;
 	padding-top: 1%;
-	justify-content: center;
+	position: sticky;
+	top: 0px;
+	width: 100%;
+	z-index: 9999;
 }
 
 header .user {
@@ -30,7 +35,23 @@ header h1 {
 	color: #361CA0;
 	clear: none;
 	width: fit-content;
-	margin:auto;
+	margin: auto;
+}
+
+footer {
+	background: #361CA0;
+	color: #428ABC;
+	text-align: center;
+    margin-top: auto;
+	width: 100%;
+}
+
+footer li {
+	display: inline;
+}
+
+footer a {
+	color: #428ABC;
 }
 
 .menu {
@@ -54,6 +75,13 @@ header h1 {
 	color: #361CA0;
 }
 
+img#avatar {
+	border-radius: 50%;
+	background-color: #361CA0;
+	width:7.5rem;
+	height: 7.5rem;
+}
+
 .center {
-	text-align: center;
+	z-index: 10;
 }
