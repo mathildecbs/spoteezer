@@ -37,8 +37,14 @@ public class Playlist {
     inverseJoinColumns = @JoinColumn( name = "song_id" ) )
 	private List<Song> songs; 
 	
+	/* Utilisé pour la création de la playlist favorite */
 	public Playlist(User user) {
 		this.user = user;
+		this.name = "favoris";
+		this.description = "Ceci est la playlist contenant les favoris";
+
+	    java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+		this.creationDate = date;
 		songs = new ArrayList<Song>();
 	}
 	
@@ -92,5 +98,9 @@ public class Playlist {
 	
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
+	}
+	
+	public void addSongs(Song song) {
+		this.songs.add(song);
 	}
 }

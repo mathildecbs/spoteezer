@@ -5,6 +5,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<p> Ajouter des musiques :</p>
+	<form action="" >
+		<input type="text" name="name">
+		<input type="submit" value="rechercher">
+	</form>
 	<table>
 		<tr th:each="song : ${playlist.songs}">
 			<td th:text="${song.name}"></td>
@@ -12,6 +17,5 @@
 			<td th:text="${song.album.name}"></td>
 		</tr>
 	</table>
-	
 </body>
 </html>

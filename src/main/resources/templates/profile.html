@@ -11,7 +11,7 @@
 	<table>
 		<tr th:each="playlist : ${playlists}">
 			<td>
-			<a th:href="@{/playlist/{id}(id=${playlist.id})}"><span th:text="${playlist.name}"/></a>
+				<a th:href="@{/playlist/{id}(id=${playlist.id})}"><span th:text="${playlist.name}"/></a>
 			</td>
 		</tr>
 	</table>

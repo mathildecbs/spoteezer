@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.repository.UserRepository;
 

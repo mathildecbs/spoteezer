@@ -125,8 +125,6 @@ public class UserController {
 			if(playlists != null) {
 				model.addAttribute("playlists", playlists);
 			} 
-			Playlist favorite = user.getFavorite();
-			model.addAttribute("favorite", favorite);
 			return "profile";
 		}
 		return "redirect:/login";

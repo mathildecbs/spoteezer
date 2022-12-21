@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class PlaylistService {
 	
 	public Playlist createPlaylist(User user, Map<String,String> playlistDTO) {
 		Playlist playlist = new Playlist();
-	    java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+		Date date = new Date(System.currentTimeMillis());
 		playlist.setCreationDate(date);
 		PlaylistService.changeAttributesPlaylist(playlist, playlistDTO);
 		playlist.setUser(user);

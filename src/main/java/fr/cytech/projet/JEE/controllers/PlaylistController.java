@@ -22,6 +22,8 @@ public class PlaylistController {
 
 	@Autowired
  	PlaylistService playlistService;
+	@Autowired
+ 	SongService songService;
 	
 	@GetMapping("/playlist/{id}")
 	public String showPlaylist(
@@ -44,5 +46,12 @@ public class PlaylistController {
 		}
 		Playlist playlist = playlistService.createPlaylist(user, body);
 		return "redirect:/profile";
+	}
+	
+	@PostMapping("/findSong")
+	public String findSong(
+			@RequestParam("name") String name, 
+			Model model) {
+		
 	}
 }
