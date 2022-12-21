@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.services;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Artist;
@@ -67,6 +70,7 @@ public class ArtistService {
 		Artist artist = new Artist();
 		artist.setName(artistDTO.get("name"));
 		artist.setDebutDate(Date.valueOf( artistDTO.get("debutDate")));
+		artist.setPicture("singer.png");
 		return artistRepository.save(artist);
 	}
 
@@ -74,6 +78,7 @@ public class ArtistService {
 		Group groupEntity = new Group();
 		groupEntity.setDebutDate(Date.valueOf(groupDTO.get("debutDate")));
 		groupEntity.setName( groupDTO.get("name"));
+		groupEntity.setPicture("band.png");
 		return artistRepository.save(groupEntity);
 	}
 	
@@ -111,11 +116,37 @@ public class ArtistService {
 	
 	public boolean deleteArtist(String id) {
 		Artist artist = findArtistById(id);
+		if(isGroupMember(artist)) {
+			for (Long groupId : artistGroups(artist.getId())) {
+				Group group = groupRepository.findById(groupId).orElse(null);
+				group.getMembers().remove(artist);
+				groupRepository.save(group);
+			}
+		}
 		artistRepository.delete(artist);
 		artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
 		if(artist!=null)
 			return false;
 		else 
 			return true;
+	}
+	
+	public boolean isGroupMember(Artist artist) {
+		List<Long> groupMembers = artistRepository.findArtistInGroup();
+		return groupMembers.contains(artist.getId());
+	}
+	
+	public List<Long> artistGroups(Long id){
+		
+		return artistRepository.findArtistGroups(id);
+	}
+	
+	public Artist testUpload(String id, MultipartFile mpF) throws IOException {
+		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
+		Artist a = findArtistById(id);
+		a.setPicture(fileName);
+		Artist a2 = artistRepository.save(a);
+		ImageUploadTest.saveFile("src/main/resources/static/"+a2.getId(), fileName, mpF);
+		return a2;
 	}
 }

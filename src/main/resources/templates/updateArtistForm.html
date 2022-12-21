@@ -6,11 +6,11 @@
 </head>
 <body>
 	Modifier artiste :  <th:block th:text="${artist.name}"></th:block>
-	<form th:action="@{/updateArtist/{id} (id = ${artist.id})}" th:method="put">
+	<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
 		<label>Nom de l'artiste:</label>
-		<input type="text" name="name" th:value=${artist.name}>
+		<input type="text" name="name" th:value="${artist.name}">
 		<label>Date de début : </label>
-		<input type="date" name="debutDate" th:value=${artist.debutDate}>
+		<input type="date" name="debutDate" th:value="${artist.debutDate}">
 		<br>
 	<button type="submit">Modifier</button>
 	<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}" type="button">Annuler</button>

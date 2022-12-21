@@ -3,7 +3,9 @@ package fr.cytech.projet.JEE.services;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
@@ -16,7 +18,10 @@ public class UserService {
 	
 	public User findByName(String name) {
 		User user =	userRepository.findByName(name);
+		if(user!=null)
 		return user;
+		else 
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found");
 	}
 	
 	public User createUser(Map<String,String> userDTO) {

@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -51,6 +52,17 @@ public class Artist {
 	inverseJoinColumns = @JoinColumn(name = "song_id"), 
 	uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" }) })
 	protected List<Song> songs = new ArrayList<Song>();
+	
+	@Column(nullable = true, length = 64)
+	protected String picture;
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 
 	public Long getId() {
 		return id;
@@ -100,4 +112,10 @@ public class Artist {
 	public String toString() {
 		return "Artist : "+name+" debut le "+debutDate;
 	}
+	
+	@Transient
+	public String getPhotosImagePath() {
+		if (picture.contentEquals("singer.png") || picture.contentEquals("band.png")) return "/basic/"+picture;
+		return "/"+id + "/" + picture;
+		}
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	Ajouter un album :
+	<form action="/album" method="post">
+		<label>Nom de l'album :</label>
+		<input type="text" name="name">
+		<label>Date de sortie : </label>
+		<input type="date" name="releaseDate">
+		<label>Qui est l'auteur de l'album ?</label>
+		
+		<div name="artistAlbum">
+		<th:block th:each="artist : ${artists}">
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.name}"
+					th:value="${artist.id}">
+				<br>
+		</th:block>
+		</div>
+		
+		<br>
+	<button type="submit">Créer</button>
+	<button onclick="location.href='/album'" type="button">Annuler</button>
+	</form>
+</body>
+</html>
