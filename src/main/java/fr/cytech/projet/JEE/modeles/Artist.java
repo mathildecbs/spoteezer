@@ -115,7 +115,11 @@ public class Artist {
 	
 	@Transient
 	public String getPhotosImagePath() {
-		if (picture.contentEquals("singer.png") || picture.contentEquals("band.png")) return "/basic/"+picture;
-		return "/"+id + "/" + picture;
+		System.out.println("TESTTEST : " + this.picture);
+		if (this.picture == null) {
+			return null;
+		}
+		if (this.picture.contentEquals("singer.png") || this.picture.contentEquals("band.png")) return "/basic/"+this.picture;
+		return "/"+id + "/" + this.picture;
 		}
 }
