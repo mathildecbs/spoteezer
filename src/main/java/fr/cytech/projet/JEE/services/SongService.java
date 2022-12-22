@@ -81,4 +81,15 @@ public class SongService {
 		
 		return songRepository.save(song);
 	}
+	
+	public boolean deleteSong(String id) {
+		Song song = findSongById(id);
+		
+		songRepository.delete(song);
+		song = songRepository.findById(Long.valueOf(id)).orElse(null);
+		if(song!=null)
+			return false;
+		else 
+			return true;
+	}
 }
