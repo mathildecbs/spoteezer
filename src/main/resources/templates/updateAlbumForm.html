@@ -22,6 +22,9 @@
 				<br>
 		</th:block>
 		</div>
+		
+		<label>Modifier les artistes également pour les chansons de l'album ?</label>
+		<input type="checkbox" name="updateSong">
 		<br>
 	<button type="submit">Modifier</button>
 	<button th:onclick="@{location.href='/album/{id}'}" type="button">Annuler</button>

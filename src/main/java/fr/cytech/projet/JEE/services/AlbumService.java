@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
+import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.repository.AlbumRepository;
 
 @Service("albumService")
@@ -54,14 +55,29 @@ public class AlbumService {
 		if(updateDTO.containsKey("releaseDate"))
 			album.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
 		
+		List<Artist> formerArtist = album.getArtist();
+		
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = updateDTO.keySet();
 		for (String string : keys) {
 			if(string.contains("art")) {
 				artists.add(artistService.findArtistById(updateDTO.get(string)));
+				formerArtist.remove(artistService.findArtistById(updateDTO.get(string)));
 			}
 		}
 		album.setArtist(artists);
+		
+		if(updateDTO.containsKey("updateSong")) {
+			List<Song> songs = album.getSongs();
+			for (int i = 0; i<songs.size(); i++) {
+				songs.get(i).setArtist(artists);
+				for (int j = 0; j<formerArtist.size(); j++) {			
+					if (songs.get(i).getArtist().contains(formerArtist.get(j))) {
+						songs.get(i).removeArtist(formerArtist.get(j));
+					}
+				}
+			}
+		}
 		
 		return albumRepository.save(album);
 	}
