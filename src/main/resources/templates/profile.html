@@ -13,6 +13,12 @@
 			<td>
 				<a th:href="@{/playlist/{id}(id=${playlist.id})}"><span th:text="${playlist.name}"/></a>
 			</td>
+			<td>
+			<form action="/deletePlaylist" th:method="delete"> 
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
+				<input type="submit" value="supprimer">
+			</form>
+			</td>
 		</tr>
 	</table>
 	<p>Créer une playlist :</p>

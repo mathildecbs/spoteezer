@@ -90,6 +90,10 @@ public class User {
 	public List<Playlist> getPlaylists() {
 		return playlists;
 	}
+	
+	public void removePlaylist(Playlist playlist) {
+		this.playlists.remove(playlist);
+	}
 
 	public void setPlaylists(List<Playlist> playlists) {
 		this.playlists = playlists;

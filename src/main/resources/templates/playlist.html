@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+ 	<a href="/profile"><input type="button" value="retour"></a>
 	<p> Ajouter des musiques :</p>
 	<form action="/playlist/{id} (id=${playlist.id})" method="post">
 		<input type="text" name="name">
@@ -34,11 +35,17 @@
 	<!-- Affichage des musiques de la playlist s'il y en a -->
 	<table th:if="${!noSong}">
 		<tr><p>Cette playlist contient les musiques suivantes :</p></tr>
-		<tr  th:each="song : ${playlist.songs}">
+		<tr th:each="song : ${playlist.songs}">
 			<td th:text="${song.name}"></td>
 			<td th:text="${song.releaseDate}"></td>
 			<td th:text="${song.album.name}"></td>
-			
+			<td>
+			<form action="/deleteSongFromPlaylist" th:method="delete"> 
+				<input type="hidden" name="songId" th:value="${song.id}">
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
+				<input type="submit" value="supprimer">
+			</form>
+			</td>
 		</tr>
 	</table>
 </body>

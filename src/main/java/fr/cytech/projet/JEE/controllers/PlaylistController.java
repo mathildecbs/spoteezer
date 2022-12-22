@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +22,17 @@ import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.services.PlaylistService;
 import fr.cytech.projet.JEE.services.SongService;
+import fr.cytech.projet.JEE.services.UserService;
 
 @Controller("playlistController")
 public class PlaylistController {
 
 	@Autowired
- 	PlaylistService playlistService;
+	PlaylistService playlistService;
 	@Autowired
- 	SongService songService;
+	SongService songService;
+	@Autowired
+ 	UserService userService;
 	
 	/* Affichage de la page d'une playlist */
 	@GetMapping("/playlist/{id}")
@@ -111,5 +115,40 @@ public class PlaylistController {
 		}		
 	}
 	
+	/* Route pour supprimer une musique d'une playlist */
+	@DeleteMapping("/deleteSongFromPlaylist")
+	public String deleteSongFromPlaylist(
+			@RequestParam("songId") String songId, 
+			@RequestParam("playlistId") String playlistId, 
+			Model model) {
+		try{
+			Long id = Long.parseLong(songId);
+			Song song = songService.findSongById(id);
+			Playlist playlist = playlistService.findPlaylistById(playlistId);
+			if(playlist != null && song != null) {
+				playlistService.deleteSongFromPlaylist(song, playlist);
+			}else {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "la playlist ou la musique n'ont pas été trouvé");
+			}
+			return "redirect:/playlist/" + playlistId;
+		}catch (Exception e){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "parse long échec");
+		}	
+	}
 	
+	/* Route pour supprimer une playlist */
+	@DeleteMapping("/deletePlaylist")
+	public String deletePlaylist(
+			@RequestParam("playlistId") String playlistId, 
+			HttpSession session,
+			Model model) {
+		Playlist playlist = playlistService.findPlaylistById(playlistId);
+		User user = (User)session.getAttribute("user");
+		if(playlist != null) {
+			userService.deletePlaylist(user, playlist);
+		}else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "la playlist  n'a pas été trouvée");
+		}
+		return "redirect:/profile";
+	}
 }

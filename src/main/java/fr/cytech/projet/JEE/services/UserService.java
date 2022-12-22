@@ -9,12 +9,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
+import fr.cytech.projet.JEE.repository.PlaylistRepository;
 import fr.cytech.projet.JEE.repository.UserRepository;
 
 @Service("userService")
 public class UserService {
 	@Autowired
  	UserRepository userRepository;
+	
+	@Autowired
+ 	PlaylistRepository playlistRepository;
 	
 	public User findByName(String name) {
 		User user =	userRepository.findByName(name);
@@ -55,5 +59,11 @@ public class UserService {
 	
 	public void deleteUser(User user) {
 		userRepository.deleteById(user.getId());
+	}
+	
+	public void deletePlaylist(User user, Playlist playlist) {
+		user.removePlaylist(playlist);
+		playlistRepository.deleteById(playlist.getId());
+		userRepository.save(user);
 	}
 }

@@ -103,4 +103,8 @@ public class Playlist {
 	public void addSong(Song song) {
 		this.songs.add(song);
 	}
+	
+	public void removeSong(Song song) {
+		this.songs.remove(song);
+	}
 }

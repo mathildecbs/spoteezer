@@ -60,4 +60,9 @@ public class PlaylistService {
 		playlist.addSong(song);
 		playlistRepository.save(playlist);
 	}
+	
+	public void deleteSongFromPlaylist(Song song, Playlist playlist) {
+		playlist.removeSong(song);
+		playlistRepository.save(playlist);
+	}
 }
