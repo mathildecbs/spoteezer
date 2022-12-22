@@ -100,7 +100,7 @@ public class Playlist {
 		this.songs = songs;
 	}
 	
-	public void addSongs(Song song) {
+	public void addSong(Song song) {
 		this.songs.add(song);
 	}
 }

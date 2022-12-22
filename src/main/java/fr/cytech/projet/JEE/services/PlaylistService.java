@@ -27,6 +27,9 @@ public class PlaylistService {
 		try{
 			Long idL = Long.parseLong(id);
 			Playlist playlist = playlistRepository.findPlaylistById(idL);
+			if(playlist == null) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Playlist does not exist.");
+			}
 			return playlist;
 		}catch (Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
