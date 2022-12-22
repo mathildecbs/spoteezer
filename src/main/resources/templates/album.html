@@ -14,15 +14,19 @@
 	<h2>Artiste de l'album</h2>
 	<table>
 		<tr th:each="art : ${album.artist}">
-			<td th:text="${art.name}"></td>
+			<td><a th:href="@{/artist/{id}(id=${art.id})}"> <th:block
+								th:text="${art.name}"></th:block>
+			</a></td>
 		</tr>
 	</table>
 	
 	<h2>Titres de l'album</h2>
 	<table>
 		<tr th:each="song : ${album.songs}">
-			<td th:text="${song.name}"></td>
-			<td th:text="${song.releaseDate}"></td>
+			<td><a th:href="@{/song/{id}(id=${song.id})}"> <th:block
+								th:text="${song.name}"></th:block>
+			</a></td>
+				<td th:text="${song.releaseDate}"></td>
 		</tr>
 	</table>
 	
