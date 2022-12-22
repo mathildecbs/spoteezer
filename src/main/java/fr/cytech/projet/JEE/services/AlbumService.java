@@ -69,8 +69,10 @@ public class AlbumService {
 		
 		if(updateDTO.containsKey("updateSong")) {
 			List<Song> songs = album.getSongs();
-			for (int i = 0; i<songs.size(); i++) {
-				songs.get(i).setArtist(artists);
+			for (int i = 0; i<songs.size(); i++){
+				for (int k = 0; k<artists.size(); k++) {					
+					songs.get(i).addArtist(artists.get(k));
+				}
 				for (int j = 0; j<formerArtist.size(); j++) {			
 					if (songs.get(i).getArtist().contains(formerArtist.get(j))) {
 						songs.get(i).removeArtist(formerArtist.get(j));
