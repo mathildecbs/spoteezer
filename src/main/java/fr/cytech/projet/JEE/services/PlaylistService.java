@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
+import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.repository.PlaylistRepository;
 
@@ -53,5 +54,10 @@ public class PlaylistService {
 		if(playlistDTO.get("description")!=null) {
 			playlist.setDescription(playlistDTO.get("description"));
 		}
+	}
+	
+	public void addSongToPlaylist(Song song, Playlist playlist) {
+		playlist.addSong(song);
+		playlistRepository.save(playlist);
 	}
 }

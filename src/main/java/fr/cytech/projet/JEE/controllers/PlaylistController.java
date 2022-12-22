@@ -57,15 +57,11 @@ public class PlaylistController {
 			@RequestParam("playlistId") String playlistId, 
 			Model model) {
 		List<Song> songs = songService.findSongsByName(name);
-		System.out.println(songs.isEmpty());
-		System.out.println(songs);
 		if(songs.isEmpty()) {
-			System.out.println("on passe bien");
 			String error = "La musique n'a pas pu être trouvée ou n'existe pas";
 			model.addAttribute("error", error);
 		}else {
 			model.addAttribute("songs", songs);
-			System.out.println("on a des sons");
 		}
 		if(session.getAttribute("user")==null) {
 			return "redirect:/dashboard";
@@ -77,7 +73,7 @@ public class PlaylistController {
 			noSong = true;
 		}
 		model.addAttribute("noSong", noSong);
-		return "redirect:/playlist/" + playlistId;
+		return "playlist";
 	}
 		
 	@PostMapping(path="/createPlaylist",
@@ -94,8 +90,6 @@ public class PlaylistController {
 		return "redirect:/profile";
 	}
 	
-	
-	
 	/* Route pour ajouter une musique à la playlist sur laquelle on est */ 
 	@PostMapping("/addSongToPlaylist")
 	public String addSongToPlaylist(
@@ -107,13 +101,15 @@ public class PlaylistController {
 			Song song = songService.findSongById(id);
 			Playlist playlist = playlistService.findPlaylistById(playlistId);
 			if(playlist != null && song != null) {
-				playlist.addSong(song);
+				playlistService.addSongToPlaylist(song, playlist);
 			}else {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "la playlist ou la musique n'ont pas été trouvé");
 			}
 			return "redirect:/playlist/" + playlistId;
 		}catch (Exception e){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "parse long échec");
 		}		
 	}
+	
+	
 }

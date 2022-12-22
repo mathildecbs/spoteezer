@@ -15,7 +15,6 @@
 	<span th:if="${error!=null}" th:text="${error}"></span>
 	<!-- Affichage des musiques trouvées -->
 	<div th:if="${songs}">
-	<p> test </p>
 	<table>
 		<tr th:each="songFinded : ${songs}">
 			<td th:text="${songFinded.name}"></td>
@@ -24,7 +23,7 @@
 			<td>
 			<form action="/addSongToPlaylist" method="post"> 
 				<input type="hidden" name="songId" th:value="${songFinded.id}">
-				<input type="hidden" name="playlistId" th:value="${songFinded.id}">
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
 				<input type="submit" value="ajouter">
 			</form>
 			</td>
