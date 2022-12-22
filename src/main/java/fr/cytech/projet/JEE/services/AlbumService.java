@@ -11,13 +11,18 @@ import org.springframework.stereotype.Service;
 
 import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
+import fr.cytech.projet.JEE.modeles.Group;
 import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.repository.AlbumRepository;
+import fr.cytech.projet.JEE.repository.SongRepository;
 
 @Service("albumService")
 public class AlbumService {
 	@Autowired
 	AlbumRepository<Album> albumRepository;
+	
+	@Autowired
+	SongRepository<Song> songRepository;
 	
 	@Autowired
 	ArtistService artistService;
@@ -82,5 +87,22 @@ public class AlbumService {
 		}
 		
 		return albumRepository.save(album);
+	}
+	
+	public boolean deleteAlbum(String id) {
+		Album album = findAlbumById(id);
+		
+		List<Song> songs = album.getSongs();
+		
+		for (int i = 0; i<songs.size(); i++) {
+			songRepository.delete(songs.get(i));
+		}
+		
+		albumRepository.delete(album);
+		album = albumRepository.findById(Long.valueOf(id)).orElse(null);
+		if(album!=null)
+			return false;
+		else 
+			return true;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,5 +69,13 @@ public class AlbumController {
 	public String updateAlbum(@PathVariable("id") String id, @RequestParam Map<String, String> body) {
 		albumService.updateAlbum(id, body);
 		return "redirect:/album/" + id;
+	}
+	
+	@DeleteMapping(path = "/album/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String deleteAlbum(@PathVariable("id") String id, Model model) {
+		boolean test = albumService.deleteAlbum(id);
+		System.out.println(test);
+		return "redirect:/albums";
+
 	}
 }

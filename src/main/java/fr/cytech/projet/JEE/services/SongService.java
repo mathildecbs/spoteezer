@@ -17,7 +17,7 @@ import fr.cytech.projet.JEE.repository.SongRepository;
 @Service("songService")
 public class SongService {
 	@Autowired
-	SongRepository songRepository;
+	SongRepository<Song> songRepository;
 	
 	@Autowired
 	AlbumService albumService;
