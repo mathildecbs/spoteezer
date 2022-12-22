@@ -26,7 +26,7 @@ public class AlbumController {
 	@Autowired
  	ArtistService artistService;
 	
-	@GetMapping("/albums")
+	@GetMapping("/album")
 	public String showAllAlbum(Model model) {
 		List<Album> albums = albumService.findAll();
 		model.addAttribute("albums", albums);

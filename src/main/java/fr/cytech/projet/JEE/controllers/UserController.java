@@ -1,20 +1,26 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
+import fr.cytech.projet.JEE.services.ImageUploadService;
 import fr.cytech.projet.JEE.services.UserService;
 
 @Controller("userController")
@@ -134,4 +140,31 @@ public class UserController {
 		Playlist favorite = user.getFavorite();
 		return "profile";
 	}
+	
+	@GetMapping("/user/picture")
+	public String uploadForm(Model model,HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		model.addAttribute("pictures",ImageUploadService.directoryFiles("src/main/resources/static/user/"+user.getId()));
+		return "/upload/userUpload";
+	}
+	
+	@PostMapping(path="/userChangePicture", consumes= MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String changePictureWithOld(HttpSession session, @RequestParam("picture") String picture) {
+		try {User user = (User)session.getAttribute("user");
+		userService.changeUserPicture(user, picture);
+		return "redirect:/profile";}
+		catch(NullPointerException eo) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+		}
+	}
+	
+	@PostMapping(path="/userPictureUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public String testUpload(@RequestParam("image") MultipartFile image,Model model,HttpSession session) throws IOException {
+		User user = (User)session.getAttribute("user");
+		userService.userPictureUpload(user, image);
+		return "redirect:/user/picture";
+	}
+	
+	
 }

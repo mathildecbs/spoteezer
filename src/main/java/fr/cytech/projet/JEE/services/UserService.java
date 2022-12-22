@@ -1,12 +1,16 @@
 package fr.cytech.projet.JEE.services;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.User;
 import fr.cytech.projet.JEE.repository.UserRepository;
 
@@ -54,5 +58,15 @@ public class UserService {
 	
 	public void deleteUser(User user) {
 		userRepository.deleteById(user.getId());
+	}
+	
+	public void userPictureUpload(User user, MultipartFile mpF) throws IOException {
+		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
+		ImageUploadService.saveFile("src/main/resources/static/user/"+user.getId(), fileName, mpF);
+	}
+	
+	public User changeUserPicture(User user, String pictureName) {
+		user.setPicture(pictureName);
+		return userRepository.save(user);
 	}
 }
