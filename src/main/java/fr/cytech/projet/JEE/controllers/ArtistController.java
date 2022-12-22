@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Group;
 import fr.cytech.projet.JEE.services.ArtistService;
+import fr.cytech.projet.JEE.services.ImageUploadService;
 
 @Controller("artistController")
 public class ArtistController {
@@ -109,15 +111,22 @@ public class ArtistController {
 		return "redirect:/artist/" + id;
 	}
 	
-	@GetMapping("/upload")
-	public String uploadForm(Model model) {
-		model.addAttribute("artists", artistService.findAll());
-		return "uploadForm";
+	@GetMapping("/artist/{id}/picture")
+	public String uploadForm(@PathVariable("id") String id,Model model) {
+		model.addAttribute("pictures",ImageUploadService.directoryFiles("src/main/resources/static/artist/"+id));
+		model.addAttribute("artist", artistService.findArtistById(id));
+		return "/upload/artistUpload";
 	}
 	
-	@PostMapping(path="/testUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
-	public String testUpload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image) throws IOException {
-		artistService.testUpload(id, image);
-		return "redirect:/artist";
+	@PostMapping(path="/artistChangePicture", consumes= MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String changePictureWithOld(@RequestParam("id") String id, @RequestParam("picture") String picture) {
+		artistService.changeArtistPicture(id, picture);
+		return "redirect:/artist/"+id;
+	}
+	
+	@PostMapping(path="/artistPictureUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public String testUpload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image,Model model) throws IOException {
+		artistService.artistPictureUpload(id, image);
+		return "redirect:/artist/"+id+"/picture";
 	}
 }

@@ -116,6 +116,6 @@ public class Artist {
 	@Transient
 	public String getPhotosImagePath() {
 		if (picture.contentEquals("singer.png") || picture.contentEquals("band.png")) return "/basic/"+picture;
-		return "/"+id + "/" + picture;
+		return "/artist/"+id + "/" + picture;
 		}
 }

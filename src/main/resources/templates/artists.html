@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/style.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
 <meta charset="UTF-8">
 <title>All Artist</title>
 </head>
@@ -29,7 +29,6 @@
 		</div>
 	</header>
 
-
 	<div class="center">
 		<h1>Tous les artistes</h1>
 		<a href="/createArtist">Creer artiste</a>
@@ -46,8 +45,9 @@
 				<tr th:each="artist : ${artists}">
 					<td><img th:src="@{${artist.photosImagePath}}" id="avatar" /></td>
 					<td><a th:href="@{/artist/{id}(id= ${artist.id})}"> <th:block
-								th:text="${artist.name}"></th:block>
-					</a></td>
+								th:text="${artist.name}"></th:block></a> <span
+							th:text="${artist.picture}"></span>
+					</td>
 					<td th:text="${artist.debutDate}"></td>
 				</tr>
 			</tbody>
