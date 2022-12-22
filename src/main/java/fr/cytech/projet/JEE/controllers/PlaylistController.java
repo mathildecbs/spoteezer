@@ -144,10 +144,13 @@ public class PlaylistController {
 			Model model) {
 		Playlist playlist = playlistService.findPlaylistById(playlistId);
 		User user = (User)session.getAttribute("user");
-		if(playlist != null) {
+		if(playlist != null ) {
+			System.out.println("playlist pas nulle");
 			userService.deletePlaylist(user, playlist);
+			System.out.println("still alive ?");
 		}else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "la playlist  n'a pas été trouvée");
+			System.out.println("playlist nulle");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "la playlist n'a pas été trouvée");
 		}
 		return "redirect:/profile";
 	}
