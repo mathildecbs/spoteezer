@@ -58,9 +58,7 @@ public class PlaylistController {
 			Model model) {
 		List<Song> songs = songService.findSongsByName(name);
 		System.out.println(songs.isEmpty());
-		for(Song song : songs) {
-			System.out.println(song.getName());
-		}
+		System.out.println(songs);
 		if(songs.isEmpty()) {
 			System.out.println("on passe bien");
 			String error = "La musique n'a pas pu être trouvée ou n'existe pas";
