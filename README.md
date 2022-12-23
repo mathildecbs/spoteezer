@@ -7,4 +7,5 @@
 	- Créer une base de donnée du nom de spoteezer
 
 ## Il faudra également suivre les étapes suivantes :
-	- Dans le fichier application.properties : ajouter le username et password pour accéder à votre base de donnée
+	- Retirer le ".copy" du fichier "application.properties.copy"
+	- Ajouter le username et password pour pouvoir accéder à votre base de données
