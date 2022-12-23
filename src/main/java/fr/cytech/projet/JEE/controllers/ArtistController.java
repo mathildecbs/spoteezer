@@ -55,17 +55,14 @@ public class ArtistController {
 	}
 
 	@PostMapping(path = "/artist", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String createArtist(@RequestParam Map<String, String> body, Model model) {
-		System.out.println(body);
-
-		if (body.containsKey("group")) {
+	public String createArtist(@RequestParam Map<String, String> body, @RequestParam("type") String type, Model model) {
+		if (type.contentEquals("group")) {
 			Group group = artistService.createGroup(body);
 			model.addAttribute("artist", group);
 			return "redirect:/changeMembers/" + group.getId();
 
 		} else {
 			Artist artist = artistService.createArtist(body);
-			System.out.println(artist.getType());
 			model.addAttribute("artist", artist);
 			return "redirect:artist/" + artist.getId();
 		}
@@ -80,7 +77,6 @@ public class ArtistController {
 
 	@PostMapping(path = "/changeMembers/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String changeMembers(@PathVariable("id") String id, @RequestParam Map<String, String> body, Model model) {
-		System.out.println(body);
 		Group group = artistService.changeGroupMembers(body, id);
 		model.addAttribute("artist", group);
 		return "redirect:/artist/" + group.getId();
@@ -88,17 +84,14 @@ public class ArtistController {
 
 	@DeleteMapping(path = "/artist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String deleteArtist(@PathVariable("id") String id, Model model) {
-		boolean test = artistService.deleteArtist(id);
-		System.out.println(test);
+		 artistService.deleteArtist(id);
 		return "redirect:/artist";
 
 	}
 
 	@GetMapping("/updateArtist/{id}")
 	public String updateArtistForm(@PathVariable("id") String id, Model model) {
-		System.out.println("update");
 		Artist artist = artistService.findArtistById(id);
-		System.out.println(artist);
 		model.addAttribute("artist",artist);
 		return "updateArtistForm";
 	}
@@ -123,7 +116,7 @@ public class ArtistController {
 	}
 	
 	@PostMapping(path="/artistPictureUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
-	public String testUpload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image,Model model) throws IOException {
+	public String upload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image,Model model) throws IOException {
 		artistService.artistPictureUpload(id, image);
 		return "redirect:/artist/"+id+"/picture";
 	}
