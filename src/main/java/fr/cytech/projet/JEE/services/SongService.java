@@ -40,7 +40,6 @@ public class SongService {
 		song.setReleaseDate(Date.valueOf(songDTO.get("releaseDate")));
 		Album album = albumService.findAlbumById(songDTO.get("album"));
 		song.setAlbum(album);
-		
 		List<Artist> artists = new ArrayList<Artist>();
 		
 		artists.addAll(album.getArtist());

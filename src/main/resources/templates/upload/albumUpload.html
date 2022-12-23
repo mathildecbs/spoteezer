@@ -12,8 +12,8 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{/basic/user.png}"
-					class="avatar"></a>
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
 			</th:block>
@@ -24,8 +24,8 @@
 		<div class="menu">
 			<ul>
 				<li><a href="/artist">Artistes</a></li>
-				<li><a href="/album">Albums</a></li>
-				<li><a href="/song">Musiques</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
 				<li><a href="/playlist">Playlist</a></li>
 			</ul>
 		</div>
@@ -33,27 +33,33 @@
 
 	<div class="center">
 			<div>
-			<img th:src="@{${artist.photosImagePath}}" id="current" />
+			<img th:src="@{${album.photosImagePath}}" id="current" />
 			<br>
-			<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}">Annuler</button>
+			<button th:onclick="@{location.href='/album/{id}'(id=${album.id})}">Annuler</button>
 			</div>
 		<div id="forms">
-			<form method="post" action="/artistChangePicture">
-				<input type="hidden" name="id" th:value="${artist.id}">
+			<form method="post" action="/albumChangePicture">
+				<input type="hidden" name="id" th:value="${album.id}">
 				<th:block th:each="picture: ${pictures}">
 					<label><img
-						th:src="@{/artist/{id}/{picture} (id=${artist.id}, picture=${picture})}"
+						th:src="@{/album/{id}/{picture} (id=${album.id}, picture=${picture})}"
 						id="preview" /></label>
 					<input type="radio" name="picture" th:value="${picture}">
 				</th:block>
+				<label><img
+						th:src="@{/basic/album.png}"
+						id="preview" /></label>
+					<input th:if="${album.picture=='album.png'}" type="radio" name="picture" value="album.png" checked>
+					<input th:if="${album.picture!='album.png'}" type="radio" name="picture" value="album.png" >
+				
 				<br> <button type="submit">Modifier</button>
 			</form>
 <br>
 <br>
 <br>
-			<form action="/artistPictureUpload" method="post"
+			<form action="/albumPictureUpload" method="post"
 				enctype="multipart/form-data">
-				<input type="hidden" name="id" th:value="${artist.id}"> <label>Ajouter
+				<input type="hidden" name="id" th:value="${album.id}"> <label>Ajouter
 					une nouvelle photo: </label><br>      <input type="file" name="image"
 					accept="image/png, image/jpeg" /> 
 				<br> 
@@ -64,8 +70,8 @@
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>
-			<li><a href="/album">Albums</a></li>
-			<li><a href="/song">Musiques</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
 			<li><a href="/playlist">Playlist</a></li>
 		</ul>
 

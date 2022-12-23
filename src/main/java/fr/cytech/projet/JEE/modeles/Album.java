@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity(name="Album")
@@ -39,13 +40,14 @@ public class Album {
 	@Column
 	private String description;
 	
+	@Column(nullable = true, length = 64)
+	private String picture;
+
+	
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;
@@ -97,6 +99,21 @@ public class Album {
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	@Transient
+	public String getPhotosImagePath() {
+		if (picture.contentEquals("album.png") )
+			return "/basic/" + picture;
+		return "/album/" + id + "/" + picture;
 	}
 
 }

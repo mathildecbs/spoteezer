@@ -5,9 +5,10 @@
 <title>${song.name}</title>
 </head>
 <body>
+	<img th:src="@{${song.photosImagePath}}" id="avatar" />
 	<h1 th:text="${song.name}"></h1>
-	<span th:text="${song.releaseDate}"/>
-	
+	<span th:text="${song.releaseDate}" />
+
 	<tr th:each="art : ${song.artist}">
 		<td th:text="${art.name}"></td>
 	</tr>
