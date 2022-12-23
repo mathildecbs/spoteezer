@@ -29,14 +29,14 @@ public class ArtistController {
 
 	@GetMapping("/createArtist")
 	public String artistForm() {
-		return "artistForm";
+		return "form/artistForm";
 	}
 
 	@GetMapping("/artist")
 	public String showAllArtist(Model model) {
 		List<Artist> artists = artistService.findAll();
 		model.addAttribute("artists", artists);
-		return "artists";
+		return "indexOfPages/artists";
 	}
 
 	@GetMapping("/artist/{id}")
@@ -47,7 +47,7 @@ public class ArtistController {
 			model.addAttribute("members", members);
 		}
 		model.addAttribute("artist", artist);
-		return "artist";
+		return "pageElement/artist";
 	}
 
 	@PostMapping(path = "/artist", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -68,7 +68,7 @@ public class ArtistController {
 	public String changeMembersForm(@PathVariable("id") String id, Model model) {
 		model.addAttribute("artists", artistService.findAll());
 		model.addAttribute("group", artistService.findArtistById(id));
-		return "changeMembersForm";
+		return "form/changeMembersForm";
 	}
 
 	@PostMapping(path = "/changeMembers/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -89,7 +89,7 @@ public class ArtistController {
 	public String updateArtistForm(@PathVariable("id") String id, Model model) {
 		Artist artist = artistService.findArtistById(id);
 		model.addAttribute("artist",artist);
-		return "updateArtistForm";
+		return "form/updateArtistForm";
 	}
 
 	@PutMapping(path = "/artist/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)

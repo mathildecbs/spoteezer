@@ -52,7 +52,7 @@ public class UserController {
 	/* Connection */
 	@GetMapping("/login")
 	public String showLoginPage() {
-		return "login";
+		return "userRelated/login";
 	}
 
 	@PostMapping("/login")
@@ -61,7 +61,7 @@ public class UserController {
 		User user = userService.findByName(name);
 		if (user == null || !user.getPassword().equals(password)) {
 			model.addAttribute("error", "Le mot de passe/le pseudo est incorrect");
-			return "login";
+			return "userRelated/login";
 		}
 		session.setAttribute("user", user);
 		return "redirect:/";
@@ -69,7 +69,7 @@ public class UserController {
 
 	@GetMapping("/registration")
 	public String showRegistrationPage() {
-		return "registrationForm";
+		return "userRelated/registrationForm";
 	}
 
 	/* Registration */
@@ -92,7 +92,7 @@ public class UserController {
 			model.addAttribute("mail", user.getMail());
 			model.addAttribute("postalCode", user.getPostalCode());
 			model.addAttribute("country", user.getCountry());
-			return "profileForm";
+			return "userRelated/profileForm";
 		} catch (NullPointerException e) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
@@ -120,7 +120,7 @@ public class UserController {
 
 			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
 			model.addAttribute("playlists", playlists);
-			return "profile";
+			return "userRelated/profile";
 		} catch (NullPointerException e) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
@@ -177,7 +177,7 @@ public class UserController {
 		try {
 			User user = (User) session.getAttribute("user");
 			userService.userPictureUpload(user, image);
-			return "redirect:/profile/picture";
+			return "redirect:userRelated/profile/picture";
 		} catch (NullPointerException eo) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 

@@ -42,7 +42,7 @@ public class SongController {
 	public String showAllSong(Model model) {
 		List<Song> songs = songService.findAll();
 		model.addAttribute("songs", songs);
-		return "songs";
+		return "indexOfPages/songs";
 	}
 
 	//affiche formulaire pour creer une musique
@@ -52,7 +52,7 @@ public class SongController {
 		if (albums.size() != 0) {
 			model.addAttribute("albums", albums);
 			model.addAttribute("artists", artistService.findAll());
-			return "songForm";
+			return "form/songForm";
 		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"Vous ne pouvez pas créer de musique sans avoir créer d'album avant.");
@@ -64,7 +64,7 @@ public class SongController {
 	public String showSongFromAlbum(@PathVariable("album_id") String id, Model model) {
 		List<Song> songs = songService.findSongByAlbumId(id);
 		model.addAttribute("songs", songs);
-		return "song";
+		return "pageElement/song";
 	}
 
 	//affiche la page d'une musique
@@ -72,7 +72,7 @@ public class SongController {
 	public String showSongPage(@PathVariable("id") String id, Model model) {
 		Song song = songService.findSongById(id);
 		model.addAttribute("song", song);
-		return "song";
+		return "pageElement/song";
 	}
 
 	//cree une musique
@@ -80,7 +80,7 @@ public class SongController {
 	public String createSong(@RequestParam Map<String, String> body, Model model) {
 		Song song = songService.createSong(body);
 		model.addAttribute("song", song);
-		return "redirect:song/" + song.getId();
+		return "redirect:/song/" + song.getId();
 	}
 
 	//affiche formulaire pour modifier une musique
@@ -90,7 +90,7 @@ public class SongController {
 		model.addAttribute("albums", albumService.findAll());
 		Song song = songService.findSongById(id);
 		model.addAttribute("song", song);
-		return "updateSongForm";
+		return "form/updateSongForm";
 	}
 
 	//met a jour une musique
@@ -104,7 +104,7 @@ public class SongController {
 	@DeleteMapping(path = "/song/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String deleteSong(@PathVariable("id") String id, Model model) {
 		songService.deleteSong(id);
-		return "redirect:/albums";
+		return "redirect:/songs";
 
 	}
 }

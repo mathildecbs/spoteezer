@@ -28,19 +28,24 @@ public class AlbumController {
 	@Autowired
  	ArtistService artistService;
 	
+	@GetMapping("/")
+	public String showAccueil() {
+		return "accueil";
+	}
+	
 	//affiche tous les albums
 	@GetMapping("/albums")
 	public String showAllAlbum(Model model) {
 		List<Album> albums = albumService.findAll();
 		model.addAttribute("albums", albums);
-		return "albums";
+		return "indexOfPages/albums";
 	}
 	
 	//affiche formulaire pour creer une album
 	@GetMapping("/createAlbum")
 	public String albumForm(Model model) {
 		model.addAttribute("artists", artistService.findAll());
-		return "albumForm";
+		return "form/albumForm";
 	}
 
 	//affiche un album
@@ -48,7 +53,7 @@ public class AlbumController {
 	public String showAlbumPage(@PathVariable("id") String id, Model model) {
 		Album album = albumService.findAlbumById(id);
 		model.addAttribute("album", album);
-		return "album";
+		return "pageElement/album";
 	}
 
 	//cree un album
@@ -56,7 +61,7 @@ public class AlbumController {
 	public String createAlbum(@RequestParam Map<String, String> body, Model model) {
 		Album album = albumService.createAlbum(body);
 		model.addAttribute("album", album);
-		return "redirect:album/" + album.getId();
+		return "redirect:/album/" + album.getId();
 	}
 	
 	//affiche le formulaire pour changer l'album de photo
@@ -87,7 +92,7 @@ public class AlbumController {
 		model.addAttribute("artists", artistService.findAll());
 		Album album = albumService.findAlbumById(id);
 		model.addAttribute("album",album);
-		return "updateAlbumForm";
+		return "form/updateAlbumForm";
 	}
 
 	//met a jour un album

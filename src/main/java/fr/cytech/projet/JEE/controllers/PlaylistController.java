@@ -38,7 +38,7 @@ public class PlaylistController {
 			User user = (User) session.getAttribute("user");
 			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
 			model.addAttribute("playlists", playlists);
-			return "playlists";
+			return "indexOfPages/playlists";
 		} catch (NullPointerException eo) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Veuillez vous connecter");
 		}
@@ -55,7 +55,7 @@ public class PlaylistController {
 				noSong = true;
 			}
 			model.addAttribute("noSong", noSong);
-			return "playlist";
+			return "pageElement/playlist";
 		} catch (NullPointerException eo) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Veuillez vous connecter");
 		}
@@ -82,7 +82,7 @@ public class PlaylistController {
 			noSong = true;
 		}
 		model.addAttribute("noSong", noSong);
-		return "playlist";
+		return "pageElement/playlist";
 	}
 
 	// renvoie a la page profil pour créer une playlist
