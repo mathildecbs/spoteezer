@@ -5,6 +5,30 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img
+					th:src="@{${session.user.photosImagePath}}" id="avatar"></a>
+
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
 	Ajouter un album :
 	<form action="/album" method="post">
 		<label>Nom de l'album :</label>
@@ -24,7 +48,24 @@
 		
 		<br>
 	<button type="submit">Créer</button>
-	<button onclick="location.href='/album'" type="button">Annuler</button>
+	<button onclick="location.href='/albums'" type="button">Annuler</button>
 	</form>
+	
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
 </body>
 </html>

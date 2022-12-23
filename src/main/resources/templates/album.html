@@ -43,13 +43,11 @@
 	<span th:text="${album.releaseDate}" />
 
 	<h2>Artiste de l'album</h2>
-	<table>
-		<tr th:each="art : ${album.artist}">
-			<td><a th:href="@{/artist/{id}(id=${art.id})}"> <th:block
-								th:text="${art.name}"></th:block>
-			</a></td>
-		</tr>
-	</table>
+	<th:block th:each="art : ${album.artist}">
+	
+		<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
+	</th:block>
+			
 	
 	<h2>Titres de l'album</h2>
 	<table>

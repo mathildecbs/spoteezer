@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/style.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -22,8 +22,8 @@
 		<div class="menu">
 			<ul>
 				<li><a href="/artist">Artistes</a></li>
-				<li><a href="/album">Albums</a></li>
-				<li><a href="/song">Musiques</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
 				<li><a href="/playlist">Playlist</a></li>
 			</ul>
 		</div>
@@ -55,7 +55,7 @@
 					<td>
 						<th:block th:each="art : ${song.artist}">
 							<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a>
-						</th:block>
+						</tr>
 					</td>
 				</tr>
 			</tbody>
