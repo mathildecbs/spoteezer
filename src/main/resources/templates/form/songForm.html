@@ -10,8 +10,8 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
-					id="profile"></a>
+				<a href="/profile"><img
+					th:src="@{${session.user.photosImagePath}}" id="profile"></a>
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
@@ -29,36 +29,32 @@
 			</ul>
 		</div>
 	</header>
-	
+
 	<div class="center">
 		Ajouter une chanson :
 		<form action="/song" method="post">
-			<label>Nom de la chanson :</label>
-			<input type="text" name="name">
-			<br>
-			<label>Date de début : </label>
-			<input type="date" name="releaseDate">
-			<br>
-			<label>De quel album est issue la chanson ?</label>
-				<br>
-				<th:block th:each="album : ${albums}">
-						<label><span th:text="${album.name}" /></label>
-						<input type="radio" th:name="album"
-							th:value="${album.id}">
-						<br>
-				</th:block>
+			<label>Nom de la chanson :</label> <input type="text" name="name">
+			<br> <label>Date de début : </label> <input type="date"
+				name="releaseDate"> <br> <label>De quel album
+				est issue la chanson ?</label> <br> 
+				<select name="album">
+				<option value="">--Please choose an option--</option>
+			<th:block th:each="album : ${albums}">
+				<option th:value="${album.id}"><span th:text="${album.name}" /></option>
+
+			</th:block>
+			</select>
 			<br>
 			<th:block th:each="artist : ${artists}">
-					<label><span th:text="${artist.name}" /></label>
-					<input type="checkbox" th:name="art"
-						th:value="${artist.id}">
-					<br>
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="art" th:value="${artist.id}">
+				<br>
 			</th:block>
-		<button type="submit">Créer</button>
-		<button onclick="location.href='/songs'" type="button">Annuler</button>
+			<button type="submit">Créer</button>
+			<button onclick="location.href='/songs'" type="button">Annuler</button>
 		</form>
 	</div>
-	
+
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>

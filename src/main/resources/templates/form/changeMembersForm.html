@@ -32,6 +32,7 @@
 	</header>
 
 	<div class="center">
+	Choisissez les membres du groupe
 		<form th:action="@{/changeMembers/{id}(id=${group.id})}" method="post">
 			<th:block th:each="artist : ${artists}">
 				<th:block th:if="${artist.id}!=${group.id}">

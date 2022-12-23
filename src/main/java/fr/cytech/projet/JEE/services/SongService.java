@@ -67,7 +67,7 @@ public class SongService {
 	// cree une musique
 	public Song createSong(Map<String, String> songDTO) {
 		Song song = new Song();
-		changeAttributesUser(song, songDTO);
+		changeAttributes(song, songDTO);
 		Album album = albumService.findAlbumById(songDTO.get("album"));
 		song.setAlbum(album);
 		List<Artist> artists = new ArrayList<Artist>();
@@ -93,7 +93,7 @@ public class SongService {
 	}
 
 	// ajoute les attributs a une musique
-	public static void changeAttributesUser(Song song, Map<String, String> songDTO) {
+	public static void changeAttributes(Song song, Map<String, String> songDTO) {
 		if (songDTO.get("name") != null && !songDTO.get("name").contentEquals("")) {
 			song.setName(songDTO.get("name"));
 		} else {
@@ -112,7 +112,7 @@ public class SongService {
 	// met a jour une musique
 	public Song updateSong(String id, Map<String, String> updateDTO) {
 		Song song = findSongById(id);
-		changeAttributesUser(song, updateDTO);
+		changeAttributes(song, updateDTO);
 		Album album = albumService.findAlbumById(updateDTO.get("album"));
 		song.setAlbum(album);
 

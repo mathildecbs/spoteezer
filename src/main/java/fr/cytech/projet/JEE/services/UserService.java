@@ -91,9 +91,12 @@ public class UserService {
 	// supprime un user
 	public void deleteUser(User user) {
 		userRepository.deleteById(user.getId());
-		User u = findByName(user.getName());
+		try{User u = findByName(user.getName());
 		if (u != null)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User delete failed");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User delete failed");}
+		catch(ResponseStatusException e) {
+			
+		}
 
 	}
 

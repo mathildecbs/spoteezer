@@ -13,9 +13,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Group;
+import fr.cytech.projet.JEE.modeles.Song;
+import fr.cytech.projet.JEE.repository.AlbumRepository;
 import fr.cytech.projet.JEE.repository.ArtistRepository;
+import fr.cytech.projet.JEE.repository.SongRepository;
 
 @Service("artistService")
 public class ArtistService {
@@ -26,6 +30,12 @@ public class ArtistService {
 	@Autowired
 	ArtistRepository<Group> groupRepository;
 	
+	@Autowired
+	AlbumRepository<Album> albumRepository;
+
+	@Autowired
+	SongRepository<Song> songRepository;
+
 	//trouve un artist avec son id
 	public Artist findArtistById(String id) {
 		try {
@@ -72,7 +82,7 @@ public class ArtistService {
 	//cree un artist
 	public Artist createArtist(Map<String,String>  artistDTO) {
 		Artist artist = new Artist();
-		changeAttributesUser(artist, artistDTO);
+		changeAttributes(artist, artistDTO);
 		artist.setPicture("singer.png");
 		Artist artistSaved= artistRepository.save(artist);
 		if(artistSaved!=null)
@@ -85,7 +95,7 @@ public class ArtistService {
 	//cree un group
 	public Group createGroup(Map<String,String>  groupDTO) {
 		Group group = new Group();
-		changeAttributesUser(group, groupDTO);
+		changeAttributes(group, groupDTO);
 		group.setPicture("band.png");
 		Group groupSaved= artistRepository.save(group);
 		if(groupSaved!=null)
@@ -95,7 +105,7 @@ public class ArtistService {
 	}
 	
 	//ajoute les attributs a un artist
-	public static void changeAttributesUser(Artist artist, Map<String, String> artistDTO) {
+	public static void changeAttributes(Artist artist, Map<String, String> artistDTO) {
 		if (artistDTO.get("name") != null&&!artistDTO.get("name").contentEquals("")) {
 			artist.setName(artistDTO.get("name"));
 		}else {
@@ -137,7 +147,7 @@ public class ArtistService {
 	//met a jour un artist
 	public Artist updateArtist(String id,Map<String,String>  updateDTO) {
 		Artist artist = findArtistById(id);
-		changeAttributesUser(artist, updateDTO);
+		changeAttributes(artist, updateDTO);
 		Artist artistSaved= artistRepository.save(artist);
 		if(artistSaved!=null)
 			return artistSaved;
@@ -155,6 +165,22 @@ public class ArtistService {
 				group.getMembers().remove(artist);
 				groupRepository.save(group);
 			}
+		}
+		for (Album album : artist.getAlbums()) {
+			if(album.getArtist().size()==1) {
+				List<Song> songs = album.getSongs();
+				for (int i = 0; i < songs.size(); i++) {
+					songRepository.delete(songs.get(i));
+				}
+				
+				albumRepository.delete(album);
+				album = albumRepository.findById(Long.valueOf(id)).orElse(null);
+				if (album != null)
+					throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "album delete failed");
+			
+			
+			}
+			
 		}
 		artistRepository.delete(artist);
 		artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
@@ -188,4 +214,7 @@ public class ArtistService {
 		a.setPicture(pictureName);
 		return artistRepository.save(a);
 	}
+	
+	
+	
 }

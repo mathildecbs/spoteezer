@@ -57,7 +57,7 @@ public class AlbumService {
 	// cree un album
 	public Album createAlbum(Map<String, String> albumDTO) {
 		Album album = new Album();
-		changeAttributesUser(album, albumDTO);
+		changeAttributes(album, albumDTO);
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {
@@ -75,7 +75,7 @@ public class AlbumService {
 	}
 
 	// ajoute les attributs a un album
-	public static void changeAttributesUser(Album album, Map<String, String> albumDTO) {
+	public static void changeAttributes(Album album, Map<String, String> albumDTO) {
 		if (albumDTO.get("name") != null && !albumDTO.get("name").contentEquals("")) {
 			album.setName(albumDTO.get("name"));
 		} else {
@@ -95,7 +95,7 @@ public class AlbumService {
 	public Album updateAlbum(String id, Map<String, String> updateDTO) {
 		Album album = findAlbumById(id);
 
-		changeAttributesUser(album, updateDTO);
+		changeAttributes(album, updateDTO);
 		List<Artist> formerArtist = album.getArtist();
 
 		List<Artist> artists = new ArrayList<Artist>();
@@ -156,7 +156,7 @@ public class AlbumService {
 		albumRepository.delete(album);
 		album = albumRepository.findById(Long.valueOf(id)).orElse(null);
 		if (album != null)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "artist delete failed");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "album delete failed");
 
 	}
 }

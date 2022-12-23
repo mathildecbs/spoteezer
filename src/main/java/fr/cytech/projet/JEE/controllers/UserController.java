@@ -177,7 +177,7 @@ public class UserController {
 		try {
 			User user = (User) session.getAttribute("user");
 			userService.userPictureUpload(user, image);
-			return "redirect:userRelated/profile/picture";
+			return "redirect:/profile/picture";
 		} catch (NullPointerException eo) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 
