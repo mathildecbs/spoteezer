@@ -69,13 +69,13 @@ public class AlbumController {
 	
 	@PostMapping(path="/albumChangePicture", consumes= MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String changePictureWithOld(@RequestParam("id") String id, @RequestParam("picture") String picture) {
-		albumService.changeArtistPicture(id, picture);
+		albumService.changeAlbumPicture(id, picture);
 		return "redirect:/album/"+id;
 	}
 	
 	@PostMapping(path="/albumPictureUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
 	public String upload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image,Model model) throws IOException {
-		albumService.artistPictureUpload(id, image);
+		albumService.albumPictureUpload(id, image);
 		return "redirect:/album/"+id+"/picture";
 	}
 

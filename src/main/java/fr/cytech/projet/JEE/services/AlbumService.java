@@ -93,13 +93,13 @@ public class AlbumService {
 		return albumRepository.save(album);
 	}
 	
-	public void artistPictureUpload(String id, MultipartFile mpF) throws IOException {
+	public void albumPictureUpload(String id, MultipartFile mpF) throws IOException {
 		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
 		Album a = findAlbumById(id);
 		ImageUploadService.saveFile("src/main/resources/static/album/"+a.getId(), fileName, mpF);
 	}
 	
-	public Album changeArtistPicture(String id, String pictureName) {
+	public Album changeAlbumPicture(String id, String pictureName) {
 		Album a = findAlbumById(id);
 		a.setPicture(pictureName);
 		return albumRepository.save(a);
