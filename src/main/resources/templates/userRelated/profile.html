@@ -41,7 +41,7 @@
 	
 		<a th:href="@{/playlist/{id}(id=${session.user.favorite.id})}">Favori</a>
 	
-		<p>Playlists :</p>
+		<p class="center-text">Playlists :</p>
 		<table>
 			<tr th:each="playlist : ${playlists}">
 				<td>
@@ -60,8 +60,10 @@
 		<form action="/createPlaylist" method="post">
 			<label>Nom de la playlist :</label>
 			<input type="text" name="name">
+			<br>
 			<label>Description de la playlist :</label>
 			<input type="text" name="description">
+			<br>
 			<button type="submit">Créer</button>
 		</form>
 	</div>

@@ -34,10 +34,13 @@
 		<form action="login" method="post">
 			<label>Pseudo :</label>
 			<input type="text" name="name">
+			<br>
 			<label>Mot de Passe :</label>
 			<input type="password" name="password">
+			<br>
 			<span th:if="${error!=null}" th:text="${error}"></span>
 			<input type="submit" value="connection">
+			<br>
 			<a href="/registration">Inscription</a>
 		</form>
 	</div>

@@ -10,9 +10,12 @@
 	<form action="/song" method="post">
 		<label>Nom de la chanson :</label>
 		<input type="text" name="name">
+		<br>
 		<label>Date de début : </label>
 		<input type="date" name="releaseDate">
-		<label>De quel album est issue la chanson ?</label>		
+		<br>
+		<label>De quel album est issue la chanson ?</label>
+			<br>
 			<th:block th:each="album : ${albums}">
 					<label><span th:text="${album.name}" /></label>
 					<input type="radio" th:name="album"

@@ -34,10 +34,12 @@
 	<form action="/album" method="post">
 		<label>Nom de l'album :</label>
 		<input type="text" name="name">
+		<br>
 		<label>Date de sortie : </label>
 		<input type="date" name="releaseDate">
+		<br>
 		<label>Qui est l'auteur de l'album ?</label>
-		
+		<br>
 		<div name="artistAlbum">
 		<th:block th:each="artist : ${artists}">
 				<label><span th:text="${artist.name}" /></label>

@@ -34,14 +34,19 @@
 		<form action="/updateProfile" method="post">
 			<label>Pseudo :</label>
 			<input type="text" th:if="${name!=null}" th:value="${name}" name="name">
+			<br>
 			<label>Mot de passe :</label>
 			<input type="password" th:if="${password!=null}" th:value="${password}" name="password">
+			<br>
 			<label>Mail :</label>
 			<input type="email" th:if="${mail!=null}" th:value="${mail}" name="mail">
+			<br>
 			<label>Code Postal :</label>
 			<input type="number" th:if="${postalCode!=null}" th:value="${postalCode}" name="postalCode">
+			<br>
 			<label>Pays :</label>
 			<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
+			<br>
 			
 			<input type="submit" value="modifier">
 		</form>

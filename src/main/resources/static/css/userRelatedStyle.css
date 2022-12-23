@@ -94,8 +94,17 @@ img#profile {
 	text-align:center;
 	width:100%;
 	padding-top : 50px;
+	margin: 0 auto;
+}
+table {
+	margin: 0 auto;
+	padding: 20px 0;
 }
 
 th, td {
 	min-width: 150px;
+}
+
+.center-text {
+	text-align: center;
 }

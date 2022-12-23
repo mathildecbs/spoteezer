@@ -94,6 +94,11 @@ img#profile {
 	text-align:center;
 	width:100%;
 	padding-top : 50px;
+	margin: 0 auto;
+}
+table {
+	padding: 20px 0;
+	margin: 0 auto;
 }
 
 th, td {

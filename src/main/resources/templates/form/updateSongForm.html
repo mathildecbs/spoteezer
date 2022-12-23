@@ -36,9 +36,12 @@
 		<form th:action="@{/song/{id} (id = ${song.id})}" th:method="put">
 			<label>Nom de l'abum:</label>
 			<input type="text" name="name" th:value="${song.name}">
+			<br>
 			<label>Date de début : </label>
 			<input type="date" name="releaseDate" th:value="${song.releaseDate}">
+			<br>
 			<label>L'album dont est issue la chanson :</label>		
+			<br>
 				<th:block th:each="album : ${albums}">
 						<label><span th:text="${album.name}" /></label>
 						<input type="radio" th:name="album"

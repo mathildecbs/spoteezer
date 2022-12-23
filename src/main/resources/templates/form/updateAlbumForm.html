@@ -36,11 +36,15 @@
 		<form th:action="@{/album/{id} (id = ${album.id})}" th:method="put">
 			<label>Nom de l'abum:</label>
 			<input type="text" name="name" th:value="${album.name}">
+			<br>
 			<label>Date de début : </label>
 			<input type="date" name="releaseDate" th:value="${album.releaseDate}">
+			<br>
 			<div name="artistAlbum">
 			
+			<label>Qui est l'auteur de l'album ?</label>
 			<th:block th:each="artist : ${artists}">
+			<br>
 					<label><span th:text="${artist.name}" /></label>
 					<input type="checkbox" th:name="art"
 						th:value="${artist.id}"
@@ -48,6 +52,7 @@
 					<br>
 			</th:block>
 			</div>
+			<br>
 			
 			<label>Modifier les artistes également pour les chansons de l'album ?</label>
 			<input type="checkbox" name="updateSong">
