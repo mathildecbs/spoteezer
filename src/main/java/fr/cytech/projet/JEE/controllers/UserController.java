@@ -27,11 +27,11 @@ import fr.cytech.projet.JEE.services.UserService;
 public class UserController {
 
 	@Autowired
- 	UserService userService;
-	
+	UserService userService;
+
 	@Autowired
- 	PlaylistService playlistService;
-	
+	PlaylistService playlistService;
+
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -66,7 +66,7 @@ public class UserController {
 		session.setAttribute("user", user);
 		return "redirect:/";
 	}
-	
+
 	@GetMapping("/registration")
 	public String showRegistrationPage() {
 		return "registrationForm";
@@ -81,60 +81,68 @@ public class UserController {
 	}
 
 	/* Profile */
+
+	// affiche le formulaire de modification
 	@GetMapping("/modifyProfile")
 	public String showProfileForm(HttpSession session, Model model) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/login";
+		try {
+			User user = (User) session.getAttribute("user");
+			model.addAttribute("name", user.getName());
+			model.addAttribute("password", user.getPassword());
+			model.addAttribute("mail", user.getMail());
+			model.addAttribute("postalCode", user.getPostalCode());
+			model.addAttribute("country", user.getCountry());
+			return "profileForm";
+		} catch (NullPointerException e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
-		model.addAttribute("name", user.getName());
-		model.addAttribute("password", user.getPassword());
-		model.addAttribute("mail", user.getMail());
-		model.addAttribute("postalCode", user.getPostalCode());
-		model.addAttribute("country", user.getCountry());
-		return "profileForm";
 	}
 
+	// met a jour le profit
 	@PostMapping(path = "/updateProfile", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String updateProfile(@RequestParam Map<String, String> body, Model model, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return "redirect:/login";
+		try {
+			User user = (User) session.getAttribute("user");
+			User modifiedUser = userService.modifyUser(user, body);
+			session.setAttribute("user", modifiedUser);
+			return "redirect:/modifyProfile";
+		} catch (NullPointerException e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
-		User modifiedUser = userService.modifyUser(user, body);
-		session.setAttribute("user", modifiedUser);
-		return "redirect:/modifyProfile";
-	}
-		
-	@GetMapping("/profile")
-	public String showProfile(
-			Model model, 
-			HttpSession session) {
-		User user = (User)session.getAttribute("user");
-		if(user !=null) {
-			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
-			if(playlists != null) {
-				model.addAttribute("playlists", playlists);
-			} 
-			return "profile";
-		}
-		return "redirect:/login";
-		
+
 	}
 	
-	/* Delete */
-	@GetMapping("/deleteUser")
-	public String deleteUser(Model model, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		userService.deleteUser(user);
-		if (user == null) {
-			model.addAttribute("suppr", "erreur lors de la suppression du profil");
-			return "redirect:/modifyProfile";
+	//affiche le profil
+	@GetMapping("/profile")
+	public String showProfile(Model model, HttpSession session) {
+		try {
+			User user = (User) session.getAttribute("user");
+
+			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
+			model.addAttribute("playlists", playlists);
+			return "profile";
+		} catch (NullPointerException e) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
-		session.removeAttribute("user");
-		return "redirect:/logout";
+
 	}
 
+	/* Delete */
+	
+	//supprimer un user
+	@GetMapping("/deleteUser")
+	public String deleteUser(Model model, HttpSession session) {
+		try {User user = (User) session.getAttribute("user");
+		userService.deleteUser(user);
+		session.removeAttribute("user");
+		return "redirect:/logout";}
+		catch (NullPointerException eo) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+		}
+	}
+
+	//affiche formulaire de selection de photo
 	@GetMapping("/profile/picture")
 	public String uploadForm(Model model, HttpSession session) {
 		try {
@@ -148,6 +156,7 @@ public class UserController {
 		}
 	}
 
+	//change la photo de profil
 	@PostMapping(path = "/userChangePicture", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String changePictureWithOld(HttpSession session, @RequestParam("picture") String picture) {
 		try {
@@ -159,7 +168,9 @@ public class UserController {
 
 		}
 	}
-
+	
+	
+	//ajout une photo au user
 	@PostMapping(path = "/userPictureUpload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String upload(@RequestParam("image") MultipartFile image, Model model, HttpSession session)
 			throws IOException {

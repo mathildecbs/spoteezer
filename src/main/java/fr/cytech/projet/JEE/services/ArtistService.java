@@ -114,7 +114,7 @@ public class ArtistService {
 		return artistRepository.save(artist);
 	}
 	
-	public boolean deleteArtist(String id) {
+	public void deleteArtist(String id) {
 		Artist artist = findArtistById(id);
 		if(isGroupMember(artist)) {
 			for (Long groupId : artistGroups(artist.getId())) {
@@ -126,9 +126,8 @@ public class ArtistService {
 		artistRepository.delete(artist);
 		artist = artistRepository.findById(Long.valueOf(id)).orElse(null);
 		if(artist!=null)
-			return false;
-		else 
-			return true;
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "artist delete failed");
+		
 	}
 	
 	public boolean isGroupMember(Artist artist) {

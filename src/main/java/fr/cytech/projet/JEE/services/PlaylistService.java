@@ -17,57 +17,83 @@ import fr.cytech.projet.JEE.repository.PlaylistRepository;
 @Service("playlistService")
 public class PlaylistService {
 	@Autowired
- 	PlaylistRepository playlistRepository;
-	
+	PlaylistRepository playlistRepository;
+
 	@Autowired
 	SongService songService;
-	
-	public List<Playlist> findAllPlaylistByUserId(long userId){
+
+	//trouve ensemble playlist depuis le id du user
+	public List<Playlist> findAllPlaylistByUserId(long userId) {
 		List<Playlist> playlists = playlistRepository.findAllPlaylistByUserId(userId);
 		return playlists;
 	}
-	
+
+	//trouve playlist avec son id
 	public Playlist findPlaylistById(String id) {
-		try{
+		try {
 			Long idL = Long.parseLong(id);
 			Playlist playlist = playlistRepository.findPlaylistById(idL);
-			if(playlist == null) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Playlist does not exist.");
+			if (playlist == null) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Playlist does not exist.");
 			}
 			return playlist;
-		}catch (Exception e){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id is not an integer");
 		}
 	}
-	
-	public Playlist createPlaylist(User user, Map<String,String> playlistDTO) {
+
+	//cree une playlist
+	public Playlist createPlaylist(User user, Map<String, String> playlistDTO) {
 		Playlist playlist = new Playlist();
 		Date date = new Date(System.currentTimeMillis());
 		playlist.setCreationDate(date);
 		PlaylistService.changeAttributesPlaylist(playlist, playlistDTO);
 		playlist.setUser(user);
 		user.addPlaylist(playlist);
-		return playlistRepository.save(playlist);
+		Playlist p = playlistRepository.save(playlist);
+		if (p != null)
+			return p;
+		else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Playlist creation failed");
+
+		}
 	}
-	
-	public static void changeAttributesPlaylist(Playlist playlist, Map<String,String> playlistDTO) {
-		if(playlistDTO.get("name")!=null) {
+
+	//ajout les attribut a une playlist
+	public static void changeAttributesPlaylist(Playlist playlist, Map<String, String> playlistDTO) {
+		if (playlistDTO.get("name") != null && playlistDTO.get("name") != "") {
 			playlist.setName(playlistDTO.get("name"));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect name value");
+
 		}
-		if(playlistDTO.get("description")!=null) {
+		if (playlistDTO.get("description") != null && playlistDTO.get("description") != "") {
 			playlist.setDescription(playlistDTO.get("description"));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect description value");
+
 		}
 	}
 	
+	//supprime une playlist
+	public void deletePlaylist(User user, String playlistId) {
+		Playlist playlist = findPlaylistById(playlistId);
+		user.removePlaylist(playlist);
+		playlistRepository.deleteById(playlist.getId());
+	}
+
+	//ajoute une musique a la playlist
 	public void addSongToPlaylist(String songId, String playlistId) {
-		Song song= songService.findSongById(songId);
+		Song song = songService.findSongById(songId);
 		Playlist playlist = findPlaylistById(playlistId);
 		playlist.addSong(song);
 		playlistRepository.save(playlist);
 	}
 	
+	
+	//eneleve une musique a la playlist
 	public void deleteSongFromPlaylist(String songId, String playlistId) {
-		Song song= songService.findSongById(songId);
+		Song song = songService.findSongById(songId);
 		Playlist playlist = findPlaylistById(playlistId);
 		playlist.removeSong(song);
 		playlistRepository.save(playlist);
