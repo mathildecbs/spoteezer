@@ -29,6 +29,7 @@
 		</div>
 	</header>
 	
+	<img th:src="@{${song.photosImagePath}}" id="avatar" />
 	<a href="/songs"><img th:src="@{/basic/return.png}" width="1%"></a>
 	<h1 th:text="${song.name}"></h1>
 	
@@ -44,6 +45,7 @@
 	
 	<tr th:each="alb : ${song.album}">
 		<a th:href="@{/album/{id}(id=${alb.id})}"><th:block th:text="${alb.name}"></th:block></a>
+>>>>>>> src/main/resources/templates/song.html
 	</tr>
 	
 	<br>

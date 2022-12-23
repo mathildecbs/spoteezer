@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.services;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
@@ -71,7 +74,7 @@ public class AlbumService {
 			}
 		}
 		album.setArtist(artists);
-		
+
 		if(updateDTO.containsKey("updateSong")) {
 			List<Song> songs = album.getSongs();
 			for (int i = 0; i<songs.size(); i++){
@@ -86,7 +89,20 @@ public class AlbumService {
 			}
 		}
 		
+		album.setPicture("album.png");
 		return albumRepository.save(album);
+	}
+	
+	public void artistPictureUpload(String id, MultipartFile mpF) throws IOException {
+		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
+		Album a = findAlbumById(id);
+		ImageUploadService.saveFile("src/main/resources/static/album/"+a.getId(), fileName, mpF);
+	}
+	
+	public Album changeArtistPicture(String id, String pictureName) {
+		Album a = findAlbumById(id);
+		a.setPicture(pictureName);
+		return albumRepository.save(a);
 	}
 	
 	public boolean deleteAlbum(String id) {

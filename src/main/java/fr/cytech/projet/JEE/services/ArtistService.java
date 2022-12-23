@@ -141,12 +141,15 @@ public class ArtistService {
 		return artistRepository.findArtistGroups(id);
 	}
 	
-	public Artist testUpload(String id, MultipartFile mpF) throws IOException {
+	public void artistPictureUpload(String id, MultipartFile mpF) throws IOException {
 		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
 		Artist a = findArtistById(id);
-		a.setPicture(fileName);
-		Artist a2 = artistRepository.save(a);
-		ImageUploadTest.saveFile("src/main/resources/static/"+a2.getId(), fileName, mpF);
-		return a2;
+		ImageUploadService.saveFile("src/main/resources/static/artist/"+a.getId(), fileName, mpF);
+	}
+	
+	public Artist changeArtistPicture(String id, String pictureName) {
+		Artist a = findArtistById(id);
+		a.setPicture(pictureName);
+		return artistRepository.save(a);
 	}
 }

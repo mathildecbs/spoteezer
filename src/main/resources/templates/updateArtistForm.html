@@ -1,19 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Update</title>
 </head>
 <body>
-	Modifier artiste :  <th:block th:text="${artist.name}"></th:block>
-	<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
-		<label>Nom de l'artiste:</label>
-		<input type="text" name="name" th:value="${artist.name}">
-		<label>Date de début : </label>
-		<input type="date" name="debutDate" th:value="${artist.debutDate}">
-		<br>
-	<button type="submit">Modifier</button>
-	<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}" type="button">Annuler</button>
-	</form>
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img
+					th:src="@{${session.user.photosImagePath}}" id="avatar"></a>
+
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+
+	<div class="center">
+		Modifier artiste :
+		<th:block th:text="${artist.name}"></th:block>
+		<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
+			<label>Nom de l'artiste:</label> <input type="text" name="name"
+				th:value="${artist.name}"> <label>Date de début : </label> <input
+				type="date" name="debutDate" th:value="${artist.debutDate}">
+			<br>
+			<button type="submit">Modifier</button>
+			<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}"
+				type="button">Annuler</button>
+		</form>
+	</div>
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
 </body>
 </html>

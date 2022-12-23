@@ -1,5 +1,6 @@
 package fr.cytech.projet.JEE.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.services.AlbumService;
 import fr.cytech.projet.JEE.services.ArtistService;
+import fr.cytech.projet.JEE.services.ImageUploadService;
 
 @Controller("albumController")
 public class AlbumController {
@@ -57,6 +60,25 @@ public class AlbumController {
 		return "redirect:album/" + album.getId();
 	}
 	
+	@GetMapping("/album/{id}/picture")
+	public String uploadForm(@PathVariable("id") String id,Model model) {
+		model.addAttribute("pictures",ImageUploadService.directoryFiles("src/main/resources/static/album/"+id));
+		model.addAttribute("album", albumService.findAlbumById(id));
+		return "/upload/albumUpload";
+	}
+	
+	@PostMapping(path="/albumChangePicture", consumes= MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String changePictureWithOld(@RequestParam("id") String id, @RequestParam("picture") String picture) {
+		albumService.changeArtistPicture(id, picture);
+		return "redirect:/album/"+id;
+	}
+	
+	@PostMapping(path="/albumPictureUpload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public String upload(@RequestParam("id") String id,@RequestParam("image") MultipartFile image,Model model) throws IOException {
+		albumService.artistPictureUpload(id, image);
+		return "redirect:/album/"+id+"/picture";
+	}
+
 	@GetMapping("/updateAlbum/{id}")
 	public String updateAlbumForm(@PathVariable("id") String id, Model model) {
 		model.addAttribute("artists", artistService.findAll());
@@ -76,6 +98,5 @@ public class AlbumController {
 		boolean test = albumService.deleteAlbum(id);
 		System.out.println(test);
 		return "redirect:/albums";
-
 	}
 }
