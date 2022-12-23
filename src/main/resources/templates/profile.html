@@ -5,8 +5,16 @@
 <title>Profil</title>
 </head>
 <body>
+	<div>
+		<img th:src="@{${session.user.photosImagePath}}" id="avatar" />
+		<button
+			th:onclick="@{location.href='/profile/picture'}">Modifier
+			image</button>
+	</div>
 	<a href="/modifyProfile">Modifier mes données</a>
-		
+
+	<p>Favoris :</p>
+
 	<p>Playlists :</p>
 	<table>
 		<tr th:each="playlist : ${playlists}">
@@ -21,6 +29,7 @@
 			</td>
 		</tr>
 	</table>
+	
 	<p>Créer une playlist :</p>
 	<form action="/createPlaylist" method="post">
 		<label>Nom de la playlist :</label>
@@ -29,5 +38,6 @@
 		<input type="text" name="description">
 		<button type="submit">Créer</button>
 	</form>
+
 </body>
 </html>

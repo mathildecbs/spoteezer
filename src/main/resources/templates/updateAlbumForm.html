@@ -2,9 +2,8 @@
 <html>
 <head>
 <link rel="stylesheet" th:href="@{/css/style.css}">
-
 <meta charset="UTF-8">
-<title>Update</title>
+<title>Insert title here</title>
 </head>
 <body>
 	<header>
@@ -30,20 +29,34 @@
 			</ul>
 		</div>
 	</header>
-
-	<div class="center">
-		Modifier artiste :
-		<th:block th:text="${artist.name}"></th:block>
-		<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
-			<label>Nom de l'artiste:</label> <input type="text" name="name"
-				th:value="${artist.name}"> <label>Date de début : </label> <input
-				type="date" name="debutDate" th:value="${artist.debutDate}">
-			<br>
-			<button type="submit">Modifier</button>
-			<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}"
-				type="button">Annuler</button>
-		</form>
-	</div>
+	
+	Modifier l'album :  <th:block th:text="${album.name}"></th:block>
+	
+	<form th:action="@{/album/{id} (id = ${album.id})}" th:method="put">
+		<label>Nom de l'abum:</label>
+		<input type="text" name="name" th:value="${album.name}">
+		<label>Date de début : </label>
+		<input type="date" name="releaseDate" th:value="${album.releaseDate}">
+		<div name="artistAlbum">
+		
+		<th:block th:each="artist : ${artists}">
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.name}"
+					th:value="${artist.id}"
+					 th:checked="${#lists.contains(album.artist, artist)}">
+				<br>
+		</th:block>
+		</div>
+		
+		<label>Modifier les artistes également pour les chansons de l'album ?</label>
+		<input type="checkbox" name="updateSong">
+		<br>
+		
+		<button type="submit">Modifier</button>
+		<button th:onclick="@{location.href='/album/{id}'(id=${album.id})}" type="button">Annuler</button>
+		
+	</form>
+	
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>

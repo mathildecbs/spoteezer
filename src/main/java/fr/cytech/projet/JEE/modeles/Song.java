@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
@@ -42,15 +43,11 @@ public class Song {
 	
 	@Column
 	private String description;
-	
+
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -61,6 +58,14 @@ public class Song {
 	
 	public List<Artist> getArtist() {
 		return artist;
+	}
+	
+	public void addArtist(Artist art) {
+		this.artist.add(art);
+	}
+	
+	public void removeArtist(Artist art) {
+		this.artist.remove(art);
 	}
 	
 	public void setArtist(List<Artist> artists) {
@@ -89,5 +94,12 @@ public class Song {
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Transient
+	public String getPhotosImagePath() {
+		if(album.getPicture().contentEquals("album.png"))
+			return "/basic/song.png";
+		return album.getPhotosImagePath();
 	}
 }

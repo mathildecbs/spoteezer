@@ -11,24 +11,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity(name = "Users")
 public class User {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private long id;
-	
+
 	@Column
 	private String name;
-	
+
 	@Column
 	private String password;
-	
+
 	@Column
 	private String mail;
-	
+
 	@Column
 	private int postalCode;
-	
+
 	@Column
 	private String country;
 	
@@ -39,12 +41,11 @@ public class User {
 	@JoinColumn(name="favorite")
 	private Playlist favorite = new Playlist(this);
 
+	@Column(nullable = true, length = 64)
+	private String picture;
+
 	public long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -86,7 +87,7 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	
+
 	public List<Playlist> getPlaylists() {
 		return playlists;
 	}
@@ -111,5 +112,18 @@ public class User {
 		this.favorite = favorite;
 	}
 
-		
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	@Transient
+	public String getPhotosImagePath() {
+		if (picture.contentEquals("user.png"))
+			return "/basic/" + picture;
+		return "/user/" + id + "/" + picture;
+	}
 }

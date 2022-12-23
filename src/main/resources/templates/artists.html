@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/style.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
 <meta charset="UTF-8">
 <title>All Artist</title>
 </head>
@@ -10,8 +10,9 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{/basic/user.png}" width="25%"
-					class="avatar"></a>
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
+
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
 			</th:block>
@@ -22,13 +23,12 @@
 		<div class="menu">
 			<ul>
 				<li><a href="/artist">Artistes</a></li>
-				<li><a href="/album">Albums</a></li>
-				<li><a href="/song">Musiques</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
 				<li><a href="/playlist">Playlist</a></li>
 			</ul>
 		</div>
 	</header>
-
 
 	<div class="center">
 		<h1>Tous les artistes</h1>
@@ -46,8 +46,8 @@
 				<tr th:each="artist : ${artists}">
 					<td><img th:src="@{${artist.photosImagePath}}" id="avatar" /></td>
 					<td><a th:href="@{/artist/{id}(id= ${artist.id})}"> <th:block
-								th:text="${artist.name}"></th:block>
-					</a></td>
+								th:text="${artist.name}"></th:block></a> 
+					</td>
 					<td th:text="${artist.debutDate}"></td>
 				</tr>
 			</tbody>
@@ -56,8 +56,8 @@
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>
-			<li><a href="/album">Albums</a></li>
-			<li><a href="/song">Musiques</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
 			<li><a href="/playlist">Playlist</a></li>
 		</ul>
 

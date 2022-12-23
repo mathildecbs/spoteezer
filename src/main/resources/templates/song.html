@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" th:href="@{/css/style.css}">
 <meta charset="UTF-8">
 <title>${song.name}</title>
 </head>
 <body>
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img th:src="@{/basic/user.png}"
+					class="avatar"></a>
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<img th:src="@{${song.photosImagePath}}" id="avatar" />
+	<a href="/songs"><img th:src="@{/basic/return.png}" width="1%"></a>
 	<h1 th:text="${song.name}"></h1>
+	
+	<div>
+		<a th:href="@{/updateSong/{id}(id=${song.id})}">Modifier</a>
+		<form th:action="@{/song/{id}(id=${song.id})}" th:method="delete">
+			<button type="submit">Supprimer</button>
+		</form>
+	</div>
+	
+	<br>
+	<h2>Issu de l'album :</h2>
+	
+	<tr th:each="alb : ${song.album}">
+		<a th:href="@{/album/{id}(id=${alb.id})}"><th:block th:text="${alb.name}"></th:block></a>
+	</tr>
+	
+	<br>
 	<span th:text="${song.releaseDate}"/>
 	
-	<tr th:each="art : ${song.artist}">
-		<td th:text="${art.name}"></td>
-	</tr>
+	<h2>Artistes de la chanson :</h2>
+	<th:block th:each="art : ${song.artist}">
+		<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
+	</th:block>
+	
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
 </body>
 </html>

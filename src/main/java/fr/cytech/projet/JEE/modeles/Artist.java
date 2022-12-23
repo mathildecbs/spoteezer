@@ -42,17 +42,15 @@ public class Artist {
 	protected String type;
 
 	@ManyToMany
-	@JoinTable(name = "Artist_Album", joinColumns = @JoinColumn(name = "artist_id"), 
-	inverseJoinColumns = @JoinColumn(name = "album_id"), 
-	uniqueConstraints = {@UniqueConstraint(columnNames = { "album_id", "artist_id" }) })
+	@JoinTable(name = "Artist_Album", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "album_id"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "album_id", "artist_id" }) })
 	protected List<Album> albums = new ArrayList<Album>();
 
 	@ManyToMany
-	@JoinTable(name = "Artist_Song", joinColumns = @JoinColumn(name = "artist_id"), 
-	inverseJoinColumns = @JoinColumn(name = "song_id"), 
-	uniqueConstraints = {@UniqueConstraint(columnNames = { "song_id", "artist_id" }) })
+	@JoinTable(name = "Artist_Song", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "song_id"), uniqueConstraints = {
+			@UniqueConstraint(columnNames = { "song_id", "artist_id" }) })
 	protected List<Song> songs = new ArrayList<Song>();
-	
+
 	@Column(nullable = true, length = 64)
 	protected String picture;
 
@@ -66,10 +64,6 @@ public class Artist {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -107,15 +101,16 @@ public class Artist {
 	public void setSongs(List<Song> songs) {
 		this.songs = songs;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Artist : "+name+" debut le "+debutDate;
+		return "Artist : " + name + " debut le " + debutDate;
 	}
-	
+
 	@Transient
 	public String getPhotosImagePath() {
-		if (picture.contentEquals("singer.png") || picture.contentEquals("band.png")) return "/basic/"+picture;
-		return "/"+id + "/" + picture;
-		}
+		if (picture.contentEquals("singer.png") || picture.contentEquals("band.png"))
+			return "/basic/" + picture;
+		return "/artist/" + id + "/" + picture;
+	}
 }
