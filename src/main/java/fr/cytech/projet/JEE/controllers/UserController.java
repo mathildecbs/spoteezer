@@ -66,6 +66,11 @@ public class UserController {
 		session.setAttribute("user", user);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/registration")
+	public String showRegistrationPage() {
+		return "registrationForm";
+	}
 
 	/* Registration */
 	@PostMapping(path = "/registration", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
