@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.Song;
 import fr.cytech.projet.JEE.modeles.User;
@@ -33,6 +34,14 @@ public class PlaylistController {
 	SongService songService;
 	@Autowired
 	UserService userService;
+	
+	@GetMapping("/playlists")
+	public String showAlbumPage(HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
+		model.addAttribute("playlists", playlists);
+		return "playlists";
+	}
 
 	/* Affichage de la page d'une playlist */
 	@GetMapping("/playlist/{id}")
@@ -90,7 +99,7 @@ public class PlaylistController {
 			@RequestParam("playlistId") String playlistId, Model model) {
 
 		playlistService.addSongToPlaylist(songId, playlistId);
-
+		
 		return "redirect:/playlist/" + playlistId;
 	
 	}
