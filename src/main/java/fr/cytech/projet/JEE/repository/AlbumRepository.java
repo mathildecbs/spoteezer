@@ -10,5 +10,6 @@ import fr.cytech.projet.JEE.modeles.Song;
 
 @Repository("albumRepository")
 public interface AlbumRepository<T extends Album> extends JpaRepository<T, Long>  {
+	//Création d'une méthode pour récupérer un album grace à son nom
 	public Album findByName(String name);
 }
