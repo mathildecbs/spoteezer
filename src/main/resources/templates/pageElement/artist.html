@@ -39,6 +39,8 @@
 		</div>
 		<div>
 			<a th:href="@{/updateArtist/{id}(id=${artist.id})}">Modifier</a>
+			<br>
+			<br>
 			<form th:action="@{/artist/{id}(id=${artist.id})}" th:method="delete">
 				<button type="submit">Supprimer</button>
 			</form>

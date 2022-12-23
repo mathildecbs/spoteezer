@@ -46,6 +46,8 @@
 
 		<div>
 			<a th:href="@{/updateAlbum/{id}(id=${album.id})}">Modifier</a>
+			<br>
+			<br>
 			<form th:action="@{/album/{id}(id=${album.id})}" th:method="delete">
 				<button type="submit">Supprimer</button>
 			</form>

@@ -38,6 +38,8 @@
 		
 		<div>
 			<a th:href="@{/updateSong/{id}(id=${song.id})}">Modifier</a>
+			<br>
+			<br>
 			<form th:action="@{/song/{id}(id=${song.id})}" th:method="delete">
 				<button type="submit">Supprimer</button>
 			</form>

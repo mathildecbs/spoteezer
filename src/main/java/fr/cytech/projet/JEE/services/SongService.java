@@ -118,12 +118,17 @@ public class SongService {
 
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = updateDTO.keySet();
+		int counter = 0;
 		for (String string : keys) {
 			if (string.contains("art")) {
+				counter++;
 				artists.add(artistService.findArtistById(updateDTO.get(string)));
 			}
 		}
-		song.setArtist(artists);
+		
+		if (counter == 0)
+			artists.addAll(album.getArtist());
+			song.setArtist(artists);
 		Song songSaved = songRepository.save(song);
 
 		if (songSaved != null)

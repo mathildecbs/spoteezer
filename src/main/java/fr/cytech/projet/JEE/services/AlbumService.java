@@ -60,11 +60,16 @@ public class AlbumService {
 		changeAttributes(album, albumDTO);
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
+		int counter = 0;
 		for (String string : keys) {
 			if (string.contains("art")) {
+				counter++;
 				artists.add(artistService.findArtistById(albumDTO.get(string)));
 			}
 		}
+
+		if (counter == 0)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect artist value");
 		album.setArtist(artists);
 		album.setPicture("album.png");
 		Album albumSaved = albumRepository.save(album);
@@ -100,12 +105,18 @@ public class AlbumService {
 
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = updateDTO.keySet();
+		int counter = 0;
 		for (String string : keys) {
 			if (string.contains("art")) {
+				counter++;
 				artists.add(artistService.findArtistById(updateDTO.get(string)));
 				formerArtist.remove(artistService.findArtistById(updateDTO.get(string)));
 			}
 		}
+
+		if (counter == 0)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect artist value");
+
 		album.setArtist(artists);
 
 		if (updateDTO.containsKey("updateSong")) {

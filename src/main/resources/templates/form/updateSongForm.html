@@ -42,13 +42,15 @@
 			<br>
 			<label>L'album dont est issue la chanson :</label>		
 			<br>
-				<th:block th:each="album : ${albums}">
-						<label><span th:text="${album.name}" /></label>
-						<input type="radio" th:name="album"
-							th:value="${album.id}"
-							th:checked="${#lists.contains(song.album, album)}">
-						<br>
-				</th:block>
+				<select name="album">
+				<option value="">--Please choose an option--</option>
+			<th:block th:each="album : ${albums}">
+				<option th:if="${album.id!=song.album.id}" th:value="${album.id}"><span th:text="${album.name}" /></option>
+				<option th:if="${album.id==song.album.id}" selected th:value="${album.id}"><span th:text="${album.name}" /></option>
+
+			</th:block>
+			</select>
+			<br>
 			<br>
 			<th:block th:each="artist : ${artists}">
 					<label><span th:text="${artist.name}" /></label>

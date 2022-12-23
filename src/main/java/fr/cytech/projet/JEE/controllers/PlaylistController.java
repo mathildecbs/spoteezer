@@ -96,8 +96,8 @@ public class PlaylistController {
 	public String createPlaylist(@RequestParam Map<String, String> body, HttpSession session, Model model) {
 		try {
 			User user = (User) session.getAttribute("user");
-			playlistService.createPlaylist(user, body);
-			return "redirect:/profile";
+			Playlist p = playlistService.createPlaylist(user, body);
+			return "redirect:/playlist/"+p.getId();
 		} catch (NullPointerException e) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Veuillez vous connecter");
 		}
