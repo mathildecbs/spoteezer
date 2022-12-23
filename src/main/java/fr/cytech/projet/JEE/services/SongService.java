@@ -67,8 +67,7 @@ public class SongService {
 	// cree une musique
 	public Song createSong(Map<String, String> songDTO) {
 		Song song = new Song();
-		song.setName(songDTO.get("name"));
-		song.setReleaseDate(Date.valueOf(songDTO.get("releaseDate")));
+		changeAttributesUser(song, songDTO);
 		Album album = albumService.findAlbumById(songDTO.get("album"));
 		song.setAlbum(album);
 		List<Artist> artists = new ArrayList<Artist>();
@@ -93,16 +92,27 @@ public class SongService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song creation failed");
 	}
 
+	// ajoute les attributs a une musique
+	public static void changeAttributesUser(Song song, Map<String, String> songDTO) {
+		if (songDTO.get("name") != null && !songDTO.get("name").contentEquals("")) {
+			song.setName(songDTO.get("name"));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect name value");
+
+		}
+		if (songDTO.get("releaseDate") != null && !songDTO.get("releaseDate").contentEquals("")) {
+			song.setReleaseDate(Date.valueOf(songDTO.get("releaseDate")));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect release date value");
+
+		}
+
+	}
+
 	// met a jour une musique
 	public Song updateSong(String id, Map<String, String> updateDTO) {
 		Song song = findSongById(id);
-
-		if (updateDTO.containsKey("name"))
-			song.setName(updateDTO.get("name"));
-
-		if (updateDTO.containsKey("releaseDate"))
-			song.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
-
+		changeAttributesUser(song, updateDTO);
 		Album album = albumService.findAlbumById(updateDTO.get("album"));
 		song.setAlbum(album);
 
@@ -122,7 +132,7 @@ public class SongService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song creation failed");
 	}
 
-	//supprime musique
+	// supprime musique
 	public void deleteSong(String id) {
 		Song song = findSongById(id);
 

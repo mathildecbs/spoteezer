@@ -22,7 +22,7 @@ public class UserService {
 	@Autowired
 	PlaylistRepository playlistRepository;
 
-	//trouve un user par son nom
+	// trouve un user par son nom
 	public User findByName(String name) {
 		User user = userRepository.findByName(name);
 		if (user != null)
@@ -31,7 +31,7 @@ public class UserService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
 	}
 
-	//creer un user
+	// creer un user
 	public User createUser(Map<String, String> userDTO) {
 		try {
 			User user = new User();
@@ -44,7 +44,7 @@ public class UserService {
 		}
 	}
 
-	//modifier un user
+	// modifier un user
 	public User modifyUser(User user, Map<String, String> userDTO) {
 		try {
 			UserService.changeAttributesUser(user, userDTO);
@@ -56,54 +56,54 @@ public class UserService {
 	
 	//ajoute les attributs a un user
 	public static void changeAttributesUser(User user, Map<String, String> userDTO) {
-		if (userDTO.get("name") != null&&!userDTO.get("name").contentEquals("")) {
+		if (userDTO.get("name") != null && !userDTO.get("name").contentEquals("")) {
 			user.setName(userDTO.get("name"));
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect name value");
 
 		}
-		if (userDTO.get("password") != null&&!userDTO.get("password").contentEquals("")) {
+		if (userDTO.get("password") != null && !userDTO.get("password").contentEquals("")) {
 			user.setPassword(userDTO.get("password"));
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect password value");
 
 		}
-		if (userDTO.get("mail") != null&&!userDTO.get("mail").contentEquals("")) {
+		if (userDTO.get("mail") != null && !userDTO.get("mail").contentEquals("")) {
 			user.setMail(userDTO.get("mail"));
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect mail value");
 
 		}
 		if (userDTO.get("postalCode") != null) {
 			user.setPostalCode(Integer.valueOf(userDTO.get("postalCode")));
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect postalCode value");
 
 		}
-		if (userDTO.get("country") != null&&!userDTO.get("country").contentEquals("")) {
+		if (userDTO.get("country") != null && !userDTO.get("country").contentEquals("")) {
 			user.setCountry(userDTO.get("country"));
-		}else {
+		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect country value");
 
 		}
 	}
 
-	//supprime un user
+	// supprime un user
 	public void deleteUser(User user) {
 		userRepository.deleteById(user.getId());
 		User u = findByName(user.getName());
-		if(u!=null)
+		if (u != null)
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User delete failed");
 
 	}
 
-	//ajout une photo au user
+	// ajout une photo au user
 	public void userPictureUpload(User user, MultipartFile mpF) throws IOException {
 		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
 		ImageUploadService.saveFile("src/main/resources/static/user/" + user.getId(), fileName, mpF);
 	}
 
-	//modifie la photo d'un user
+	// modifie la photo d'un user
 	public User changeUserPicture(User user, String pictureName) {
 		user.setPicture(pictureName);
 		return userRepository.save(user);
