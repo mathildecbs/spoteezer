@@ -52,6 +52,7 @@ public class AlbumService {
 			}
 		}
 		album.setArtist(artists);
+		album.setPicture("album.png");
 		return albumRepository.save(album);
 	}
 	
@@ -90,7 +91,6 @@ public class AlbumService {
 			}
 		}
 		
-		album.setPicture("album.png");
 		return albumRepository.save(album);
 	}
 	
