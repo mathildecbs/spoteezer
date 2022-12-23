@@ -148,7 +148,7 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/userPictureUpload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public String testUpload(@RequestParam("image") MultipartFile image, Model model, HttpSession session)
+	public String upload(@RequestParam("image") MultipartFile image, Model model, HttpSession session)
 			throws IOException {
 		try {
 			User user = (User) session.getAttribute("user");

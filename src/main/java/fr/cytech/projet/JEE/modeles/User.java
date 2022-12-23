@@ -41,7 +41,7 @@ public class User {
 	private Playlist favorite;
 
 	@Column(nullable = true, length = 64)
-	protected String picture;
+	private String picture;
 
 	public long getId() {
 		return id;

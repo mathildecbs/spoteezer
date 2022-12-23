@@ -46,8 +46,7 @@
 				<tr th:each="artist : ${artists}">
 					<td><img th:src="@{${artist.photosImagePath}}" id="avatar" /></td>
 					<td><a th:href="@{/artist/{id}(id= ${artist.id})}"> <th:block
-								th:text="${artist.name}"></th:block></a> <span
-							th:text="${artist.picture}"></span>
+								th:text="${artist.name}"></th:block></a> 
 					</td>
 					<td th:text="${artist.debutDate}"></td>
 				</tr>

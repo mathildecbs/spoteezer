@@ -30,6 +30,7 @@ public class UserService {
 	public User createUser(Map<String,String> userDTO) {
 		User user = new User();
 		UserService.changeAttributesUser(user, userDTO);
+		user.setPicture("user.png");
 		return userRepository.save(user);
 	}
 	
