@@ -92,6 +92,7 @@ public class PlaylistController {
 		playlistService.addSongToPlaylist(songId, playlistId);
 
 		return "redirect:/playlist/" + playlistId;
+	
 	}
 
 	/* Route pour supprimer une musique d'une playlist */
