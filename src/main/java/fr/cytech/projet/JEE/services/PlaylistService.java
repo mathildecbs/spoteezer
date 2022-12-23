@@ -19,6 +19,9 @@ public class PlaylistService {
 	@Autowired
  	PlaylistRepository playlistRepository;
 	
+	@Autowired
+	SongService songService;
+	
 	public List<Playlist> findAllPlaylistByUserId(long userId){
 		List<Playlist> playlists = playlistRepository.findAllPlaylistByUserId(userId);
 		return playlists;
@@ -56,12 +59,16 @@ public class PlaylistService {
 		}
 	}
 	
-	public void addSongToPlaylist(Song song, Playlist playlist) {
+	public void addSongToPlaylist(String songId, String playlistId) {
+		Song song= songService.findSongById(songId);
+		Playlist playlist = findPlaylistById(playlistId);
 		playlist.addSong(song);
 		playlistRepository.save(playlist);
 	}
 	
-	public void deleteSongFromPlaylist(Song song, Playlist playlist) {
+	public void deleteSongFromPlaylist(String songId, String playlistId) {
+		Song song= songService.findSongById(songId);
+		Playlist playlist = findPlaylistById(playlistId);
 		playlist.removeSong(song);
 		playlistRepository.save(playlist);
 	}

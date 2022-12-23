@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Album;
 import fr.cytech.projet.JEE.modeles.Artist;
@@ -30,8 +32,21 @@ public class SongService {
 	}
 	
 	public Song findSongById(String id) {
+		try {
+			Double.valueOf(id);
+			if(id.split(".").length!=0)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Song ID not a integer");
+			
+		} catch(NumberFormatException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Song ID not a number");
+			
+		}
 		Song song = songRepository.findById(Long.valueOf(id)).orElse(null);
-		return song;
+		if(song!=null) 
+			return song;
+
+		else 
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Song does not exist.");
 	}
 	
 	public List<Song> findSongByAlbumId(Long id) {
