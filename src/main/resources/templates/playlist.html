@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<h1 th:text="${playlist.name}"></h1>
  	<a href="/profile"><input type="button" value="retour"></a>
 	<p> Ajouter des musiques :</p>
 	<form action="/playlist/{id} (id=${playlist.id})" method="post">

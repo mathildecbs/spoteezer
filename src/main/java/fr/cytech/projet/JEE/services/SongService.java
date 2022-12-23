@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,43 +22,49 @@ import fr.cytech.projet.JEE.repository.SongRepository;
 public class SongService {
 	@Autowired
 	SongRepository<Song> songRepository;
-	
+
 	@Autowired
 	AlbumService albumService;
 
 	@Autowired
 	ArtistService artistService;
-	
+
+	// trouve toute les musiques
 	public List<Song> findAll() {
 		return songRepository.findAll();
 	}
-	
+
+	// trouve une musique par son id
 	public Song findSongById(String id) {
 		try {
 			Double.valueOf(id);
-			if(id.split(".").length!=0)
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Song ID not a integer");
-			
-		} catch(NumberFormatException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Song ID not a number");
-			
+			if (id.split(".").length != 0)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song ID not a integer");
+
+		} catch (NumberFormatException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song ID not a number");
+
 		}
 		Song song = songRepository.findById(Long.valueOf(id)).orElse(null);
-		if(song!=null) 
+		if (song != null)
 			return song;
 
-		else 
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Song does not exist.");
+		else
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Song does not exist.");
 	}
-	
-	public List<Song> findSongByAlbumId(Long id) {
-		return songRepository.findByAlbumId(id);
+
+	// trouve les musiques d'un album avec son id
+	public List<Song> findSongByAlbumId(String id) {
+		return albumService.findAlbumById(id).getSongs();
 	}
-	
+
+	// trouve les musiques qui contiennnet name dans leur nom
 	public List<Song> findSongsByName(String name) {
-		return songRepository.findAllByName(name);
+		Stream<Song> streamSongs = songRepository.findAll().stream();
+		return streamSongs.filter(f -> f.getName().contains(name)).collect(Collectors.toList());
 	}
-	
+
+	// cree une musique
 	public Song createSong(Map<String, String> songDTO) {
 		Song song = new Song();
 		song.setName(songDTO.get("name"));
@@ -64,54 +72,63 @@ public class SongService {
 		Album album = albumService.findAlbumById(songDTO.get("album"));
 		song.setAlbum(album);
 		List<Artist> artists = new ArrayList<Artist>();
-		
+
 		artists.addAll(album.getArtist());
-		
+
 		Set<String> keys = songDTO.keySet();
 		for (String string : keys) {
-			if(string.contains("art")) {
-				if (!artists.contains(artistService.findArtistById(songDTO.get(string))))
-					{artists.add(artistService.findArtistById(songDTO.get(string)));}
+			if (string.contains("art")) {
+				if (!artists.contains(artistService.findArtistById(songDTO.get(string)))) {
+					artists.add(artistService.findArtistById(songDTO.get(string)));
+				}
 			}
 		}
-		
+
 		song.setArtist(artists);
-		
-		return songRepository.save(song);
+
+		Song songSaved = songRepository.save(song);
+		if (songSaved != null)
+			return songSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song creation failed");
 	}
-	
-	public Song updateSong(String id,Map<String,String>  updateDTO) {
+
+	// met a jour une musique
+	public Song updateSong(String id, Map<String, String> updateDTO) {
 		Song song = findSongById(id);
-		
-		if(updateDTO.containsKey("name"))
+
+		if (updateDTO.containsKey("name"))
 			song.setName(updateDTO.get("name"));
-		
-		if(updateDTO.containsKey("releaseDate"))
+
+		if (updateDTO.containsKey("releaseDate"))
 			song.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
-		
+
 		Album album = albumService.findAlbumById(updateDTO.get("album"));
 		song.setAlbum(album);
-		
+
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = updateDTO.keySet();
 		for (String string : keys) {
-			if(string.contains("art")) {
+			if (string.contains("art")) {
 				artists.add(artistService.findArtistById(updateDTO.get(string)));
 			}
 		}
 		song.setArtist(artists);
-		
-		return songRepository.save(song);
+		Song songSaved = songRepository.save(song);
+
+		if (songSaved != null)
+			return songSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song creation failed");
 	}
-	
-	public boolean deleteSong(String id) {
+
+	//supprime musique
+	public void deleteSong(String id) {
 		Song song = findSongById(id);
-		
+
 		songRepository.delete(song);
 		song = songRepository.findById(Long.valueOf(id)).orElse(null);
-		if(song!=null)
-			return false;
-		else 
-			return true;
+		if (song != null)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Song delete failed");
 	}
 }

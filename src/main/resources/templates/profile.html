@@ -13,7 +13,7 @@
 	</div>
 	<a href="/modifyProfile">Modifier mes données</a>
 
-	<p>Favoris :</p>
+	<a th:href="@{/playlist/{id}(id=${session.user.favorite.id})}>Favori</a>
 
 	<p>Playlists :</p>
 	<table>

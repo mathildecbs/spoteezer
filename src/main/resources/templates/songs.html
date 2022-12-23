@@ -6,12 +6,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<header>
+<header>
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{/basic/user.png}" width="25%"
-					class="avatar"></a>
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
+
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
 			</th:block>
@@ -28,7 +29,7 @@
 			</ul>
 		</div>
 	</header>
-	
+
 	<div class="center">
 		<h1>Toutes les chansons</h1>
 		<a href="/createSong">Creer une nouvelle musique</a>
