@@ -1,10 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="/css/index.css">
 <meta charset="UTF-8">
 <title>index</title>
 </head>
 <body>
-	INDEX
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="center">
+		<h2>Bienvenue sur Spoteezer !</h2>
+		<p>Vous pouvez écouter de la musique, ajouter vos artistes préférées, vos albums préférés, et évidemment, vos sons préférés !</p>
+		<h3>Amusez-vous bien !</h3>
+	</div>
+	
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
 </body>
 </html>
