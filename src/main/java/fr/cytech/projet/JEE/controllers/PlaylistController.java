@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Album;
@@ -34,13 +35,17 @@ public class PlaylistController {
 	SongService songService;
 	@Autowired
 	UserService userService;
-	
-	@GetMapping("/playlists")
-	public String showAlbumPage(HttpSession session, Model model) {
-		User user = (User) session.getAttribute("user");
-		List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
-		model.addAttribute("playlists", playlists);
-		return "playlists";
+
+	@GetMapping("/playlist")
+	public String showPlaylistPage(HttpSession session, Model model) {
+		try {
+			User user = (User) session.getAttribute("user");
+			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
+			model.addAttribute("playlists", playlists);
+			return "playlists";
+		} catch (NullPointerException eo) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Veuillez vous connecter");
+		}
 	}
 
 	/* Affichage de la page d'une playlist */
@@ -99,9 +104,9 @@ public class PlaylistController {
 			@RequestParam("playlistId") String playlistId, Model model) {
 
 		playlistService.addSongToPlaylist(songId, playlistId);
-		
+
 		return "redirect:/playlist/" + playlistId;
-	
+
 	}
 
 	/* Route pour supprimer une musique d'une playlist */
