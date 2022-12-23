@@ -43,6 +43,7 @@ public class AlbumService {
 		Album album = new Album();
 		album.setName(albumDTO.get("name"));
 		album.setReleaseDate(Date.valueOf(albumDTO.get("releaseDate")));
+		
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {

@@ -21,7 +21,7 @@
 		<br>
 		<th:block th:each="artist : ${artists}">
 				<label><span th:text="${artist.name}" /></label>
-				<input type="checkbox" th:name="${artist.name}"
+				<input type="checkbox" th:name="art"
 					th:value="${artist.id}">
 				<br>
 		</th:block>
