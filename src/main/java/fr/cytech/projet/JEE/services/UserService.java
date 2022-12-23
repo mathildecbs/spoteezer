@@ -64,6 +64,5 @@ public class UserService {
 	public void deletePlaylist(User user, Playlist playlist) {
 		user.removePlaylist(playlist);
 		playlistRepository.deleteById(playlist.getId());
-		userRepository.save(user);
 	}
 }
