@@ -26,10 +26,6 @@ public class ArtistController {
 	@Autowired
 	ArtistService artistService;
 
-	@GetMapping("/")
-	public String redirectIndex() {
-		return "redirect:artist";
-	}
 
 	@GetMapping("/createArtist")
 	public String artistForm() {
