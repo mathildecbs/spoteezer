@@ -10,8 +10,8 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img
-					th:src="@{${session.user.photosImagePath}}" id="avatar"></a>
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 	</header>
-	
+
 	Modifier la chanson :  <th:block th:text="${song.name}"></th:block>
 	
 	<form th:action="@{/song/{id} (id = ${song.id})}" th:method="put">
