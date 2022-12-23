@@ -5,15 +5,21 @@
 <title>Profil</title>
 </head>
 <body>
+	<div>
+		<img th:src="@{${session.user.photosImagePath}}" id="avatar" />
+		<button
+			th:onclick="@{location.href='/profile/picture'}">Modifier
+			image</button>
+	</div>
 	<a href="/modifyProfile">Modifier mes données</a>
 	<p>Favoris :</p>
-		
+
 	<p>Playlists :</p>
 	<table th:each="playlist : ${playlists}">
 		<tr th:each="song : ${songs}">
 			<td th:text="${song.name}"></td>
 		</tr>
 	</table>
-	
+
 </body>
 </html>
