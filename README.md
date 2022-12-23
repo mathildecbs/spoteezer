@@ -1,4 +1,6 @@
-# Projet JEE
+# Projet JEE - Spoteezer
+
+L'objectif de ce site est de pouvoir créer une sorte de site de streaming de musique. Nous pouvons ainsi créer des artistes, des albums, des musiques et des playlists, en fonction de si nous sommes connecté ou non.
 
 
 ## Pour bien lancer ce projet :
