@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" th:href="@{/css/style.css}">
+<head><link rel="stylesheet" th:href="@{/css/formStyle.css}">
 
 <meta charset="UTF-8">
 <title>Creation Artiste</title>
@@ -10,9 +10,8 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
-					id="profile"></a>
-
+				<a href="/profile"><img
+					th:src="@{${session.user.photosImagePath}}" id="avatar"></a>
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>

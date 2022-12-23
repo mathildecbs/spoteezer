@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" th:href="@{/css/style.css}">
-
+<head>
+<link rel="stylesheet" th:href="@{/css/userRelatedStyle.css}">
 <meta charset="UTF-8">
-<title>Creation Artiste</title>
+<title>Modifier profil</title>
 </head>
 <body>
 	<header>
@@ -12,7 +12,6 @@
 			<th:block th:if="${session.user}">
 				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
 					id="profile"></a>
-
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
@@ -30,18 +29,30 @@
 			</ul>
 		</div>
 	</header>
-
+	
 	<div class="center">
-		Creer artiste:
-		<form action="/artist" method="post">
-			<label>Artiste</label> <input type="radio" name="type" checked value="artist">
-			<label>Groupe</label> <input type="radio" name="type" value="group">
+		<form action="/updateProfile" method="post">
+			<label>Pseudo :</label>
+			<input type="text" th:if="${name!=null}" th:value="${name}" name="name">
 			<br>
-			<label>Nom de l'artiste:</label> <input type="text" name="name">
-			<label>Date de début : </label> <input type="date" name="debutDate">
+			<label>Mot de passe :</label>
+			<input type="password" th:if="${password!=null}" th:value="${password}" name="password">
 			<br>
-			<button type="submit">Créer</button>
-			<button onclick="location.href='/artist'" type="button">Annuler</button>
+			<label>Mail :</label>
+			<input type="email" th:if="${mail!=null}" th:value="${mail}" name="mail">
+			<br>
+			<label>Code Postal :</label>
+			<input type="number" th:if="${postalCode!=null}" th:value="${postalCode}" name="postalCode">
+			<br>
+			<label>Pays :</label>
+			<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
+			<br>
+			
+			<input type="submit" value="modifier">
+		</form>
+		<form action="/deleteUser">
+			<input type="submit" value="supprimer profil">
+			<span th:if="${suppr!=null}" th:text="${suppr}"></span>
 		</form>
 	</div>
 	<footer>

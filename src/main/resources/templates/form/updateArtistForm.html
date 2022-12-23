@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" th:href="@{/css/style.css}">
+<head>
+<link rel="stylesheet" th:href="@{/css/formStyle.css}">
 
 <meta charset="UTF-8">
-<title>Creation Artiste</title>
+<title>Modification artiste</title>
 </head>
 <body>
 	<header>
@@ -12,7 +13,6 @@
 			<th:block th:if="${session.user}">
 				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
 					id="profile"></a>
-
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
@@ -32,16 +32,16 @@
 	</header>
 
 	<div class="center">
-		Creer artiste:
-		<form action="/artist" method="post">
-			<label>Artiste</label> <input type="radio" name="type" checked value="artist">
-			<label>Groupe</label> <input type="radio" name="type" value="group">
+		Modifier artiste :
+		<th:block th:text="${artist.name}"></th:block>
+		<form th:action="@{/artist/{id} (id = ${artist.id})}" th:method="put">
+			<label>Nom de l'artiste:</label> <input type="text" name="name"
+				th:value="${artist.name}"> <label>Date de début : </label> <input
+				type="date" name="debutDate" th:value="${artist.debutDate}">
 			<br>
-			<label>Nom de l'artiste:</label> <input type="text" name="name">
-			<label>Date de début : </label> <input type="date" name="debutDate">
-			<br>
-			<button type="submit">Créer</button>
-			<button onclick="location.href='/artist'" type="button">Annuler</button>
+			<button type="submit">Modifier</button>
+			<button th:onclick="@{location.href='/artist/{id}'(id=${artist.id})}"
+				type="button">Annuler</button>
 		</form>
 	</div>
 	<footer>

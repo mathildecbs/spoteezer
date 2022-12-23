@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><link rel="stylesheet" th:href="@{/css/style.css}">
+<head>
+<link rel="stylesheet" th:href="@{/css/formStyle.css}">
 
 <meta charset="UTF-8">
-<title>Creation Artiste</title>
+<title>Ajout membres</title>
 </head>
 <body>
 	<header>
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
-					id="profile"></a>
-
+				<a href="/profile"><img
+					th:src="@{${session.user.photosImagePath}}" id="avatar"></a>
 
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
@@ -32,16 +32,21 @@
 	</header>
 
 	<div class="center">
-		Creer artiste:
-		<form action="/artist" method="post">
-			<label>Artiste</label> <input type="radio" name="type" checked value="artist">
-			<label>Groupe</label> <input type="radio" name="type" value="group">
-			<br>
-			<label>Nom de l'artiste:</label> <input type="text" name="name">
-			<label>Date de début : </label> <input type="date" name="debutDate">
-			<br>
-			<button type="submit">Créer</button>
-			<button onclick="location.href='/artist'" type="button">Annuler</button>
+		<form th:action="@{/changeMembers/{id}(id=${group.id})}" method="post">
+			<th:block th:each="artist : ${artists}">
+				<th:block th:if="${artist.id}!=${group.id}">
+
+					<label><span th:text="${artist.name}" /></label>
+					<input type="checkbox" th:name="${artist.id}"
+						th:value="${artist.name}"
+						th:checked="${#lists.contains(group.members, artist)}">
+					<br>
+				</th:block>
+			</th:block>
+			<input type="submit" value="ajouter">
+			<button th:onclick="@{location.href='/artist/{id}'(id=${group.id})}"
+				type="button">Skip</button>
+
 		</form>
 	</div>
 	<footer>
@@ -61,4 +66,3 @@
 		</p>
 	</footer>
 </body>
-</html>

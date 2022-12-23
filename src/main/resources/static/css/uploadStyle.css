@@ -1,0 +1,31 @@
+.center {
+	display: flex;
+	text-align: center;
+	margin-top: 1rem;
+}
+
+div#forms {
+	display: flex;
+	flex-direction: column;
+	float: right;
+	width: 70%;
+}
+img{
+	border-radius: 15%
+}
+
+img#current {
+	width: 25%;
+	height:auto;
+	padding: 1rem;
+}
+
+img#preview {
+	height: 10rem;
+	width: auto;
+}
+
+
+form {
+	padding: 2rem;
+}
