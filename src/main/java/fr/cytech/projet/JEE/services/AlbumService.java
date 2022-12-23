@@ -57,9 +57,7 @@ public class AlbumService {
 	// cree un album
 	public Album createAlbum(Map<String, String> albumDTO) {
 		Album album = new Album();
-		album.setName(albumDTO.get("name"));
-		album.setReleaseDate(Date.valueOf(albumDTO.get("releaseDate")));
-
+		changeAttributesUser(album, albumDTO);
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {
