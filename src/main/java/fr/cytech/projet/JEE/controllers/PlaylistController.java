@@ -101,8 +101,7 @@ public class PlaylistController {
 			@RequestParam("playlistId") String playlistId, 
 			Model model) {
 		try{
-			Long id = Long.parseLong(songId);
-			Song song = songService.findSongById(id);
+			Song song = songService.findSongById(songId);
 			Playlist playlist = playlistService.findPlaylistById(playlistId);
 			if(playlist != null && song != null) {
 				playlistService.addSongToPlaylist(song, playlist);
@@ -122,8 +121,7 @@ public class PlaylistController {
 			@RequestParam("playlistId") String playlistId, 
 			Model model) {
 		try{
-			Long id = Long.parseLong(songId);
-			Song song = songService.findSongById(id);
+			Song song = songService.findSongById(songId);
 			Playlist playlist = playlistService.findPlaylistById(playlistId);
 			if(playlist != null && song != null) {
 				playlistService.deleteSongFromPlaylist(song, playlist);
