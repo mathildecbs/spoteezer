@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/pageElementStyle.css}">
 <meta charset="UTF-8">
 <title>${song.name}</title>
 </head>
@@ -30,31 +30,34 @@
 		</div>
 	</header>
 
-	<img th:src="@{${song.photosImagePath}}" id="avatar" />
-	<a href="/songs"><img th:src="@{/basic/return.png}" width="1%"></a>
-	<h1 th:text="${song.name}"></h1>
-	
-	<div>
-		<a th:href="@{/updateSong/{id}(id=${song.id})}">Modifier</a>
-		<form th:action="@{/song/{id}(id=${song.id})}" th:method="delete">
-			<button type="submit">Supprimer</button>
-		</form>
+
+	<div class="center">
+		<img th:src="@{${song.photosImagePath}}" id="avatar" />
+		<a href="/songs"><img th:src="@{/basic/return.png}" width="1%"></a>
+		<h1 th:text="${song.name}"></h1>
+		
+		<div>
+			<a th:href="@{/updateSong/{id}(id=${song.id})}">Modifier</a>
+			<form th:action="@{/song/{id}(id=${song.id})}" th:method="delete">
+				<button type="submit">Supprimer</button>
+			</form>
+		</div>
+		
+		<br>
+		<h2>Issu de l'album :</h2>
+		
+		<tr th:each="alb : ${song.album}">
+			<a th:href="@{/album/{id}(id=${alb.id})}"><th:block th:text="${alb.name}"></th:block></a>
+		</tr>
+		
+		<br>
+		<span th:text="${song.releaseDate}"/>
+		
+		<h2>Artistes de la chanson :</h2>
+		<th:block th:each="art : ${song.artist}">
+			<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
+		</th:block>
 	</div>
-	
-	<br>
-	<h2>Issu de l'album :</h2>
-	
-	<tr th:each="alb : ${song.album}">
-		<a th:href="@{/album/{id}(id=${alb.id})}"><th:block th:text="${alb.name}"></th:block></a>
-	</tr>
-	
-	<br>
-	<span th:text="${song.releaseDate}"/>
-	
-	<h2>Artistes de la chanson :</h2>
-	<th:block th:each="art : ${song.artist}">
-		<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
-	</th:block>
 	
 	<footer>
 		<ul>

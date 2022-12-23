@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/pageElementStyle.css}">
 <meta charset="UTF-8">
 <title>Album Page</title>
 </head>
@@ -29,36 +29,39 @@
 			</ul>
 		</div>
 	</header>
-
-	<a href="/albums"><img th:src="@{/basic/return.png}" width="1%"></a>
-	<h1 th:text="${album.name}"></h1>
 	
-	<div>
-		<a th:href="@{/updateAlbum/{id}(id=${album.id})}">Modifier</a>
-		<form th:action="@{/album/{id}(id=${album.id})}" th:method="delete">
-			<button type="submit">Supprimer</button>
-		</form>
+	<div class="center">
+
+		<a href="/albums"><img th:src="@{/basic/return.png}" width="1%"></a>
+		<h1 th:text="${album.name}"></h1>
+		
+		<div>
+			<a th:href="@{/updateAlbum/{id}(id=${album.id})}">Modifier</a>
+			<form th:action="@{/album/{id}(id=${album.id})}" th:method="delete">
+				<button type="submit">Supprimer</button>
+			</form>
+		</div>
+		
+		<br>
+		<span th:text="${album.releaseDate}" />
+	
+		<h2>Artiste de l'album</h2>
+		<th:block th:each="art : ${album.artist}">
+		
+			<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
+		</th:block>
+				
+		
+		<h2>Titres de l'album</h2>
+		<table>
+			<tr th:each="song : ${album.songs}">
+				<td><a th:href="@{/song/{id}(id=${song.id})}"> <th:block
+									th:text="${song.name}"></th:block>
+				</a></td>
+					<td th:text="${song.releaseDate}"></td>
+			</tr>
+		</table>
 	</div>
-	
-	<br>
-	<span th:text="${album.releaseDate}" />
-
-	<h2>Artiste de l'album</h2>
-	<th:block th:each="art : ${album.artist}">
-	
-		<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a><br>
-	</th:block>
-			
-	
-	<h2>Titres de l'album</h2>
-	<table>
-		<tr th:each="song : ${album.songs}">
-			<td><a th:href="@{/song/{id}(id=${song.id})}"> <th:block
-								th:text="${song.name}"></th:block>
-			</a></td>
-				<td th:text="${song.releaseDate}"></td>
-		</tr>
-	</table>
 
 	<footer>
 		<ul>

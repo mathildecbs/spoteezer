@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/indexOfPagesStyle.css}">
 <meta charset="UTF-8">
 <title>All Album</title>
 </head>
@@ -30,28 +30,29 @@
 		</div>
 	</header>
 
+	<div class="center">
+		<h1 class="center">Tous les albums</h1>
+		<a href="/createAlbum">Creer album</a>
 	
-	<h1 class="center">Tous les albums</h1>
-	<a href="/createAlbum">Creer album</a>
-
-	<table>
-		<thead>
-			<tr>
-				<th>Nom</th>
-				<th>Date de sortie</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="album : ${albums}">
-				<td>
-					<a th:href="@{/album/{id}(id= ${album.id})}">
-						<th:block th:text="${album.name}"></th:block>
-					</a>
-				</td>
-				<td th:text="${album.releaseDate}"></td>
-			</tr>
-		</tbody>
-	</table>
+		<table>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Date de sortie</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="album : ${albums}">
+					<td>
+						<a th:href="@{/album/{id}(id= ${album.id})}">
+							<th:block th:text="${album.name}"></th:block>
+						</a>
+					</td>
+					<td th:text="${album.releaseDate}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	
 	<footer>
 		<ul>

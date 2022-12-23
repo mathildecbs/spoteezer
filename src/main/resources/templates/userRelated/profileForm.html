@@ -1,27 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" th:href="@{/css/userRelatedStyle.css}">
 <meta charset="UTF-8">
 <title>Modifier profil</title>
 </head>
 <body>
-	<form action="/updateProfile" method="post">
-		<label>Pseudo :</label>
-		<input type="text" th:if="${name!=null}" th:value="${name}" name="name">
-		<label>Mot de passe :</label>
-		<input type="password" th:if="${password!=null}" th:value="${password}" name="password">
-		<label>Mail :</label>
-		<input type="email" th:if="${mail!=null}" th:value="${mail}" name="mail">
-		<label>Code Postal :</label>
-		<input type="number" th:if="${postalCode!=null}" th:value="${postalCode}" name="postalCode">
-		<label>Pays :</label>
-		<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
-		
-		<input type="submit" value="modifier">
-	</form>
-	<form action="/deleteUser">
-		<input type="submit" value="supprimer profil">
-		<span th:if="${suppr!=null}" th:text="${suppr}"></span>
-	</form>
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
+
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="center">
+		<form action="/updateProfile" method="post">
+			<label>Pseudo :</label>
+			<input type="text" th:if="${name!=null}" th:value="${name}" name="name">
+			<label>Mot de passe :</label>
+			<input type="password" th:if="${password!=null}" th:value="${password}" name="password">
+			<label>Mail :</label>
+			<input type="email" th:if="${mail!=null}" th:value="${mail}" name="mail">
+			<label>Code Postal :</label>
+			<input type="number" th:if="${postalCode!=null}" th:value="${postalCode}" name="postalCode">
+			<label>Pays :</label>
+			<input type="text" th:if="${country!=null}" th:value="${country}" name="country">
+			
+			<input type="submit" value="modifier">
+		</form>
+		<form action="/deleteUser">
+			<input type="submit" value="supprimer profil">
+			<span th:if="${suppr!=null}" th:text="${suppr}"></span>
+		</form>
+	</div>
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
 </body>
 </html>
