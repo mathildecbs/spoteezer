@@ -24,8 +24,8 @@
 		<div class="menu">
 			<ul>
 				<li><a href="/artist">Artistes</a></li>
-				<li><a href="/album">Albums</a></li>
-				<li><a href="/song">Musiques</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
 				<li><a href="/playlist">Playlist</a></li>
 			</ul>
 		</div>
@@ -50,8 +50,8 @@
 				<label><img
 						th:src="@{/basic/user.png}"
 						id="preview" /></label>
-					<input th:if="${session.user.picture=='user.png'}" type="radio" name="picture" value="singer.png" checked>
-					<input th:if="${session.user.picture!='user.png'}" type="radio" name="picture" value="singer.png" >
+					<input th:if="${session.user.picture=='user.png'}" type="radio" name="picture" value="user.png" checked>
+					<input th:if="${session.user.picture!='user.png'}" type="radio" name="picture" value="user.png" >
 				
 				<br> <button type="submit">Modifier</button>
 			</form>
@@ -71,8 +71,8 @@
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>
-			<li><a href="/album">Albums</a></li>
-			<li><a href="/song">Musiques</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
 			<li><a href="/playlist">Playlist</a></li>
 		</ul>
 

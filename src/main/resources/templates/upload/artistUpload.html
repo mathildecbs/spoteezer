@@ -12,8 +12,9 @@
 		<div class="user">
 			<a th:if="${session.user==null}" href="/login">Connexion</a>
 			<th:block th:if="${session.user}">
-				<a href="/profile"><img th:src="@{/basic/user.png}"
-					class="avatar"></a>
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="avatar"></a>
+
 
 				<button onclick="location.href='/logout'">Deconnexion</button>
 			</th:block>
@@ -24,8 +25,8 @@
 		<div class="menu">
 			<ul>
 				<li><a href="/artist">Artistes</a></li>
-				<li><a href="/album">Albums</a></li>
-				<li><a href="/song">Musiques</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
 				<li><a href="/playlist">Playlist</a></li>
 			</ul>
 		</div>
@@ -77,8 +78,8 @@
 	<footer>
 		<ul>
 			<li><a href="/artist">Artistes</a></li>
-			<li><a href="/album">Albums</a></li>
-			<li><a href="/song">Musiques</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
 			<li><a href="/playlist">Playlist</a></li>
 		</ul>
 
