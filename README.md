@@ -9,3 +9,6 @@
 ## Il faudra également suivre les étapes suivantes :
 	- Retirer le ".copy" du fichier "application.properties.copy"
 	- Ajouter le username et password pour pouvoir accéder à votre base de données
+	
+## Précisions :
+	- Lorsque vous ajouter une image, il faut attendre quelques seconds pour qu'elle apparaisse proprement sur le site
