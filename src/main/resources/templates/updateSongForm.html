@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	Modifier la chanson :  <th:block th:text="${song.name}"></th:block>
+	
+	<form th:action="@{/song/{id} (id = ${song.id})}" th:method="put">
+		<label>Nom de l'abum:</label>
+		<input type="text" name="name" th:value="${song.name}">
+		<label>Date de début : </label>
+		<input type="date" name="releaseDate" th:value="${song.releaseDate}">
+		<label>L'album dont est issue la chanson :</label>		
+			<th:block th:each="album : ${albums}">
+					<label><span th:text="${album.name}" /></label>
+					<input type="radio" th:name="album"
+						th:value="${album.id}"
+						th:checked="${#lists.contains(song.album, album)}">
+					<br>
+			</th:block>
+		<br>
+		<th:block th:each="artist : ${artists}">
+				<label><span th:text="${artist.name}" /></label>
+				<input type="checkbox" th:name="${artist.name}"
+					th:value="${artist.id}"
+					th:checked="${#lists.contains(song.artist, artist)}">
+				<br>
+		</th:block>
+		<br>
+	<button type="submit">Modifier</button>
+	<button th:onclick="@{location.href='/album/{id}'}" type="button">Annuler</button>
+	</form>
+</body>
+</html>

@@ -17,7 +17,7 @@ import fr.cytech.projet.JEE.repository.SongRepository;
 @Service("songService")
 public class SongService {
 	@Autowired
-	SongRepository songRepository;
+	SongRepository<Song> songRepository;
 	
 	@Autowired
 	AlbumService albumService;
@@ -25,7 +25,11 @@ public class SongService {
 	@Autowired
 	ArtistService artistService;
 	
-	public Song findSongById(Long id) {
+	public List<Song> findAll() {
+		return songRepository.findAll();
+	}
+	
+	public Song findSongById(String id) {
 		Song song = songRepository.findById(Long.valueOf(id)).orElse(null);
 		return song;
 	}
@@ -55,5 +59,40 @@ public class SongService {
 		song.setArtist(artists);
 		
 		return songRepository.save(song);
+	}
+	
+	public Song updateSong(String id,Map<String,String>  updateDTO) {
+		Song song = findSongById(id);
+		
+		if(updateDTO.containsKey("name"))
+			song.setName(updateDTO.get("name"));
+		
+		if(updateDTO.containsKey("releaseDate"))
+			song.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
+		
+		Album album = albumService.findAlbumById(updateDTO.get("album"));
+		song.setAlbum(album);
+		
+		List<Artist> artists = new ArrayList<Artist>();
+		Set<String> keys = updateDTO.keySet();
+		for (String string : keys) {
+			if(string.contains("art")) {
+				artists.add(artistService.findArtistById(updateDTO.get(string)));
+			}
+		}
+		song.setArtist(artists);
+		
+		return songRepository.save(song);
+	}
+	
+	public boolean deleteSong(String id) {
+		Song song = findSongById(id);
+		
+		songRepository.delete(song);
+		song = songRepository.findById(Long.valueOf(id)).orElse(null);
+		if(song!=null)
+			return false;
+		else 
+			return true;
 	}
 }

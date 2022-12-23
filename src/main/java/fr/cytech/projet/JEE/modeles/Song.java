@@ -60,6 +60,14 @@ public class Song {
 		return artist;
 	}
 	
+	public void addArtist(Artist art) {
+		this.artist.add(art);
+	}
+	
+	public void removeArtist(Artist art) {
+		this.artist.remove(art);
+	}
+	
 	public void setArtist(List<Artist> artists) {
 		this.artist = artists;
 	}
