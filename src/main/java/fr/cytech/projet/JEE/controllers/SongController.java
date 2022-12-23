@@ -36,6 +36,13 @@ public class SongController {
 		return "redirect:song";
 	}*/
 
+	@GetMapping("/songs")
+	public String showAllSong(Model model) {
+		List<Song> songs = songService.findAll();
+		model.addAttribute("songs", songs);
+		return "songs";
+	}
+	
 	@GetMapping("/createSong")
 	public String songForm(Model model) {
 		model.addAttribute("albums", albumService.findAll());

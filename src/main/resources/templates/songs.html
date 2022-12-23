@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" th:href="@{/style.css}">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img th:src="@{/basic/user.png}" width="25%"
+					class="avatar"></a>
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/album">Albums</a></li>
+				<li><a href="/song">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="center">
+		<h1>Toutes les chansons</h1>
+		<a href="/createSong">Creer une nouvelle musique</a>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Date de sortie</th>
+					<th>Album</th>
+					<th>Artiste</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="song : ${songs}">
+					<td><a th:href="@{/song/{id}(id= ${song.id})}"> <th:block
+								th:text="${song.name}"></th:block>
+					</a></td>
+					<td th:text="${song.releaseDate}"></td>
+					<td>
+							<a th:href="@{/album/{id}(id=${song.album.id})}"><th:block th:text="${song.album.name}"></th:block></a>
+						
+					</td>
+					<td>
+						<th:block th:each="art : ${song.artist}">
+							<a th:href="@{/artist/{id}(id=${art.id})}"><th:block th:text="${art.name}"></th:block></a>
+						</th:block>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
+
+</body>
+</html>

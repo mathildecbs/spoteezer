@@ -25,6 +25,10 @@ public class SongService {
 	@Autowired
 	ArtistService artistService;
 	
+	public List<Song> findAll() {
+		return songRepository.findAll();
+	}
+	
 	public Song findSongById(String id) {
 		Song song = songRepository.findById(Long.valueOf(id)).orElse(null);
 		return song;
