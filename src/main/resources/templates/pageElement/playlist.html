@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" th:href="@{/css/pageElementStyle.css}">
+<meta charset="UTF-8">
+<title>Playlist page</title>
+</head>
+<body>
+
+	<header>
+		<div class="user">
+			<a th:if="${session.user==null}" href="/login">Connexion</a>
+			<th:block th:if="${session.user}">
+				<a href="/profile"><img th:src="@{${session.user.photosImagePath}}"
+					id="profile"></a>
+
+				<button onclick="location.href='/logout'">Deconnexion</button>
+			</th:block>
+		</div>
+		<a href="/">
+			<h1>SPOTEEZER</h1>
+		</a>
+		<div class="menu">
+			<ul>
+				<li><a href="/artist">Artistes</a></li>
+				<li><a href="/albums">Albums</a></li>
+				<li><a href="/songs">Musiques</a></li>
+				<li><a href="/playlist">Playlist</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<div class="center">
+		<a href="playlists"><img th:src="@{/basic/return.png}" width="1%"></a>
+		<h1 th:text="${playlist.name}"></h1>
+	 	<a href="/profile"><input type="button" value="retour"></a>
+		<p> Ajouter des musiques :</p>
+		<form action="/playlist/{id} (id=${playlist.id})" method="post">
+			<input type="text" name="name">
+			<input type="hidden" name="playlistId" th:value="${playlist.id}">
+			<input type="submit" value="rechercher">
+		</form>
+		<!-- Affichage du message d'erreur si on ne trouve pas de musique -->
+		<span th:if="${error!=null}" th:text="${error}"></span>
+		<!-- Affichage des musiques trouvées -->
+		<div th:if="${songs}">
+		<table>
+			<tr th:each="songFinded : ${songs}">
+				<td th:text="${songFinded.name}"></td>
+				<td th:text="${songFinded.releaseDate}"></td>
+				<td th:text="${songFinded.album.name}"></td>
+				<td>
+				<form action="/addSongToPlaylist" method="post"> 
+					<input type="hidden" name="songId" th:value="${songFinded.id}">
+					<input type="hidden" name="playlistId" th:value="${playlist.id}">
+					<input type="submit" value="ajouter">
+				</form>
+				</td>
+			</tr>
+		</table>
+		</div>
+		<p th:if="${noSong}">Cette playlist ne contient aucune musique</p>
+		<!-- Affichage des musiques de la playlist s'il y en a -->
+		<table th:if="${!noSong}">
+			<tr><p>Cette playlist contient les musiques suivantes :</p></tr>
+			<tr th:each="song : ${playlist.songs}">
+				<td th:text="${song.name}"></td>
+				<td th:text="${song.releaseDate}"></td>
+				<td th:text="${song.album.name}"></td>
+				<td>
+				<form action="/deleteSongFromPlaylist" th:method="delete"> 
+					<input type="hidden" name="songId" th:value="${song.id}">
+					<input type="hidden" name="playlistId" th:value="${playlist.id}">
+					<input type="submit" value="supprimer">
+				</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<footer>
+		<ul>
+			<li><a href="/artist">Artistes</a></li>
+			<li><a href="/albums">Albums</a></li>
+			<li><a href="/songs">Musiques</a></li>
+			<li><a href="/playlist">Playlist</a></li>
+		</ul>
+
+
+		<p>
+			WebMaster :<a href="mailto:auzollesme@cy-tech.fr"> AUZOLLES
+				Mélina</a>, <a href="mailto:chambasmat@cy-tech.fr">CHAMBAS Mathilde</a>
+			et <a href="mailto:sallmariem@cy-tech.fr">SALL Marième</a>
+
+		</p>
+	</footer>
+</body>
+</html>
