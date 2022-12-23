@@ -46,7 +46,7 @@
 			<th:block th:each="artist : ${artists}">
 			<br>
 					<label><span th:text="${artist.name}" /></label>
-					<input type="checkbox" th:name="art"
+					<input type="checkbox" th:name="@{art-{id}(id=${artist.id})}"
 						th:value="${artist.id}"
 						 th:checked="${#lists.contains(album.artist, artist)}">
 					<br>
