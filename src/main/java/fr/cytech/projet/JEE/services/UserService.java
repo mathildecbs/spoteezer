@@ -10,14 +10,19 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.Artist;
 import fr.cytech.projet.JEE.modeles.User;
+import fr.cytech.projet.JEE.repository.PlaylistRepository;
 import fr.cytech.projet.JEE.repository.UserRepository;
 
 @Service("userService")
 public class UserService {
 	@Autowired
  	UserRepository userRepository;
+	
+	@Autowired
+ 	PlaylistRepository playlistRepository;
 	
 	public User findByName(String name) {
 		User user =	userRepository.findByName(name);
@@ -61,6 +66,11 @@ public class UserService {
 		userRepository.deleteById(user.getId());
 	}
 	
+	public void deletePlaylist(User user, Playlist playlist) {
+		user.removePlaylist(playlist);
+		playlistRepository.deleteById(playlist.getId());
+	}
+
 	public void userPictureUpload(User user, MultipartFile mpF) throws IOException {
 		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
 		ImageUploadService.saveFile("src/main/resources/static/user/"+user.getId(), fileName, mpF);

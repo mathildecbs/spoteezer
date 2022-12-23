@@ -12,14 +12,32 @@
 			image</button>
 	</div>
 	<a href="/modifyProfile">Modifier mes données</a>
+
 	<p>Favoris :</p>
 
 	<p>Playlists :</p>
-	<table th:each="playlist : ${playlists}">
-		<tr th:each="song : ${songs}">
-			<td th:text="${song.name}"></td>
+	<table>
+		<tr th:each="playlist : ${playlists}">
+			<td>
+				<a th:href="@{/playlist/{id}(id=${playlist.id})}"><span th:text="${playlist.name}"/></a>
+			</td>
+			<td>
+			<form action="/deletePlaylist" th:method="delete"> 
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
+				<input type="submit" value="supprimer">
+			</form>
+			</td>
 		</tr>
 	</table>
+	
+	<p>Créer une playlist :</p>
+	<form action="/createPlaylist" method="post">
+		<label>Nom de la playlist :</label>
+		<input type="text" name="name">
+		<label>Description de la playlist :</label>
+		<input type="text" name="description">
+		<button type="submit">Créer</button>
+	</form>
 
 </body>
 </html>

@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fr.cytech.projet.JEE.modeles.Playlist;
 import fr.cytech.projet.JEE.modeles.User;
+import fr.cytech.projet.JEE.services.PlaylistService;
 import fr.cytech.projet.JEE.services.ImageUploadService;
 import fr.cytech.projet.JEE.services.UserService;
 
@@ -26,8 +27,11 @@ import fr.cytech.projet.JEE.services.UserService;
 public class UserController {
 
 	@Autowired
-	UserService userService;
-
+ 	UserService userService;
+	
+	@Autowired
+ 	PlaylistService playlistService;
+	
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -64,11 +68,6 @@ public class UserController {
 	}
 
 	/* Registration */
-	@GetMapping("/registration")
-	public String showRegistrationForm() {
-		return "registrationForm";
-	}
-
 	@PostMapping(path = "/registration", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String registerUser(@RequestParam Map<String, String> body, Model model, HttpSession session) {
 		User user = userService.createUser(body);
@@ -101,7 +100,24 @@ public class UserController {
 		session.setAttribute("user", modifiedUser);
 		return "redirect:/modifyProfile";
 	}
-
+		
+	@GetMapping("/profile")
+	public String showProfile(
+			Model model, 
+			HttpSession session) {
+		User user = (User)session.getAttribute("user");
+		if(user !=null) {
+			List<Playlist> playlists = playlistService.findAllPlaylistByUserId(user.getId());
+			if(playlists != null) {
+				model.addAttribute("playlists", playlists);
+			} 
+			return "profile";
+		}
+		return "redirect:/login";
+		
+	}
+	
+	/* Delete */
 	@GetMapping("/deleteUser")
 	public String deleteUser(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -112,14 +128,6 @@ public class UserController {
 		}
 		session.removeAttribute("user");
 		return "redirect:/logout";
-	}
-
-	@GetMapping("/profile")
-	public String showProfile(Model model, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		List<Playlist> playlists = user.getPlaylists();
-		Playlist favorite = user.getFavorite();
-		return "profile";
 	}
 
 	@GetMapping("/profile/picture")

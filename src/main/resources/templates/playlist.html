@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ 	<a href="/profile"><input type="button" value="retour"></a>
+	<p> Ajouter des musiques :</p>
+	<form action="/playlist/{id} (id=${playlist.id})" method="post">
+		<input type="text" name="name">
+		<input type="hidden" name="playlistId" th:value="${playlist.id}">
+		<input type="submit" value="rechercher">
+	</form>
+	<!-- Affichage du message d'erreur si on ne trouve pas de musique -->
+	<span th:if="${error!=null}" th:text="${error}"></span>
+	<!-- Affichage des musiques trouvées -->
+	<div th:if="${songs}">
+	<table>
+		<tr th:each="songFinded : ${songs}">
+			<td th:text="${songFinded.name}"></td>
+			<td th:text="${songFinded.releaseDate}"></td>
+			<td th:text="${songFinded.album.name}"></td>
+			<td>
+			<form action="/addSongToPlaylist" method="post"> 
+				<input type="hidden" name="songId" th:value="${songFinded.id}">
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
+				<input type="submit" value="ajouter">
+			</form>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<p th:if="${noSong}">Cette playlist ne contient aucune musique</p>
+	<!-- Affichage des musiques de la playlist s'il y en a -->
+	<table th:if="${!noSong}">
+		<tr><p>Cette playlist contient les musiques suivantes :</p></tr>
+		<tr th:each="song : ${playlist.songs}">
+			<td th:text="${song.name}"></td>
+			<td th:text="${song.releaseDate}"></td>
+			<td th:text="${song.album.name}"></td>
+			<td>
+			<form action="/deleteSongFromPlaylist" th:method="delete"> 
+				<input type="hidden" name="songId" th:value="${song.id}">
+				<input type="hidden" name="playlistId" th:value="${playlist.id}">
+				<input type="submit" value="supprimer">
+			</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
