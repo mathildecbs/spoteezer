@@ -26,6 +26,7 @@ public class ArtistService {
 	@Autowired
 	ArtistRepository<Group> groupRepository;
 	
+	//trouve un artist avec son id
 	public Artist findArtistById(String id) {
 		try {
 			Double.valueOf(id);
@@ -44,6 +45,7 @@ public class ArtistService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Artist does not exist.");
 	}
 	
+	//trouve un group avec son id
 	public Group findGroupById(String id) {
 		try {
 			Double.valueOf(id);
@@ -62,29 +64,55 @@ public class ArtistService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Group does not exist.");
 	}
 	
+	//trouve tous les artists (artist et group confondu)
 	public List<Artist> findAll(){
 		return artistRepository.findAll();
 	}
 	
+	//cree un artist
 	public Artist createArtist(Map<String,String>  artistDTO) {
 		Artist artist = new Artist();
-		artist.setName(artistDTO.get("name"));
-		artist.setDebutDate(Date.valueOf( artistDTO.get("debutDate")));
+		changeAttributesUser(artist, artistDTO);
 		artist.setPicture("singer.png");
-		return artistRepository.save(artist);
-	}
-
-	public Group createGroup(Map<String,String>  groupDTO) {
-		Group groupEntity = new Group();
-		groupEntity.setDebutDate(Date.valueOf(groupDTO.get("debutDate")));
-		groupEntity.setName( groupDTO.get("name"));
-		groupEntity.setPicture("band.png");
-		return artistRepository.save(groupEntity);
+		Artist artistSaved= artistRepository.save(artist);
+		if(artistSaved!=null)
+			return artistSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist update failed");
 	}
 	
+
+	//cree un group
+	public Group createGroup(Map<String,String>  groupDTO) {
+		Group group = new Group();
+		changeAttributesUser(group, groupDTO);
+		group.setPicture("band.png");
+		Group groupSaved= artistRepository.save(group);
+		if(groupSaved!=null)
+			return groupSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Group membre change failed");
+	}
+	
+	//ajoute les attributs a un artist
+	public static void changeAttributesUser(Artist artist, Map<String, String> artistDTO) {
+		if (artistDTO.get("name") != null&&!artistDTO.get("name").contentEquals("")) {
+			artist.setName(artistDTO.get("name"));
+		}else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect name value");
+			
+		}
+		if (artistDTO.get("debutDate") != null&&!artistDTO.get("debutDate").contentEquals("")) {
+			artist.setDebutDate(Date.valueOf(artistDTO.get("debutDate")));
+		}else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect debut date value");
+			
+		}
+		
+	}
+	
+	//change les membres d'un group
 	public Group changeGroupMembers(Map<String,String> groupMembers, String id) {
-		if(Double.isNaN(Double.parseDouble(id)))
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		Group group = findGroupById(id);
 		List<Artist> members = new ArrayList<Artist>();
 		for (String artistId : groupMembers.keySet()) {
@@ -92,28 +120,33 @@ public class ArtistService {
 		}
 		group.setMembers(members);
 		
-		return artistRepository.save(group);
+		Group groupSaved= artistRepository.save(group);
+		if(groupSaved!=null)
+			return groupSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Group membre change failed");
+
 	}
 	
+	//trouve les membres d'un group
 	public List<Artist> findGroupMembers(String id){
-		if(Double.isNaN(Double.parseDouble(id)))
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		
-		return artistRepository.findMembersByGroupId(Long.valueOf(id));
+		return findGroupById(id).getMembers();
 	}
 	
+	//met a jour un artist
 	public Artist updateArtist(String id,Map<String,String>  updateDTO) {
 		Artist artist = findArtistById(id);
-		
-		if(updateDTO.containsKey("name"))
-			artist.setName(updateDTO.get("name"));
-		
-		if(updateDTO.containsKey("debutDate"))
-			artist.setDebutDate(Date.valueOf(updateDTO.get("debutDate")));
-		
-		return artistRepository.save(artist);
+		changeAttributesUser(artist, updateDTO);
+		Artist artistSaved= artistRepository.save(artist);
+		if(artistSaved!=null)
+			return artistSaved;
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Artist update failed");
+
 	}
 	
+	//supprime un artist
 	public void deleteArtist(String id) {
 		Artist artist = findArtistById(id);
 		if(isGroupMember(artist)) {
@@ -130,22 +163,26 @@ public class ArtistService {
 		
 	}
 	
+	//verifie si un artist fait parti d'un group
 	public boolean isGroupMember(Artist artist) {
 		List<Long> groupMembers = artistRepository.findArtistInGroup();
 		return groupMembers.contains(artist.getId());
 	}
 	
+	//trouve les id des groups dont l'artist fait partir
 	public List<Long> artistGroups(Long id){
 		
 		return artistRepository.findArtistGroups(id);
 	}
 	
+	//ajout une photo a un artist
 	public void artistPictureUpload(String id, MultipartFile mpF) throws IOException {
 		String fileName = StringUtils.cleanPath(mpF.getOriginalFilename());
 		Artist a = findArtistById(id);
 		ImageUploadService.saveFile("src/main/resources/static/artist/"+a.getId(), fileName, mpF);
 	}
 	
+	//change la photo d'un artist
 	public Artist changeArtistPicture(String id, String pictureName) {
 		Artist a = findArtistById(id);
 		a.setPicture(pictureName);

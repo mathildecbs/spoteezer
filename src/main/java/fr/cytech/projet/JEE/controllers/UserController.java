@@ -94,7 +94,7 @@ public class UserController {
 			model.addAttribute("country", user.getCountry());
 			return "profileForm";
 		} catch (NullPointerException e) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 		}
 	}
 
@@ -107,7 +107,7 @@ public class UserController {
 			session.setAttribute("user", modifiedUser);
 			return "redirect:/modifyProfile";
 		} catch (NullPointerException e) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 		}
 
 	}
@@ -122,7 +122,7 @@ public class UserController {
 			model.addAttribute("playlists", playlists);
 			return "profile";
 		} catch (NullPointerException e) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 		}
 
 	}
@@ -137,7 +137,7 @@ public class UserController {
 		session.removeAttribute("user");
 		return "redirect:/logout";}
 		catch (NullPointerException eo) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 
 		}
 	}
@@ -151,7 +151,7 @@ public class UserController {
 					ImageUploadService.directoryFiles("src/main/resources/static/user/" + user.getId()));
 			return "/upload/userUpload";
 		} catch (NullPointerException eo) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 
 		}
 	}
@@ -164,7 +164,7 @@ public class UserController {
 			userService.changeUserPicture(user, picture);
 			return "redirect:/profile";
 		} catch (NullPointerException eo) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 
 		}
 	}
@@ -179,7 +179,7 @@ public class UserController {
 			userService.userPictureUpload(user, image);
 			return "redirect:/profile/picture";
 		} catch (NullPointerException eo) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Veuillez vous connecter");
 
 		}
 	}

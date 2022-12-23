@@ -57,9 +57,7 @@ public class AlbumService {
 	// cree un album
 	public Album createAlbum(Map<String, String> albumDTO) {
 		Album album = new Album();
-		album.setName(albumDTO.get("name"));
-		album.setReleaseDate(Date.valueOf(albumDTO.get("releaseDate")));
-
+		changeAttributesUser(album, albumDTO);
 		List<Artist> artists = new ArrayList<Artist>();
 		Set<String> keys = albumDTO.keySet();
 		for (String string : keys) {
@@ -76,16 +74,28 @@ public class AlbumService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Album creation failed");
 	}
 
+	// ajoute les attributs a un album
+	public static void changeAttributesUser(Album album, Map<String, String> albumDTO) {
+		if (albumDTO.get("name") != null && !albumDTO.get("name").contentEquals("")) {
+			album.setName(albumDTO.get("name"));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect name value");
+
+		}
+		if (albumDTO.get("releaseDate") != null && !albumDTO.get("releaseDate").contentEquals("")) {
+			album.setReleaseDate(Date.valueOf(albumDTO.get("releaseDate")));
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "incorect release date value");
+
+		}
+
+	}
+
 	// met a jour l'album
 	public Album updateAlbum(String id, Map<String, String> updateDTO) {
 		Album album = findAlbumById(id);
 
-		if (updateDTO.containsKey("name"))
-			album.setName(updateDTO.get("name"));
-
-		if (updateDTO.containsKey("releaseDate"))
-			album.setReleaseDate(Date.valueOf(updateDTO.get("releaseDate")));
-
+		changeAttributesUser(album, updateDTO);
 		List<Artist> formerArtist = album.getArtist();
 
 		List<Artist> artists = new ArrayList<Artist>();
